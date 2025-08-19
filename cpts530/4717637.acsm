@@ -1,0 +1,38 @@
+<fulfillmentToken fulfillmentType="loan" auth="user" xmlns="http://ns.adobe.com/adept">
+  <distributor>urn:uuid:9cb786e8-586a-4950-8901-fff8d2ee6025</distributor>
+  <operatorURL>https://acs.ebookcentral.proquest.com/fulfillment</operatorURL>
+  <transaction>4717637_614503018</transaction>
+  <purchase>2025-09-02T14:03:10+00:00</purchase>
+  <expiration>2025-09-02T20:03:10+00:00</expiration>
+  <resourceItemInfo>
+    <resource>urn:uuid:00000000-0000-0000-0000-000004717637</resource>
+    <resourceItem>0</resourceItem>
+    <metadata>
+      <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Numerical Analysis</dc:title>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">David Kincaid;Ward Cheney;</dc:creator>
+      <dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/">American Mathematical Society</dc:publisher>
+      <dc:identifier xmlns:dc="http://purl.org/dc/elements/1.1/">4717637</dc:identifier>
+      <dc:format xmlns:dc="http://purl.org/dc/elements/1.1/">application/pdf</dc:format>
+    </metadata>
+    <licenseToken>
+      <resource>urn:uuid:00000000-0000-0000-0000-000004717637</resource>
+      <permissions>
+        <display>
+          <duration>604799</duration>
+        </display>
+        <excerpt>
+          <duration>604799</duration>
+          <count initial="162" max="162" incrementInterval="3733"/>
+        </excerpt>
+        <print>
+          <duration>604799</duration>
+          <count initial="324" max="324" incrementInterval="1866"/>
+        </print>
+        <play>
+          <duration>604799</duration>
+        </play>
+      </permissions>
+    </licenseToken>
+  </resourceItemInfo>
+  <hmac>yR4RV8fJMTCGWudaGxbfGW7T0cI=</hmac>
+</fulfillmentToken>
