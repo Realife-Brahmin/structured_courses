@@ -98,7 +98,7 @@ pr3 = Dict(
     :b => 2.0,
     :M => 100,
     :ϵ => 1e-5,
-    :δ => 1e-5,
+    :δ => 1e-6,
     :f => (x -> x^3 - x - 1)
 )
 
@@ -181,4 +181,4 @@ pr11 = Dict(
     :f => (x -> x^2 - 5 * x + 6)
 )
 
-bisection_search(pr, verbose=true)
+bisection_search(pr3, verbose=false)
