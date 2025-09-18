@@ -181,4 +181,4 @@ pr11 = Dict(
     :f => (x -> x^2 - 5 * x + 6)
 )
 
-bisection_search(pr3, verbose=false)
+bisection_search(pr, verbose=true)
