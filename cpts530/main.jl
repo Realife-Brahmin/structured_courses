@@ -62,7 +62,7 @@ function bisection_search(pr; verbose=false)
 end
 
 
-
+# Root = None in the interval [1,2] (tan has asymptote at π/2 ≈ 1.5708)
 pr = Dict(
     :a => 1,
     :b => 2,
