@@ -167,5 +167,13 @@ pr10 = Dict(
     :f => (x -> exp(x) - sin(x))
 )
 
+pr11 = Dict(
+    :a => 2.7,
+    :b => 3.3,
+    :M => 100,
+    :ϵ => 1e-5,
+    :δ => 1e-5,
+    :f => (x -> x^2 - 5 * x + 6)
+)
 
 bisection_search(pr6)
