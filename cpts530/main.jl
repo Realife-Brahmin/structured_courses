@@ -1,6 +1,17 @@
 using Parameters
 
-function bisection_search(pr)
+# Print like println when no verbose flag is given
+myprintln(args...) = println(args...)
+
+# Only print when verbose==true
+myprintln(verbose::Bool, args...) = verbose && println(args...)
+
+# IO-aware variants (optional but nice to have)
+myprintln(io::IO, args...) = println(io, args...)
+myprintln(io::IO, verbose::Bool, args...) = verbose && println(io, args...)
+
+
+function bisection_search(pr; verbose=false)
     @unpack a, b, M, ϵ, δ, f = pr;
     itr = 1
     shouldStop = false
@@ -15,6 +26,7 @@ function bisection_search(pr)
     while !shouldStop
         e = e / 2
         c = a + e
+        myprintln(verbose, "itr=$itr, a=$a, b=$b, c=$c, f(c)=$(f(c)), |b-a|=$(2*abs(e))")
         w = f(c)
         if abs(w) < ϵ
             shouldStop = true
@@ -49,14 +61,7 @@ function bisection_search(pr)
     end
 end
 
-pr = Dict(
-    :a => 2.7,
-    :b => 3.3,
-    :M => 100,
-    :ϵ => 1e-5,
-    :δ => 1e-5,
-    :f => (x -> x^2 - 5*x + 6)
-)
+
 
 pr = Dict(
     :a => 1,
@@ -176,4 +181,4 @@ pr11 = Dict(
     :f => (x -> x^2 - 5 * x + 6)
 )
 
-bisection_search(pr6)
+bisection_search(pr, verbose=true)
