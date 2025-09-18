@@ -157,5 +157,15 @@ pr9 = Dict(
     :f => (x -> tan(x) - x)
 )
 
+# Root ≈ -3.1831
+pr10 = Dict(
+    :a => -4,
+    :b => -3,
+    :M => 100,
+    :ϵ => 1e-5,
+    :δ => 1e-5,
+    :f => (x -> exp(x) - sin(x))
+)
+
 
 bisection_search(pr6)
