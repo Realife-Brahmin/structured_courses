@@ -214,3 +214,9 @@ cpts421/InstructionForObtainingSLHours.mp4
 ee582/EE582_M2-filled.pdf
 ee582/EE582_M2-filled-full.pdf
 Manifest.toml
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
