@@ -1,6 +1,17 @@
 using Parameters
 
-function bisection_search(pr)
+# Print like println when no verbose flag is given
+myprintln(args...) = println(args...)
+
+# Only print when verbose==true
+myprintln(verbose::Bool, args...) = verbose && println(args...)
+
+# IO-aware variants (optional but nice to have)
+myprintln(io::IO, args...) = println(io, args...)
+myprintln(io::IO, verbose::Bool, args...) = verbose && println(io, args...)
+
+
+function bisection_search(pr; verbose=false)
     @unpack a, b, M, ϵ, δ, f = pr;
     itr = 1
     shouldStop = false
@@ -15,6 +26,7 @@ function bisection_search(pr)
     while !shouldStop
         e = e / 2
         c = a + e
+        myprintln(verbose, "itr=$itr, a=$a, b=$b, c=$c, f(c)=$(f(c)), |b-a|=$(2*abs(e))")
         w = f(c)
         if abs(w) < ϵ
             shouldStop = true
@@ -49,15 +61,8 @@ function bisection_search(pr)
     end
 end
 
-pr = Dict(
-    :a => 2.7,
-    :b => 3.3,
-    :M => 100,
-    :ϵ => 1e-5,
-    :δ => 1e-5,
-    :f => (x -> x^2 - 5*x + 6)
-)
 
+# Root = None in the interval [1,2] (tan has asymptote at π/2 ≈ 1.5708)
 pr = Dict(
     :a => 1,
     :b => 2,
@@ -93,7 +98,7 @@ pr3 = Dict(
     :b => 2.0,
     :M => 100,
     :ϵ => 1e-5,
-    :δ => 1e-5,
+    :δ => 1e-6,
     :f => (x -> x^3 - x - 1)
 )
 
@@ -157,5 +162,23 @@ pr9 = Dict(
     :f => (x -> tan(x) - x)
 )
 
+# Root ≈ -3.1831
+pr10 = Dict(
+    :a => -4,
+    :b => -3,
+    :M => 100,
+    :ϵ => 1e-5,
+    :δ => 1e-5,
+    :f => (x -> exp(x) - sin(x))
+)
 
-bisection_search(pr6)
+pr11 = Dict(
+    :a => 2.7,
+    :b => 3.3,
+    :M => 100,
+    :ϵ => 1e-5,
+    :δ => 1e-5,
+    :f => (x -> x^2 - 5 * x + 6)
+)
+
+bisection_search(pr, verbose=true)
