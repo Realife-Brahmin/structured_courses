@@ -10,6 +10,39 @@
     Q_{factor, seriesRLC} = \frac{\omega_n L}{R} = 48.136 \\
     Q_{3ph} = 3* V_{ph} * {(|I_{ph}|)^2 * X_{ph}} = -602.04 \text{kVAr} \\
     \lambda = \left\{ -26.316 \pm 2533 \right\}
+    \tau = \frac{L}{r_L} = 0.038 \text{ s}
 \end{align}
+
+\begin{align}
+    &\text{KVL:} && V_{\rm dc} \;=\; r_L\,i_L \;+\; L\,\dot i_L \;+\; v_C \label{eq:kvl}\\[2pt]
+    &\Rightarrow && \boxed{\;\dot i_L \;=\; \frac{1}{L}\,\big(-\,r_L i_L \;-\; v_C \;+\; V_{\rm dc}\big)\;}\tag{1}
+\end{align}
+
+\begin{align}
+    &\text{Capacitor:} && i_L \;=\; C\,\dot v_C 
+    \quad\Rightarrow\quad 
+    \boxed{\;\dot v_C \;=\; \frac{1}{C}\,i_L\;}\tag{2}
+\end{align}
+
+% \noindent\text{Eliminate }v_C\text{ to get a 2nd-order ODE in }i_L:
+\[
+\ddot i_L \;=\; \frac{1}{L}\big(-r_L \dot i_L - \dot v_C\big)
+\;=\; -\frac{r_L}{L}\,\dot i_L \;-\; \frac{1}{LC}\,i_L
+\]
+\[
+\boxed{\;\ddot i_L \;+\; \frac{r_L}{L}\,\dot i_L \;+\; \frac{1}{LC}\,i_L \;=\; 0\;}
+\]
+
+\noindent\text{Characteristic polynomial and comparison with the canonical 2nd-order form:}
+\[
+s^2 + \frac{r_L}{L}s + \frac{1}{LC}=0
+\qquad\Longleftrightarrow\qquad
+s^2 + 2\zeta\omega_n s + \omega_n^2=0
+\]
+\[
+\boxed{\;\omega_n=\frac{1}{\sqrt{LC}},\qquad 
+\zeta=\frac{r_L}{2}\sqrt{\frac{C}{L}}\;}
+\]
+
 
 \end{document}
