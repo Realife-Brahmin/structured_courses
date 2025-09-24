@@ -1,3 +1,6 @@
+thisFolder = fileparts(which(mfilename));
+addpath(genpath(thisFolder));
+
 r_L = 1; L = 19e-3; C = 8.2e-6;
 w_n = 1/sqrt(L*C)
 zeta = 1/2*r_L/(sqrt(L/C))
@@ -14,3 +17,11 @@ X = X_L - X_C;
 Z = r_L + 1j*X
 I_ph = V_ph/Z
 Q_kVAr = 3*abs(I_ph)^2*X*1e-3
+phi = acos(zeta)
+t = 0:1e-4:2e-1;
+x_ss_kV = 11.3;
+x_t_kV = x_ss_kV * (1 - (1/sqrt(1-zeta^2)) * exp(-zeta*w_n*t) .* sin(w_d*t + phi));
+plot(t, x_t_kV)
+xlabel('Time [s]')
+ylabel('Voltage [kV]')
+saveas(gcf, 'ee582_1.png')
