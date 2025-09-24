@@ -1,6 +1,8 @@
 thisFolder = fileparts(which(mfilename));
 addpath(genpath(thisFolder));
 
+rawDataFolder = "./rawData/";
+
 r_L = 1; L = 19e-3; C = 8.2e-6;
 w_n = 1/sqrt(L*C)
 zeta = 1/2*r_L/(sqrt(L/C))
@@ -25,6 +27,3 @@ x_t_kV = x_ss_kV * (1 - (1/sqrt(1-zeta^2)) * exp(-zeta*w_n*t) .* sin(w_d*t + phi
 % xlabel('Time [s]')
 % ylabel('Voltage [kV]')
 % saveas(gcf, 'ee582_1.png')
-T_horizon_s = 0.1;
-h_ms = 0.1;
-h_s = h_ms * 1e-3;
