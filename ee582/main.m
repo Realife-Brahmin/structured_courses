@@ -21,7 +21,10 @@ phi = acos(zeta)
 t = 0:1e-4:2e-1;
 x_ss_kV = 11.3;
 x_t_kV = x_ss_kV * (1 - (1/sqrt(1-zeta^2)) * exp(-zeta*w_n*t) .* sin(w_d*t + phi));
-plot(t, x_t_kV)
-xlabel('Time [s]')
-ylabel('Voltage [kV]')
-saveas(gcf, 'ee582_1.png')
+% plot(t, x_t_kV)
+% xlabel('Time [s]')
+% ylabel('Voltage [kV]')
+% saveas(gcf, 'ee582_1.png')
+T_horizon_s = 0.1;
+h_ms = 0.1;
+h_s = h_ms * 1e-3;
