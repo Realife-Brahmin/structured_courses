@@ -1,2 +1,14 @@
 % Q8 Answer
+\clearpage
+\section{Question 8}
 
+Using variable-step solvers, set $h_{max} = 1 \times 10^{-2}$ and both error tolerances $\varepsilon_{abs} = \varepsilon_{rel} = 10^{-3}$. Experiment with all the available variable-step solvers. In a table, print the maximum time-step size $h_{max}$ chosen by each solver and the total number of steps taken. Comment on how these solutions compare with the reference solution found in part 7. Which solver in your opinion is more efficient and does the best job for this system? Compare the step-size and the overall number of steps observed in parts 6, 7, and this part.
+
+\subsection*{Discussion}
+While nonstiff solvers (ode45, ode23) generally showed lesser error and had better timings, their transient response 'shape' was less consistent with a damped sinusoid as expected from the analytical solution. Stiff solvers (ode15s, ode23s) produced responses that visually aligned better with the expected damped sinusoidal shape, but they exhibited higher numerical error and longer computation times. Still, I personally found any stiff solver variation of ode23 (ode23s, ode23t, ode23tb) to be the best compromise between accuracy, speed, and expected response shape.
+
+Upon closer inspection, the differences in solver performance can be attributed to their underlying numerical methods. Nonstiff solvers like ode45 and ode23 use explicit Runge-Kutta methods, which are efficient for problems with smooth solutions but may struggle with capturing the damping effects accurately in stiff systems. On the other hand, stiff solvers such as ode15s and ode23s employ implicit methods, which are better suited for handling rapid changes in dynamics but come at the cost of increased computational effort and potential numerical damping.
+
+Among the stiff solvers, the variations of ode23 (ode23s, ode23t, ode23tb) stood out as a balanced choice. These solvers demonstrated a reasonable trade-off between computational efficiency and the ability to replicate the expected transient response shape. For instance, ode23s, which uses a modified Rosenbrock formula, was particularly effective in maintaining stability for larger time steps while preserving the qualitative features of the solution.
+
+In summary, the choice of solver depends heavily on the specific requirements of the problem, such as the desired balance between accuracy, computational cost, and fidelity to the expected solution shape. All subsequent comparison and discussion is in Q8, where these findings are analyzed in greater detail.
