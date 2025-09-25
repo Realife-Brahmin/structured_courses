@@ -15,6 +15,23 @@ set(groot,'defaultLineLineWidth',1.4);
 set(groot,'defaultLineMarkerSize',9);
 
 %% ===================== Require eigvals ========================
+% model = fullfile(rawDataFolder, 'hw01_q03'); % without .slx extension
+model_file = fullfile(rawDataFolder, 'hw01_q03.slx');
+model_file = strrep(model_file, '\', '/');
+[~, model, ~] = fileparts(model_file);
+
+% Linearize the model to get state-space matrices
+% [~, ~, ~, ~, xnames] = linmod(model);
+% disp(xnames);
+[A, B, C, D, xnames] = linmod(model);
+stateNames = xnames.stateName;
+
+disp(stateNames);
+% Compute the eigenvalues of the A matrix
+format long g
+eigvals = eig(A);
+
+
 if ~exist('eigvals','var')
     error('Please define eigvals first (e.g., eigvals = eig(A);)');
 end
@@ -56,7 +73,7 @@ subtitle(ax1, sprintf('$h \\in [%.3f,\\,%.3f]~\\mathrm{ms}$', ...
 
 % Restrict to ultra-relevant slice near origin
 xlim(ax1, [-0.01 0]); 
-ylim(ax1, [-0.015 0.015]);
+ylim(ax1, [-0.035 0.035]);
 
 
 for hk = hEuler
