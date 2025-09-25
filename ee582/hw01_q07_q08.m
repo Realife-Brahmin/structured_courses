@@ -78,14 +78,16 @@ x_analytical = x_t_kV; % from main.m
 error_col = zeros(length(results),1);
 
 for k = 1:length(results)
-    % Interpolate numerical solution onto analytical time vector
-    Vc_interp = interp1(results(k).t, results(k).Vc, t_analytical, 'linear', 'extrap');
-    % Compute norm of the difference (L2 norm)
-    error_col(k) = norm(Vc_interp - x_analytical);
+    t_solver = results(k).t;
+    Vc_solver = results(k).Vc;
+    % Evaluate analytical solution at solver's time points
+    x_analytical_at_solver = x_ss_kV * (1 - (1/sqrt(1-zeta^2)) * exp(-zeta*w_n*t_solver) .* sin(w_d*t_solver + phi));
+    % Compute RMSE or norm
+    error_col(k) = sqrt(mean((Vc_solver - x_analytical_at_solver).^2));
 end
 
 % Add error to table
-T.Error = error_col;
+T.Error_kV = error_col;
 disp(T);
 writetable(T, 'variable_step_solver_summary.csv');
 
