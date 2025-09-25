@@ -24,9 +24,11 @@ T_horizon_s = 0.2;
 h_max = 1e-2;
 tol = 1e-3;
 % Only use nonstiff and stiff variable-step solvers
-stiff_solvers = ["ode15s", "ode23s", "ode23t", "ode23tb"];
+% stiff_solvers = ["ode15s", "ode23s", "ode23t", "ode23tb"];
+stiff_solvers = ["ode23s", "ode23t", "ode23tb"];
 % stiff_solvers = ["ode23s"];
-nonstiff_solvers = ["ode23", "ode45", "ode113"];
+% nonstiff_solvers = ["ode23", "ode45", "ode113"];
+nonstiff_solvers = ["ode23", "ode45"];
 varstep_solvers = [stiff_solvers, nonstiff_solvers];
 solver_names = [nonstiff_solvers, stiff_solvers];
 
@@ -53,8 +55,10 @@ for k = 1:numel(varstep_solvers)
 end
 
 % Simulate fixed-step solvers for table only
-fixedstep_solvers = ["ode5", "ode8", "ode14x"];
-h_s_list = [1e-7, 1e-7, 1e-4];
+% fixedstep_solvers = ["ode5", "ode8", "ode14x"];
+fixedstep_solvers = ["ode14x"];
+% h_s_list = [1e-7, 1e-7, 1e-4];
+h_s_list = [1e-4];
 for k = 1:numel(fixedstep_solvers)
     solver = fixedstep_solvers(k);
     h_s = h_s_list(k);
