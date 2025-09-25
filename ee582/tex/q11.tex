@@ -7,32 +7,32 @@
 Using variable-step solvers, set $h_{max} = 1 \times 10^{-2}$ and both error tolerances $\varepsilon_{abs} = \varepsilon_{rel} = 10^{-3}$. Experiment with all the available variable-step solvers. In a table, print the maximum time-step size $h_{max}$ chosen by each solver and the total number of steps taken. Comment on how these solutions compare with the reference solution found in part 7. Which solver in your opinion is more efficient and does the best job for this system? Compare the step-size and the overall number of steps observed in parts 6, 7, and this part.
 
 \subsection*{Figures and Analysis}
-The following figures illustrate the transient response of the inductor current $i_L(t)$ and capacitor voltage $V_C(t)$ for both nonstiff and stiff solvers. \Cref{fig:transient_response_all} includes all solvers, highlighting the performance of solvers that fail to dampen oscillations effectively. \Cref{fig:transient_response_good} excludes these solvers, focusing only on the solvers that converge to the expected damped sinusoidal response:
+The following figures illustrate the transient response of the inductor current $i_L(t)$ and capacitor voltage $V_C(t)$ for both nonstiff and stiff solvers. \Cref{fig:transient_response_all_b} includes all solvers, highlighting the performance of solvers that fail to dampen oscillations effectively. \Cref{fig:transient_response_good_b} excludes these solvers, focusing only on the solvers that converge to the expected damped sinusoidal response:
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/hw01_q08_plots-of-iL-and-Vc-for-different-variable-step-ode-solvers.png}
+    \includegraphics[width=0.8\textwidth]{figures/hw01_q11_plots-of-iL-and-Vc-for-different-variable-step-ode-solvers_Thorizon_0_2s.png}
     \caption{Transient Response of Inductor Current and Capacitor Voltage (Including Non-Dampening Solvers)}
-    \label{fig:transient_response_all}
+    \label{fig:transient_response_all_b}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/hw01_q08_plots-of-iL-and-Vc-for-different-variable-step-ode-solvers-only-good_Thorizon_0_2s.png}
+    \includegraphics[width=0.8\textwidth]{figures/hw01_q11_plots-of-iL-and-Vc-for-different-variable-step-ode-solvers-only-good_Thorizon_0_2s.png}
     \caption{Transient Response of Inductor Current and Capacitor Voltage (Excluding Non-Dampening Solvers)}
-    \label{fig:transient_response_good}
+    \label{fig:transient_response_good_b}
 \end{figure}
 
 % Updated figure and table to include RK8 results
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/hw01_q08_table-comparing-metrics-for-different-variable-step-ode-solvers.png}
+    \includegraphics[width=0.8\textwidth]{figures/hw01_q11_table-comparing-metrics-for-different-ode-solvers.png}
     \caption{Simulation Results for Variable-Step and Fixed-Step ODE Solvers}
-    \label{fig:simulation_results_table_updated}
+    \label{fig:simulation_results_table_updated_b}
 \end{figure}
 
 \subsection*{Table of Results}
-The table below, supported by \cref{fig:simulation_results_table_updated}, summarizes the performance of each solver, including the maximum step size used, the number of steps taken, the simulation time, and the RMSE error:
+The table below, supported by \cref{fig:simulation_results_table_updated_b}, summarizes the performance of each solver, including the maximum step size used, the number of steps taken, the simulation time, and the RMSE error:
 
 \begin{table}[h!]
     \centering
@@ -52,7 +52,7 @@ The table below, supported by \cref{fig:simulation_results_table_updated}, summa
         \hline
     \end{tabular}
     \caption{Summary of Solver Performance Including Fixed-Step RK8}
-    \label{tab:solver_performance_updated}
+    \label{tab:solver_performance_updated_b}
 \end{table}
 
 \subsection*{Discussion}
