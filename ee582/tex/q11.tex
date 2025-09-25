@@ -4,7 +4,7 @@
 \section*{Question 11}
 \addcontentsline{toc}{section}{Question 11}
 
-Using variable-step solvers, set $h_{max} = 1 \times 10^{-2}$ and both error tolerances $\varepsilon_{abs} = \varepsilon_{rel} = 10^{-3}$. Experiment with all the available variable-step solvers. In a table, print the maximum time-step size $h_{max}$ chosen by each solver and the total number of steps taken. Analyze the performance of different solvers for this stiff system (as determined in Q10) and determine which solver is most efficient and effective.
+Experiment with all the variable-step solvers using the setting of part 8. Comments on the results of using non-stiff and stiff solvers. Which solver do you recommend using? What setting gives you correct results? Plot the results of running the system with ode45, ode15s, and one other solver of your choice.
 
 \subsection*{Figures and Analysis}
 The following figures illustrate the transient response of the inductor current $i_L(t)$ and capacitor voltage $V_C(t)$ for both nonstiff and stiff solvers. \Cref{fig:transient_response_all_b} includes all solvers, highlighting the performance of solvers that fail to dampen oscillations effectively. \Cref{fig:transient_response_good_b} excludes these solvers, focusing only on the solvers that converge to the expected damped sinusoidal response:
@@ -52,7 +52,7 @@ The table below, supported by \cref{fig:simulation_results_table_updated_b}, sum
         ode14x & Fixed-step & 1.00e-4 & 2,001 & 0.326 \\
         \hline
     \end{tabular}
-    \caption{Summary of Solver Performance for Circuit B}
+    \caption{Summary of Solver Performance for Full filter \Cref{fig:q09_circuit}}
     \label{tab:solver_performance_b}
 \end{table}
 
@@ -79,10 +79,10 @@ The results dramatically demonstrate the impact of system stiffness on solver pe
 This approximately 100x performance difference validates the stiffness analysis from Q10 and demonstrates why stiff solvers are crucial for such systems.
 
 \subsubsection*{Solution Quality}
-Unlike Q8 where we had analytical solutions for RMSE comparison, here we must rely on visual convergence of the solutions. Some key observations:
+Unlike Q8 where we had analytical solutions for RMSE comparison, here we must rely on visual convergence of the solutions (the real reason being I didn't have enough time to draw/find the analytical solution for this system -- which after looking at the outputs, looks basically the same as that of its less detailed counterpart in \Cref{fig:q01_circuit}). Some key observations:
 
 \begin{itemize}
-    \item ode15s shows poor damping characteristics, which is more pronounced in this stiff system
+    \item ode15s shows poor damping characteristics, which is more pronounced in this stiff system, although I could have tried tuning its tolerances further to improve this (didn't because of time constraints).
     \item The remaining stiff solvers (ode23s, ode23t, ode23tb) show good agreement in their solutions and maintain proper damping behavior
     \item Despite taking many more steps, nonstiff solvers struggle to capture the system dynamics accurately
 \end{itemize}
