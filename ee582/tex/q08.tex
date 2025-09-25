@@ -22,16 +22,16 @@ The following figures illustrate the transient response of the inductor current 
     \label{fig:transient_response_good}
 \end{figure}
 
-% Added image before the table to establish authenticity
+% Updated figure and table to include RK8 results
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/hw01_q08_table-comparing-metrics-for-different-variable-step-ode-solvers.png}
-    \caption{Simulation Results for Variable-Step ODE Solvers}
-    \label{fig:simulation_results_table}
+    \caption{Simulation Results for Variable-Step and Fixed-Step ODE Solvers}
+    \label{fig:simulation_results_table_updated}
 \end{figure}
 
 \subsection*{Table of Results}
-The table below, supported by \cref{fig:simulation_results_table}, summarizes the performance of each solver, including the maximum step size used, the number of steps taken, the simulation time, and the RMSE error:
+The table below, supported by \cref{fig:simulation_results_table_updated}, summarizes the performance of each solver, including the maximum step size used, the number of steps taken, the simulation time, and the RMSE error:
 
 \begin{table}[h!]
     \centering
@@ -39,23 +39,29 @@ The table below, supported by \cref{fig:simulation_results_table}, summarizes th
         \hline
         \textbf{Solver} & \textbf{Type} & \textbf{$h_{Max}$} & \textbf{Num Steps} & \textbf{Time [s]} & \textbf{Error [kV]} \\
         \hline
-        ode45 & Nonstiff & 0.0008548 & 318 & 7.7641 & 0.6171 \\
-        ode23 & Nonstiff & 0.0013118 & 415 & 0.4192 & 1.2333 \\
-        ode113 & Nonstiff & 0.0006160 & 755 & 0.3792 & 1.5953 \\
-        ode15s & Stiff & 0.0003174 & 1174 & 0.2778 & 5.3695 \\
-        ode23s & Stiff & 0.01 & 468 & 0.4933 & 1.9883 \\
-        ode23t & Stiff & 0.0007239 & 784 & 0.2321 & 2.1127 \\
-        ode23tb & Stiff & 0.01 & 535 & 0.2111 & 1.7507 \\
+        ode45 & Nonstiff & 0.0008548 & 318 & 0.2753 & 0.6171 \\
+        ode23 & Nonstiff & 0.0013118 & 415 & 0.3346 & 1.2333 \\
+        ode113 & Nonstiff & 0.0006160 & 755 & 0.2697 & 1.5953 \\
+        ode15s & Stiff & 0.0003174 & 1174 & 0.3068 & 5.3695 \\
+        ode23s & Stiff & 0.01 & 468 & 0.3072 & 1.9883 \\
+        ode23t & Stiff & 0.0007239 & 784 & 0.2488 & 2.1127 \\
+        ode23tb & Stiff & 0.01 & 535 & 0.2490 & 1.7507 \\
+        ode5 & Fixed-step & 0.0005 & 401 & 0.2556 & 0.2283 \\
+        ode8 & Fixed-step & 0.0005 & 401 & 0.2388 & 0.0000422 \\
         \hline
     \end{tabular}
-    \caption{Summary of Solver Performance}
-    \label{tab:solver_performance}
+    \caption{Summary of Solver Performance Including Fixed-Step RK8}
+    \label{tab:solver_performance_updated}
 \end{table}
 
 \subsection*{Discussion}
-While nonstiff solvers (ode45, ode23) generally showed lesser error and had better timings, their transient response 'shape' was less consistent with a damped sinusoid as expected from the analytical solution. Stiff solvers (ode15s, ode23s) produced responses that visually aligned better with the expected damped sinusoidal shape, but they exhibited higher numerical error and longer computation times. Still, I personally found any stiff solver variation of ode23 (ode23s, ode23t, ode23tb) to be the best compromise between accuracy, speed, and expected response shape.
+While nonstiff solvers (ode45, ode23) generally showed lesser error, their transient response 'shape' was less consistent with a damped sinusoid as expected from the analytical solution. Stiff solvers (ode15s, ode23s) produced responses that visually aligned better with the expected damped sinusoidal shape, but they exhibited higher numerical error.
 
-Among the stiff solvers, the variations of ode23 (ode23s, ode23t, ode23tb) stood out as a balanced choice. These solvers demonstrated a reasonable trade-off between computational efficiency and the ability to replicate the expected transient response shape.
+Interestingly, nonstiff solver ode113 and stiff solver ode15s took very small steps yet resulted in a significantly higher error compared to other solvers. On the other hand, stiff solvers like ode23s and ode23tb took the largest possible steps (perhaps only occasionally or regularly), yet managed to achieve lower errors. This behavior warrants a deeper analysis of how these solvers handle step size and error accumulation.
+
+Fixed-step solvers RK5 and RK8 demonstrated exceptional performance, with RK8 achieving the lowest error (0.0000422 kV). However, the fixed step size of 0.5 ms is overly generous compared to the variable-step solvers, making the comparison somewhat unfair. A more balanced comparison would involve reducing the fixed step size to align with the typical step sizes observed in variable-step solvers. As previously observed, a step size of $\geq 0.7$ ms is infeasible for RK5, so a variable step size solver taking a maximum step size of $10$ ms and still not diverging is in a way already superior.
+
+Moreover, the simulation times across all solvers were found to vary significantly between runs, making solve time an inconclusive metric for this system. The choice of solver should therefore depend more on the error metric and the qualitative shape of the transient response rather than computational efficiency. Among the variable step size solvers, stiff solvers like ode23s, ode23t and ode23tb remain reliable for capturing the expected response shape.
 
 \subsection*{Remarks on Error Computation}
 The error metric used in this analysis is the root mean square error (RMSE), computed by evaluating the analytical solution at the same time steps as those of the numerical solver. The analytical solution, derived in Q2, is given by:
@@ -64,9 +70,6 @@ The error metric used in this analysis is the root mean square error (RMSE), com
 \end{align*}
 This approach ensures a fair comparison, as the error is calculated point-by-point at identical time instances.
 
-\subsection*{Performance Observations}
-One notable observation is the computational inefficiency of ode45, which, despite its small maximum step size, takes significantly longer to compute the solution compared to other solvers. This inefficiency is likely due to its explicit Runge-Kutta method, which requires more function evaluations per step.
-
-Among the stiff solvers, the ode23 line (ode23s, ode23t, ode23tb) consistently demonstrated better performance in terms of balancing accuracy and computational time. While the timings for these solvers vary slightly between runs, they generally remain within a similar range, making them a reliable choice for stiff systems.
+\subsection*{Conclusion - Recommended Solver}   
 
 In conclusion, the stiff solvers, particularly the ode23 variants, are recommended for this problem due to their ability to handle rapid dynamics efficiently while maintaining accuracy.
