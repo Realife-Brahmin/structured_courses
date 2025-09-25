@@ -20,12 +20,14 @@ model_file = fullfile(rawDataFolder, 'hw01_Fig1a.slx');
 model_file = strrep(model_file, '\', '/');
 [~, model, ~] = fileparts(model_file);
 
-T_horizon_s = 0.1;
+T_horizon_s = 0.2;
 h_max = 1e-2;
 tol = 1e-3;
 
-nonstiff_solvers = {'ode45', 'ode23', 'ode113'};
-stiff_solvers = {'ode15s', 'ode23s', 'ode23t', 'ode23tb'};
+% nonstiff_solvers = {'ode45', 'ode23', 'ode113'};
+nonstiff_solvers = {'ode45', 'ode23'};
+% stiff_solvers = {'ode15s', 'ode23s', 'ode23t', 'ode23tb'};
+stiff_solvers = {'ode23s', 'ode23t', 'ode23tb'};
 solvers = [nonstiff_solvers, stiff_solvers];
 results = struct();
 
