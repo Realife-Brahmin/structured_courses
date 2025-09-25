@@ -44,4 +44,3 @@ x_t_kV = x_ss_kV * (1 - (1/sqrt(1-zeta^2)) * exp(-zeta*w_n*t) .* sin(w_d*t + phi
 plot(t, x_t_kV)
 xlabel('Time [s]')
 ylabel('Voltage [kV]')
-saveas(gcf, 'ee582_1.png')
