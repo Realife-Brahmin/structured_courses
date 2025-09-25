@@ -38,7 +38,10 @@ Z = r_L + 1j*X
 I_ph = V_ph/Z
 Q_kVAr = 3*abs(I_ph)^2*X*1e-3
 phi = acos(zeta)
-t = 0:0.001:0.2;
+T_horizon_s = 0.2;
+h_ms = 0.1;
+h_s = h_ms*1e-3;
+t = 0:h_s:T_horizon_s;
 x_ss_kV = 11.3;
 x_t_kV = x_ss_kV * (1 - (1/sqrt(1-zeta^2)) * exp(-zeta*w_n*t) .* sin(w_d*t + phi));
 plot(t, x_t_kV)
