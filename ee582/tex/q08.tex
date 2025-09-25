@@ -12,4 +12,29 @@ Upon closer inspection, the differences in solver performance can be attributed 
 
 Among the stiff solvers, the variations of ode23 (ode23s, ode23t, ode23tb) stood out as a balanced choice. These solvers demonstrated a reasonable trade-off between computational efficiency and the ability to replicate the expected transient response shape. For instance, ode23s, which uses a modified Rosenbrock formula, was particularly effective in maintaining stability for larger time steps while preserving the qualitative features of the solution.
 
-In summary, the choice of solver depends heavily on the specific requirements of the problem, such as the desired balance between accuracy, computational cost, and fidelity to the expected solution shape. All subsequent comparison and discussion is in Q8, where these findings are analyzed in greater detail.
+\subsection*{Figures and Analysis}
+The following figures illustrate the transient response of the inductor current $i_L(t)$ and capacitor voltage $V_C(t)$ for both nonstiff and stiff solvers. The first figure includes all solvers, highlighting the performance of solvers that fail to dampen oscillations effectively. The second figure excludes these solvers, focusing only on the solvers that converge to the expected damped sinusoidal response:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/hw01_q08_plots-of-iL-and-Vc-for-different-variable-step-ode-solvers.png}
+    \caption{Transient Response of Inductor Current and Capacitor Voltage (Including Non-Dampening Solvers)}
+    \label{fig:inductor_current_nonstiff}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/hw01_q08_plots-of-iL-and-Vc-for-different-variable-step-ode-solvers-only-good_Thorizon_0_2s.png}
+    \caption{Transient Response of Inductor Current and Capacitor Voltage (Excluding Non-Dampening Solvers)}
+    \label{fig:inductor_current_stiff}
+\end{figure}
+
+\subsection*{Remarks on Error Computation}
+The error metric used in this analysis is the root mean square error (RMSE), computed by evaluating the analytical solution at the same time steps as those of the numerical solver. This approach ensures a fair comparison, as the error is calculated point-by-point at identical time instances.
+
+\subsection*{Performance Observations}
+One notable observation is the computational inefficiency of ode45, which, despite its small maximum step size, takes significantly longer to compute the solution compared to other solvers. This inefficiency is likely due to its explicit Runge-Kutta method, which requires more function evaluations per step.
+
+Among the stiff solvers, the ode23 line (ode23s, ode23t, ode23tb) consistently demonstrated better performance in terms of balancing accuracy and computational time. While the timings for these solvers vary slightly between runs, they generally remain within a similar range, making them a reliable choice for stiff systems.
+
+In conclusion, the stiff solvers, particularly the ode23 variants, are recommended for this problem due to their ability to handle rapid dynamics efficiently while maintaining accuracy.

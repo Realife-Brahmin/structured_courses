@@ -19,6 +19,7 @@ set(groot, 'defaultLegendTextColor', 'k');  % Black text for all legends
 model_file = fullfile(rawDataFolder, 'hw01_Fig1a.slx');
 model_file = strrep(model_file, '\', '/');
 [~, model, ~] = fileparts(model_file);
+load_system(model);
 
 T_horizon_s = 0.2;
 h_max = 1e-2;
