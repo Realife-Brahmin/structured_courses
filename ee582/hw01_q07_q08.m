@@ -71,6 +71,21 @@ stiffness(is_stiff) = "Stiff";
 T = table(solver_names, stiffness, max_step_used, num_steps, sim_time, ...
     'VariableNames', {'Solver', 'Type', 'MaxStepUsed', 'NumSteps', 'SimTime_sec'});
 
+% Load or compute analytical solution
+t_analytical = t; % from main.m
+x_analytical = x_t_kV; % from main.m
+
+error_col = zeros(length(results),1);
+
+for k = 1:length(results)
+    % Interpolate numerical solution onto analytical time vector
+    Vc_interp = interp1(results(k).t, results(k).Vc, t_analytical, 'linear', 'extrap');
+    % Compute norm of the difference (L2 norm)
+    error_col(k) = norm(Vc_interp - x_analytical);
+end
+
+% Add error to table
+T.Error = error_col;
 disp(T);
 writetable(T, 'variable_step_solver_summary.csv');
 
