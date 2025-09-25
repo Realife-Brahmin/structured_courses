@@ -1,0 +1,4 @@
+Solver,FinalTime_s,NumSteps
+ode23s,0.2,628
+ode23,0.2,2520509
+ode14x,0.2,2001
