@@ -1,5 +1,4 @@
 \clearpage
-
 \section*{Question 1}
 \addcontentsline{toc}{section}{Question 1}
 
@@ -12,7 +11,7 @@ A shunt harmonic filter (series $RLC$) is shown in Fig. 1(a). It is designed for
 	\item $C = 8.2~\mu\text{F}$
 \end{itemize}
 
-	\textbf{Step 1: Write the KVL equation:}
+\textbf{Step 1: Write the KVL equation:}
 \begin{align*}
 	V_{\rm dc} - r_L i_L - L \frac{di_L}{dt} - v_C = 0
 \end{align*}
@@ -26,34 +25,34 @@ With $i_L = C \frac{dv_C}{dt}$ and $v_C = \frac{1}{C} \int i_L dt$.
 
 
 
-	\textbf{Step 2: Standard second-order ODE:}
+\textbf{Step 2: Standard second-order ODE:}
 \begin{align*}
 	\frac{d^2 i_L}{dt^2} + \frac{r_L}{L} \frac{d i_L}{dt} + \frac{1}{LC} i_L = 0
 \end{align*}
 
-	\textbf{Step 3: Characteristic equation:}
+\textbf{Step 3: Characteristic equation:}
 \begin{align*}
 	s^2 + 2\zeta \omega_n s + \omega_n^2 = 0
 \end{align*}
 
-	\textbf{Step 4: Calculate parameters:}
+\textbf{Step 4: Calculate parameters:}
 \begin{align*}
 	\omega_n &= \frac{1}{\sqrt{LC}} = \frac{1}{\sqrt{19 \times 10^{-3} \times 8.2 \times 10^{-6}}} = 2533.5~\text{rad/s} \\
 	\zeta &= \frac{r_L}{2 \sqrt{\frac{L}{C}}} = \frac{1}{2 \sqrt{\frac{19 \times 10^{-3}}{8.2 \times 10^{-6}}}} = 0.0104 \\
 	\omega_d &= \omega_n \sqrt{1-\zeta^2} = 2533.3~\text{rad/s}
 \end{align*}
 
-	\textbf{Step 5: Quality factor:}
+\textbf{Step 5: Quality factor:}
 \begin{align*}
 	Q_{\text{factor}} = \frac{\omega_n L}{r_L} = \frac{2533.5 \times 0.019}{1} = 48.136
 \end{align*}
 
-	\textbf{Step 6: Eigenvalues:}
+\textbf{Step 6: Eigenvalues:}
 \begin{align*}
 	\lambda = -\zeta \omega_n \pm j \omega_d = -26.316 \pm 2533.3j
 \end{align*}
 
-	\textbf{Step 7: Reactive power:}
+\textbf{Step 7: Reactive power:}
 \begin{align*}
 	Q_{\text{kVAr}} = -602.04~\text{kVAr}
 \end{align*}
