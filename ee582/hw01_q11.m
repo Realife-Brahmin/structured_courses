@@ -53,8 +53,8 @@ for k = 1:numel(varstep_solvers)
 end
 
 % Simulate fixed-step solvers for table only
-fixedstep_solvers = ["ode14x"];
-h_s_list = [1e-4];
+fixedstep_solvers = ["ode5", "ode8", "ode14x"];
+h_s_list = [1e-7, 1e-7, 1e-4];
 for k = 1:numel(fixedstep_solvers)
     solver = fixedstep_solvers(k);
     h_s = h_s_list(k);
@@ -85,7 +85,7 @@ for idx = 1:length(nonstiff_idx)
         'DisplayName', sprintf('Solver = %s', varstep_solvers(k)));
 end
 ylabel('V_C(t) [kV]', 'Color', 'k');
-title('Capacitor Voltage (nonstiff)', 'Interpreter', 'latex', 'Color', 'k');
+title('Capacitor Voltage $V_{c}$ (nonstiff)', 'Interpreter', 'latex', 'Color', 'k');
 set(gca, 'XColor', 'k', 'YColor', 'k', 'Color', 'w');
 grid on; grid minor; legend('show', 'TextColor', 'k', 'Location', 'best');
 hold off;
