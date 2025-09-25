@@ -1,6 +1,9 @@
 *.xml
 *.slxc
 *.autosave
+*.out
+*.toc
+*.log
 ee582/slprj/*
 *.asv
 phd_wsu_qual_preparation/*
