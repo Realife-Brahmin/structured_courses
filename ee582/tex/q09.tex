@@ -89,3 +89,32 @@ where
 \beta = \frac{1}{L_2 C} \left(\frac{r_{\text{leak}} + r_{L2}}{r_C} + 1\right).
 \]
 
+% Updated MATLAB results with explanation and boxed discharge time
+\subsection*{Disconnected Filter Analysis - Overdamped Case}
+The disconnected filter is governed by the second-order differential equation derived earlier. Solving the characteristic equation:
+\begin{align*}
+    s^2 + \alpha s + \beta = 0,
+\end{align*}
+where
+\begin{align*}
+    \alpha &= \frac{r_{\text{leak}} + r_{L2}}{L_2} + \frac{1}{r_C C}, \\
+    \beta &= \frac{1}{L_2 C} \left(\frac{r_{\text{leak}} + r_{L2}}{r_C} + 1\right),
+\end{align*}
+we obtain the poles:
+\begin{align*}
+    s_1 &= -30000318.9~\text{s}^{-1}, \quad s_2 = -4.18694867~\text{s}^{-1}.
+\end{align*}
+
+The time constants associated with these poles are:
+\begin{align*}
+    \tau_{\text{fast}} &= \frac{1}{|s_1|} = 3.333 \times 10^{-8}~\text{s}~(0.000~\text{ms}), \\
+    \tau_{\text{slow}} &= \frac{1}{|s_2|} = 0.238837~\text{s}~(238.837~\text{ms}).
+\end{align*}
+
+Since the system is stiff, the fast-decaying pole $s_1$ can be ignored for practical purposes. The discharge time is determined by the slower time constant $\tau_{\text{slow}}$. For approximately $99.3\%$ discharge, the total time is:
+\begin{align*}
+    \tau_{\text{discharge}} &= 5 \times \tau_{\text{slow}} = \boxed{1.194~\text{s}~(1194~\text{ms})}.
+\end{align*}
+
+\textbf{Remark:} The large damping ratio ($\zeta = 1338.39$) confirms the overdamped nature of the system, making the slower pole dominant for discharge calculations.
+
