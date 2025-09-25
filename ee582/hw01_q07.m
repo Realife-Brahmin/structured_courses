@@ -1,88 +1,139 @@
 %% ===================== Global light theme =====================
-set(groot,'defaultFigureColor','w');
-set(groot,'defaultAxesColor','w');
-set(groot,'defaultAxesXColor','k');
-set(groot,'defaultAxesYColor','k');
-set(groot,'defaultAxesGridColor',[.2 .2 .2]);
-set(groot,'defaultAxesMinorGridColor',[.6 .6 .6]);
-set(groot,'defaultAxesFontName','Helvetica');
-set(groot,'defaultAxesFontSize',12);
-set(groot,'defaultAxesTitleFontWeight','bold');
-set(groot,'defaultAxesTitleFontSizeMultiplier',1.1);
-set(groot,'defaultAxesXMinorGrid','on');
-set(groot,'defaultAxesYMinorGrid','on');
-set(groot,'defaultLineLineWidth',1.4);
-set(groot,'defaultLineMarkerSize',9);
-set(groot, 'defaultLegendColor', 'w');      % White background for all legends
-set(groot, 'defaultLegendTextColor', 'k');  % Black text for all legends
-
+set(groot, 'defaultFigureColor', 'w');
+set(groot, 'defaultAxesColor', 'w');
+set(groot, 'defaultAxesXColor', 'k');
+set(groot, 'defaultAxesYColor', 'k');
+set(groot, 'defaultAxesGridColor', [0.2 0.2 0.2]);
+set(groot, 'defaultAxesMinorGridColor', [0.6 0.6 0.6]);
+set(groot, 'defaultAxesFontName', 'Helvetica');
+set(groot, 'defaultAxesFontSize', 14);
+set(groot, 'defaultAxesTitleFontWeight', 'bold');
+set(groot, 'defaultAxesTitleFontSizeMultiplier', 1.2);
+set(groot, 'defaultAxesXMinorGrid', 'on');
+set(groot, 'defaultAxesYMinorGrid', 'on');
+set(groot, 'defaultLineLineWidth', 1.6);
+set(groot, 'defaultLineMarkerSize', 10);
+set(groot, 'defaultLegendColor', 'w');
+set(groot, 'defaultLegendTextColor', 'k');
+set(groot, 'defaultLegendFontSize', 13);
+set(groot, 'defaultLegendInterpreter', 'latex'); 
 
 model_file = fullfile(rawDataFolder, 'hw01_q03.slx');
 model_file = strrep(model_file, '\', '/');
 [~, model, ~] = fileparts(model_file);
 
-T_horizon_s = 0.2;
-% ode_solvers = ["ode5", "ode8"];
-% h_ms_list = [0.5, 1.6]; % converging
-ode_solvers = ["ode5"];
-h_ms_list = [0.1]; % good
-% h_ms_list = [1.0]; % diverging
-h_s_list = h_ms_list * 1e-3;
+T_horizon_s = 0.1;
+h_max = 1e-2;
+tol = 1e-3;
 
-Vc_results = cell(1, numel(h_s_list));
-iL_results = cell(1, numel(h_s_list));
-t_results = cell(1, numel(h_s_list));
+nonstiff_solvers = {'ode45', 'ode23', 'ode113'};
+stiff_solvers = {'ode15s', 'ode23s', 'ode23t', 'ode23tb'};
+solvers = [nonstiff_solvers, stiff_solvers];
+results = struct();
 
-for k = 1:numel(h_s_list)
-    h_s = h_s_list(k);
+for k = 1:length(solvers)
+    solver = solvers{k};
     set_param(model, 'StartTime', '0.0');
     set_param(model, 'StopTime', num2str(T_horizon_s));
-    set_param(model, 'SolverType', 'Fixed-step');
-    set_param(model, 'Solver', ode_solvers(k)); % Dormand-Prince RK5
-    set_param(model, 'FixedStep', num2str(h_s));
+    set_param(model, 'SolverType', 'Variable-step');
+    set_param(model, 'Solver', solver);
+    set_param(model, 'MaxStep', num2str(h_max));
+    set_param(model, 'RelTol', num2str(tol));
+    set_param(model, 'AbsTol', num2str(tol));
     
     simOut = sim(model, 'ReturnWorkspaceOutputs', 'on');
-    % Adjust these variable names if your To Workspace blocks use different names
-    Vc_results{k} = simOut.V_c_t.Data;
-    iL_results{k} = simOut.i_L_t.Data * 1000; % Convert kA to A
-    t_results{k}  = simOut.V_c_t.Time;
+    t = simOut.V_c_t.Time;
+    Vc = simOut.V_c_t.Data;
+    iL = simOut.i_L_t.Data * 1000; % kA to A
+
+    results(k).solver = solver;
+    results(k).t = t;
+    results(k).Vc = Vc;
+    results(k).iL = iL;
+    results(k).maxStepUsed = max(diff(t));
+    results(k).numSteps = length(t);
 end
+
+% Find indices for each group
+nonstiff_idx = find(ismember({results.solver}, nonstiff_solvers));
+stiff_idx = find(ismember({results.solver}, stiff_solvers));
 
 % Plotting
 figure('Color', 'w');
-colors = lines(numel(h_s_list));
+colors = lines(length(solvers));
 
-subplot(2,1,1);
+% Nonstiff solvers
+subplot(2,2,1);
 hold on;
-for k = 1:numel(h_s_list)
-    plot(t_results{k}, iL_results{k}, 'Color', colors(k,:), 'LineWidth', 1.5, ...
-        'DisplayName', sprintf('h = %.1f ms, solver = %s', h_ms_list(k), ode_solvers(k)));
+for idx = 1:length(nonstiff_idx)
+    k = nonstiff_idx(idx);
+    plot(results(k).t, results(k).iL, 'LineWidth', 1.5, 'DisplayName', results(k).solver, 'Color', colors(k,:));
 end
 ylabel('i_L(t) [A]', 'Color', 'k');
-title('Inductor Current', 'Interpreter', 'latex', 'Color', 'k');
-set(gca, 'XColor', 'k', 'YColor', 'k', 'Color', 'w');
-grid on; grid minor;
-ax1 = gca;
-ax1.MinorGridLineStyle = '-';
-ax1.MinorGridAlpha = 0.18;
-ax1.MinorGridColor = [0.5 0.5 0.5];
+title('Inductor Current (Nonstiff)', 'FontSize', 16, 'Color', 'k');
+ax = gca;
+set(ax, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
 legend('show', 'TextColor', 'k', 'Location', 'best');
-hold off;
+grid on; grid minor; hold off;
 
-subplot(2,1,2);
+subplot(2,2,3);
 hold on;
-for k = 1:numel(h_s_list)
-    plot(t_results{k}, Vc_results{k}, 'Color', colors(k,:), 'LineWidth', 1.5, ...
-        'DisplayName', sprintf('h = %.1f ms, solver = %s', h_ms_list(k), ode_solvers(k)));
+for idx = 1:length(nonstiff_idx)
+    k = nonstiff_idx(idx);
+    plot(results(k).t, results(k).Vc, 'LineWidth', 1.5, 'DisplayName', results(k).solver, 'Color', colors(k,:));
 end
 ylabel('V_C(t) [kV]', 'Color', 'k');
 xlabel('Time (s)', 'Color', 'k');
-title('Capacitor Voltage',  'Interpreter', 'latex', 'Color', 'k');
-set(gca, 'XColor', 'k', 'YColor', 'k', 'Color', 'w');
-grid on; grid minor;
-ax2 = gca;
-ax2.MinorGridLineStyle = '-';
-ax2.MinorGridAlpha = 0.18;
-ax2.MinorGridColor = [0.5 0.5 0.5];
+title('Capacitor Voltage (Nonstiff)', 'FontSize', 16, 'Color', 'k');
+ax = gca;
+set(ax, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
 legend('show', 'TextColor', 'k', 'Location', 'best');
-hold off;
+grid on; grid minor; hold off;
+
+% Stiff solvers
+subplot(2,2,2);
+hold on;
+for idx = 1:length(stiff_idx)
+    k = stiff_idx(idx);
+    plot(results(k).t, results(k).iL, 'LineWidth', 1.5, 'DisplayName', results(k).solver, 'Color', colors(k,:));
+end
+ylabel('i_L(t) [A]', 'Color', 'k');
+title('Inductor Current (Stiff)', 'FontSize', 16, 'Color', 'k');
+ax = gca;
+set(ax, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
+legend('show', 'TextColor', 'k', 'Location', 'best');
+grid on; grid minor; hold off;
+
+subplot(2,2,4);
+hold on;
+for idx = 1:length(stiff_idx)
+    k = stiff_idx(idx);
+    plot(results(k).t, results(k).Vc, 'LineWidth', 1.5, 'DisplayName', results(k).solver, 'Color', colors(k,:));
+end
+ylabel('V_C(t) [kV]', 'Color', 'k');
+xlabel('Time (s)', 'Color', 'k');
+title('Capacitor Voltage (Stiff)', 'FontSize', 16, 'Color', 'k');
+ax = gca;
+set(ax, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
+legend('show', 'TextColor', 'k', 'Location', 'best');
+grid on; grid minor; hold off;
+
+% Collect data for the table
+solver_names = {results.solver}';
+max_step_used = [results.maxStepUsed]';
+num_steps = [results.numSteps]';
+
+% Specify stiff/nonstiff property
+is_stiff = ismember(solver_names, {'ode15s', 'ode23s', 'ode23t', 'ode23tb'});
+stiffness = repmat("Nonstiff", size(solver_names));
+stiffness(is_stiff) = "Stiff";
+
+% Create table
+T = table(solver_names, stiffness, max_step_used, num_steps, ...
+    'VariableNames', {'Solver', 'Type', 'MaxStepUsed', 'NumSteps'});
+
+% Display table in command window
+disp(T);
+
+% Optionally, write to a CSV file for your report
+writetable(T, 'variable_step_solver_summary.csv');
