@@ -112,7 +112,7 @@ figure('Color','w');
 
 subplot(3,1,1);
 ax1 = gca;
-plot(t, i1, 'b', 'LineWidth', 1.5);
+plot(t, i1*1e3, 'b', 'LineWidth', 1.5);
 ylabel('i_{L1}(t) [A]', 'Color', 'k');
 title('Inductor Current L1', 'Color', 'k');
 set(ax1,'XColor','k','YColor','k','Color','w');
@@ -124,7 +124,7 @@ grid minor;
 
 subplot(3,1,2);
 ax2 = gca;
-plot(t, i2, 'm', 'LineWidth', 1.5);
+plot(t, i2*1e3, 'm', 'LineWidth', 1.5);
 ylabel('i_{L2}(t) [A]', 'Color', 'k');
 title('Inductor Current L2', 'Color', 'k');
 set(ax2,'XColor','k','YColor','k','Color','w');
@@ -136,7 +136,7 @@ grid minor;
 
 subplot(3,1,3);
 ax3 = gca;
-plot(t, v_c*1e-3, 'r', 'LineWidth', 1.5); % converted to kV
+plot(t, v_c, 'r', 'LineWidth', 1.5); % converted to kV
 ylabel('v_C(t) [kV]', 'Color', 'k');
 xlabel('Time (s)', 'Color', 'k');
 title('Capacitor Voltage', 'Color', 'k');
@@ -146,3 +146,10 @@ ax3.MinorGridLineStyle = '-';
 ax3.MinorGridAlpha = 0.18;
 ax3.MinorGridColor = [0.5 0.5 0.5];
 grid minor;
+
+
+% Sanity: DC divider gain
+rL1   = r_L - r_L2;
+Req   = 1/(1/r_leak + 1/r_C);
+gain  = Req/(rL1 + Req);
+vC_ss = gain * 11.3e3;   % volts
