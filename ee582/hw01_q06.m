@@ -16,7 +16,7 @@ set(groot,'defaultLineMarkerSize',9);
 set(groot, 'defaultLegendColor', 'w');      % White background for all legends
 set(groot, 'defaultLegendTextColor', 'k');  % Black text for all legends
 
-model_file = fullfile(rawDataFolder, 'hw01_q03.slx');
+model_file = fullfile(rawDataFolder, 'hw01_Fig1a.slx');
 model_file = strrep(model_file, '\', '/');
 [~, model, ~] = fileparts(model_file);
 

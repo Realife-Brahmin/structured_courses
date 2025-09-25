@@ -16,7 +16,7 @@ set(groot,'defaultLineMarkerSize',9);
 
 %% ===================== Require eigvals ========================
 % model = fullfile(rawDataFolder, 'hw01_q03'); % without .slx extension
-model_file = fullfile(rawDataFolder, 'hw01_q03.slx');
+model_file = fullfile(rawDataFolder, 'hw01_Fig1a.slx');
 model_file = strrep(model_file, '\', '/');
 [~, model, ~] = fileparts(model_file);
 
