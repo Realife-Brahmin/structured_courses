@@ -1,4 +1,4 @@
-Solver,FinalTime_s,NumSteps
-ode23s,0.2,628
-ode23,0.2,2520509
-ode14x,0.2,2001
+Solver,Type,MaxStepUsed,NumSteps,SimTime_sec
+ode23s,Stiff,0.01,628,0.5526641
+ode23,Nonstiff,1.24446902654867e-07,2520509,29.5415958
+ode14x,Fixed-step,0.000100000000000017,2001,0.3192055
