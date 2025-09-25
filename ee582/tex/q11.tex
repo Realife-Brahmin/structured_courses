@@ -4,3 +4,79 @@
 \section*{Question 11}
 \addcontentsline{toc}{section}{Question 11}
 
+Using variable-step solvers, set $h_{max} = 1 \times 10^{-2}$ and both error tolerances $\varepsilon_{abs} = \varepsilon_{rel} = 10^{-3}$. Experiment with all the available variable-step solvers. In a table, print the maximum time-step size $h_{max}$ chosen by each solver and the total number of steps taken. Comment on how these solutions compare with the reference solution found in part 7. Which solver in your opinion is more efficient and does the best job for this system? Compare the step-size and the overall number of steps observed in parts 6, 7, and this part.
+
+\subsection*{Figures and Analysis}
+The following figures illustrate the transient response of the inductor current $i_L(t)$ and capacitor voltage $V_C(t)$ for both nonstiff and stiff solvers. \Cref{fig:transient_response_all} includes all solvers, highlighting the performance of solvers that fail to dampen oscillations effectively. \Cref{fig:transient_response_good} excludes these solvers, focusing only on the solvers that converge to the expected damped sinusoidal response:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/hw01_q08_plots-of-iL-and-Vc-for-different-variable-step-ode-solvers.png}
+    \caption{Transient Response of Inductor Current and Capacitor Voltage (Including Non-Dampening Solvers)}
+    \label{fig:transient_response_all}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/hw01_q08_plots-of-iL-and-Vc-for-different-variable-step-ode-solvers-only-good_Thorizon_0_2s.png}
+    \caption{Transient Response of Inductor Current and Capacitor Voltage (Excluding Non-Dampening Solvers)}
+    \label{fig:transient_response_good}
+\end{figure}
+
+% Updated figure and table to include RK8 results
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/hw01_q08_table-comparing-metrics-for-different-variable-step-ode-solvers.png}
+    \caption{Simulation Results for Variable-Step and Fixed-Step ODE Solvers}
+    \label{fig:simulation_results_table_updated}
+\end{figure}
+
+\subsection*{Table of Results}
+The table below, supported by \cref{fig:simulation_results_table_updated}, summarizes the performance of each solver, including the maximum step size used, the number of steps taken, the simulation time, and the RMSE error:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|c|c|c|c|}
+        \hline
+        \textbf{Solver} & \textbf{Type} & \textbf{$h_{Max}$} & \textbf{Num Steps} & \textbf{Time [s]} & \textbf{Error [kV]} \\
+        \hline
+        ode45 & Nonstiff & 0.0008548 & 318 & 0.2753 & 0.6171 \\
+        ode23 & Nonstiff & 0.0013118 & 415 & 0.3346 & 1.2333 \\
+        ode113 & Nonstiff & 0.0006160 & 755 & 0.2697 & 1.5953 \\
+        ode15s & Stiff & 0.0003174 & 1174 & 0.3068 & 5.3695 \\
+        ode23s & Stiff & 0.01 & 468 & 0.3072 & 1.9883 \\
+        ode23t & Stiff & 0.0007239 & 784 & 0.2488 & 2.1127 \\
+        ode23tb & Stiff & 0.01 & 535 & 0.2490 & 1.7507 \\
+        ode5 & Fixed-step & 0.0005 & 401 & 0.2556 & 0.2283 \\
+        ode8 & Fixed-step & 0.0005 & 401 & 0.2388 & 0.0000422 \\
+        \hline
+    \end{tabular}
+    \caption{Summary of Solver Performance Including Fixed-Step RK8}
+    \label{tab:solver_performance_updated}
+\end{table}
+
+\subsection*{Discussion}
+\subsubsection*{Nonstiff vs Stiff Solvers}
+While nonstiff solvers (ode45, ode23) generally showed lesser error, their transient response 'shape' was less consistent with a damped sinusoid as expected from the analytical solution. Stiff solvers (ode15s, ode23s) produced responses that visually aligned better with the expected damped sinusoidal shape, but they exhibited higher numerical error.
+
+\subsubsection*{Maximum step size not necessarily proportional to error}
+Interestingly, nonstiff solver ode113 and stiff solver ode15s took very small steps yet resulted in a significantly higher error compared to other solvers. On the other hand, stiff solvers like ode23s and ode23tb took the largest possible steps (perhaps only occasionally or regularly), yet managed to achieve lower errors. This behavior warrants a deeper analysis of how these solvers handle step size and error accumulation.
+
+\subsubsection*{Fixed-Step Solvers}
+Fixed-step solvers RK5 and RK8 demonstrated exceptional performance, with RK8 achieving the lowest error (0.0000422 kV). However, the fixed step size of 0.5 ms is overly generous compared to the variable-step solvers, making the comparison somewhat unfair. A more balanced comparison would involve reducing the fixed step size to align with the typical step sizes observed in variable-step solvers. As previously observed, a step size of $\geq 0.7$ ms is infeasible for RK5, so a variable step size solver taking a maximum step size of $10$ ms and still not diverging is in a way already superior.
+
+\subsubsection*{Simulation Time Analysis}
+Moreover, the simulation times across all solvers were found to vary significantly between runs, making solve time an inconclusive metric for this system. The choice of solver should therefore depend more on the error metric and the qualitative shape of the transient response rather than computational efficiency. Among the variable step size solvers, stiff solvers like ode23s, ode23t and ode23tb remain reliable for capturing the expected response shape.
+
+\subsection*{Remarks on Error Computation}
+The error metric used in this analysis is the root mean square error (RMSE), computed by evaluating the analytical solution at the same time steps as those of the numerical solver. The analytical solution, derived in Q2, is given by:
+\begin{align*}
+    V_{c}(t) [kV] = 11.3 \left[1 - 1.00005 \, e^{-26.34\, t} \, \sin(2533.3\, t + 1.5604)\right]
+\end{align*}
+This approach ensures a fair comparison, as the error is calculated point-by-point at identical time instances.
+
+\subsection*{Conclusion - Recommended Solver}   
+
+In conclusion, the stiff solvers, particularly the ode23 variants, are recommended for this problem due to their ability to handle rapid dynamics efficiently while maintaining accuracy.
+
+
