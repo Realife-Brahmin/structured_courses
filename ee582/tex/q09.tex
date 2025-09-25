@@ -4,6 +4,11 @@
 \section*{Question 9}
 \addcontentsline{toc}{section}{Question 9}
 
+% Question statement
+In Fig. 1(a) the equivalent series resistance and inductance of the capacitor ($r_{L2}$ and $L_2$) were added to the inductance parameters $r_{L1}$ and $L_1$ (i.e. $r_L = r_{L1} + r_{L2}$ and $L = L_1 + L_2$). In Fig. 1(b), they are separated and also the capacitor leakage resistance ($r_c$) is considered. In addition, the discharge resistance ($r_{leak}$) is shown in Fig. 1(b). This resistance is used to discharge the filter capacitor when it is off-line for safety purposes which was ignored in the simple model shown in Fig. 1(a). Implement the model of Fig. 1(b) in Simulink using basic blocks considering $r_{L2} = 323~\text{m}\Omega$, $L_2 = 1~\text{mH}$, $r_c = 1~\text{M}\Omega$, and $r_{leak} = 30~\text{k}\Omega$. If the filter is disconnected, how long does it take for the capacitor to fully discharge?
+\vspace{1em}
+
+
 % Added image before the question statement
 \begin{figure}[h!]
     \centering
@@ -12,10 +17,17 @@
     \label{fig:q09_circuit}
 \end{figure}
 
-% Question statement
-In Fig. 1(a) the equivalent series resistance and inductance of the capacitor ($r_{L2}$ and $L_2$) were added to the inductance parameters $r_{L1}$ and $L_1$ (i.e. $r_L = r_{L1} + r_{L2}$ and $L = L_1 + L_2$). In Fig. 1(b), they are separated and also the capacitor leakage resistance ($r_c$) is considered. In addition, the discharge resistance ($r_{leak}$) is shown in Fig. 1(b). This resistance is used to discharge the filter capacitor when it is off-line for safety purposes which was ignored in the simple model shown in Fig. 1(a). Implement the model of Fig. 1(b) in Simulink using basic blocks considering $r_{L2} = 323~\text{m}\Omega$, $L_2 = 1~\text{mH}$, $r_c = 1~\text{M}\Omega$, and $r_{leak} = 30~\text{k}\Omega$. If the filter is disconnected, how long does it take for the capacitor to fully discharge?
-\vspace{1em}
+\Cref{fig:q09_block_diagram} shows the Simulink block diagram for the full filter model in \Cref{fig:q09_circuit}. Actually this block diagram was made after hand deriving the equations for the full filter model in q10 and obtaining the state space model. This simulink model will be primarily used q10 onwards. Current question is mainly focused on the disconnected variation of this filter, which is analyzed next.
 
+
+When the filter is disconnected as shown in \Cref{fig:q09_hand_drawn_circuit}, the capacitor $C$ discharges through its leakage resistance $r_C$ and the discharge resistor $r_{\text{leak}}$. The relevant equations can be derived as follows.
+% Add reference to Simulink block diagram before the hand-drawn circuit diagram
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/hw01_q09_block-diagram-filter-diagram-B.png}
+    \caption{Simulink Block Diagram for Filter Analysis}
+    \label{fig:q09_block_diagram}
+\end{figure}
 
 
 % Added reference to hand-drawn circuit diagram before derivation
@@ -25,9 +37,6 @@ In Fig. 1(a) the equivalent series resistance and inductance of the capacitor ($
     \caption{Hand-drawn Circuit Diagram for Disconnected Filter Analysis}
     \label{fig:q09_hand_drawn_circuit}
 \end{figure}
-
-The derivation below refers to \Cref{fig:q09_hand_drawn_circuit} for analyzing the disconnected filter.
-The capacitor $C$ discharges through its leakage resistance $r_C$ and the discharge resistor $r_{\text{leak}}$. The relevant equations can be derived as follows.
 
 \vspace{1em}
 \textbf{KCL at the capacitor node:}
