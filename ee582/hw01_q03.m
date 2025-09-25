@@ -24,7 +24,8 @@ h_s = h_ms * 1e-3;
 rawDataFolder = "./rawData/";
 model_file = fullfile(rawDataFolder, 'hw01_Fig1a.slx');
 model_file = strrep(model_file, '\', '/');
-[~, model, ~] = fileparts(model_file);
+[~, model] = fileparts(model_file);
+load_system(model);
 
 % Linearize the model to get state-space matrices and eigenvalues
 [A, B, C, D, xnames] = linmod(model);
