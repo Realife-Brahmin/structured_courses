@@ -22,8 +22,12 @@ format long g
 r_L = 1;      L = 19e-3;     C_cap = 8.2e-6;
 r_L2 = 323e-3; r_L1 = r_L - r_L2;
 L_2  = 1e-3;   L_1  = L - L_2;
-r_C  = 1e6;
-r_leak = 30e3;
+% r_C  = 1e6;
+% r_C = 1e9;
+r_C = 1e12;
+% r_leak = 30e3;
+% r_leak = 30e6;
+r_leak = 30e9;
 
 %% ===================== Hand state-space (Fig. 1b) =====================
 % States x = [i_L1; i_L2; v_C], input u = v_dc
@@ -54,6 +58,8 @@ if exist(model_file_b,'file')
     % Load once so linmod can find it
     load_system(model_b);
     [A_lin, B_lin, C_lin, D_lin, xnames] = linmod(model_b);
+    disp('r_leak');  disp(r_leak);
+    disp('r_C');  disp(r_C);
 
     disp('State names (Simulink linmod):');  disp(xnames.stateName);
     disp('Eigenvalues from linmod(A_lin):'); disp(eig(A_lin));

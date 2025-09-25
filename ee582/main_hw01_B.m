@@ -27,6 +27,8 @@ r_L2 = 323e-3; r_L1 = r_L - r_L2;
 L_2 = 1e-3;   L_1 = L - L_2;
 r_C = 1e6;
 r_leak = 30e3;
+% r_leak = 30e6;
+% r_leak = 30e9;
 
 V_LL = 13.8e3;
 V_ph = V_LL/sqrt(3);
