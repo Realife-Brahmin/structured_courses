@@ -4,6 +4,8 @@
 *.out
 *.toc
 *.log
+ee582/tex/*.out
+ee582/tex/*.toc
 ee582/slprj/*
 *.asv
 phd_wsu_qual_preparation/*
