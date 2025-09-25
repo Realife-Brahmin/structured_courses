@@ -44,20 +44,29 @@ A shunt harmonic filter (series $RLC$) is shown in \Cref{fig:q01_circuit} above.
 	\omega_d &= \omega_n \sqrt{1-\zeta^2} = 2533.3~\text{rad/s}
 \end{align*}
 
-\textbf{Step 5: Quality factor:}
+\textbf{Quality factor:}
 \begin{align*}
 	Q_{\text{factor}} = \frac{\omega_n L}{r_L} = \frac{2533.5 \times 0.019}{1} = 48.136
 \end{align*}
 
-\textbf{Step 6: Eigenvalues:}
+\textbf{Eigenvalues (roots of characteristic equation):}
 \begin{align*}
 	\lambda = -\zeta \omega_n \pm j \omega_d = -26.316 \pm 2533.3j
 \end{align*}
 
-\textbf{Step 7: Reactive power:}
+\textbf{Reactive Power Computation:}
+The reactive power is computed for a three-phase system. First, the per-phase voltage $V_{ph} = V_{LL}/\sqrt{3}$ and current $I_{ph}$ are calculated using the per-phase impedance $Z_{ph}=r_L + j(X_L - X_c)$. Then, the reactive power is determined as:
+\begin{align*}
+    Q_{\text{kVAr}} = 3 \times |I_{ph}|^2 \times X_c
+\end{align*}
+where $X_c = \frac{1}{2 \pi f C}$ and $X_L = 2 \pi f L$ at $f = 60~\text{Hz}$.
+
+
 \begin{align*}
 	Q_{\text{kVAr}} = -602.04~\text{kVAr}
 \end{align*}
+
+Negative sign indicates the filter is absorbing reactive power (capacitive).
 
 All calculations confirm the system is very underdamped ($\zeta = 0.0104$).
 
@@ -71,4 +80,5 @@ All calculations confirm the system is very underdamped ($\zeta = 0.0104$).
 	\item Eigenvalues: $\boxed{-26.316 \pm 2533.3j}$
 	\item Reactive power: $\boxed{-602.04~\text{kVAr}}$
 \end{itemize}
+
 
