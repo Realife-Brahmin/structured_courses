@@ -69,8 +69,8 @@ subtitle(ax1, sprintf('$h \\in [%.3f,\\,%.3f]~\\mu\\mathrm{s}$', ...
         'Interpreter','latex','FontSize',11,'Color','k');
 
 % Restrict to ultra-relevant slice near origin
-xlim(ax1, [-0.01 0]); 
-ylim(ax1, [-0.035 0.035]);
+xlim(ax1, [-3 0.5]); 
+ylim(ax1, [-1 1]);
 
 for hk = hEuler
     zk = hk*eigvals;
