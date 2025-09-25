@@ -24,10 +24,10 @@ T_horizon_s = 0.2;
 h_max = 1e-2;
 tol = 1e-3;
 
-% nonstiff_solvers = {'ode45', 'ode23', 'ode113'};
-nonstiff_solvers = {'ode45', 'ode23'};
-% stiff_solvers = {'ode15s', 'ode23s', 'ode23t', 'ode23tb'};
-stiff_solvers = {'ode23s', 'ode23t', 'ode23tb'};
+nonstiff_solvers = {'ode45', 'ode23', 'ode113'};
+% nonstiff_solvers = {'ode45', 'ode23'};
+stiff_solvers = {'ode15s', 'ode23s', 'ode23t', 'ode23tb'};
+% stiff_solvers = {'ode23s', 'ode23t', 'ode23tb'};
 solvers = [nonstiff_solvers, stiff_solvers];
 results = struct();
 
@@ -41,7 +41,10 @@ for k = 1:length(solvers)
     set_param(model, 'RelTol', num2str(tol));
     set_param(model, 'AbsTol', num2str(tol));
 
+    tic;
     simOut = sim(model, 'ReturnWorkspaceOutputs', 'on');
+    elapsed = toc;
+
     t = simOut.V_c_t.Time;
     Vc = simOut.V_c_t.Data;
     iL = simOut.i_L_t.Data * 1000; % kA to A
@@ -52,7 +55,24 @@ for k = 1:length(solvers)
     results(k).iL = iL;
     results(k).maxStepUsed = max(diff(t));
     results(k).numSteps = length(t);
+    results(k).simTime = elapsed;
 end
+
+% Table with compute time
+solver_names = {results.solver}';
+max_step_used = [results.maxStepUsed]';
+num_steps = [results.numSteps]';
+sim_time = [results.simTime]';
+
+is_stiff = ismember(solver_names, stiff_solvers);
+stiffness = repmat("Nonstiff", size(solver_names));
+stiffness(is_stiff) = "Stiff";
+
+T = table(solver_names, stiffness, max_step_used, num_steps, sim_time, ...
+    'VariableNames', {'Solver', 'Type', 'MaxStepUsed', 'NumSteps', 'SimTime_sec'});
+
+disp(T);
+writetable(T, 'variable_step_solver_summary.csv');
 
 % Find indices for each group
 nonstiff_idx = find(ismember({results.solver}, nonstiff_solvers));
