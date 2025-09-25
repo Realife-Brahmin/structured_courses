@@ -83,12 +83,14 @@ h_from_real = 0.1 / max(abs(real(lam)));  % 0.1x the fastest real time constant
 h_s = min(h_from_imag, h_from_real);
 h_s = min(h_s, 1e-3);                    % cap at 1 ms for safety; adjust if you like
 fprintf('\nSuggested fixed step h = %.6g s (%.3f ms)\n', h_s, 1e3*h_s);
-h_s = 1e-5;
+% h_s = 1e-5;
+h_s = 1e-4;
 if exist('model_b','var') && bdIsLoaded(model_b)
     set_param(model_b, 'StartTime','0.0');
     set_param(model_b, 'StopTime','0.2');        % adjust as needed
     set_param(model_b, 'SolverType','Fixed-step');
-    set_param(model_b, 'Solver','ode14x');       % stiff, implicit fixed-step
+    solver = 'ode14x';
+    set_param(model_b, 'Solver', solver);       % stiff, implicit fixed-step
     set_param(model_b, 'FixedStep', num2str(h_s));
 
     % Example run (requires logged signals in model):
@@ -115,6 +117,8 @@ ax1 = gca;
 plot(t, i1*1e3, 'b', 'LineWidth', 1.5);
 ylabel('i_{L1}(t) [A]', 'Color', 'k');
 title('Inductor Current L1', 'Color', 'k');
+subtitle(sprintf('h_s = %.1e s, Solver = %s', h_s, solver));
+
 set(ax1,'XColor','k','YColor','k','Color','w');
 grid on;
 ax1.MinorGridLineStyle = '-';
@@ -147,9 +151,3 @@ ax3.MinorGridAlpha = 0.18;
 ax3.MinorGridColor = [0.5 0.5 0.5];
 grid minor;
 
-
-% Sanity: DC divider gain
-rL1   = r_L - r_L2;
-Req   = 1/(1/r_leak + 1/r_C);
-gain  = Req/(rL1 + Req);
-vC_ss = gain * 11.3e3;   % volts
