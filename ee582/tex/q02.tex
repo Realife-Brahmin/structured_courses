@@ -1,0 +1,60 @@
+% Q2: Derivation of the Transient Response for the Series RLC Circuit
+\clearpage
+
+\section{Question 2}
+
+Consider the series $RLC$ circuit with parameters $r_L$, $L$, and $C$ as in Q1. The KVL equation is:
+\begin{align*}
+    V_{\rm dc} - r_L i_L - L \frac{di_L}{dt} - v_C = 0
+\end{align*}
+where $i_L$ is the inductor current and $v_C$ is the capacitor voltage.
+
+Express $i_L$ in terms of $v_C$:
+\begin{align*}
+    i_L = C \frac{dv_C}{dt}
+\end{align*}
+
+Substitute into the KVL equation:
+\begin{align*}
+    V_{\rm dc} - r_L C \frac{dv_C}{dt} - L C \frac{d^2 v_C}{dt^2} - v_C = 0
+\end{align*}
+
+Rearrange to standard form:
+\begin{align*}
+    L C \frac{d^2 v_C}{dt^2} + r_L C \frac{dv_C}{dt} + v_C = V_{\rm dc}
+\end{align*}
+
+Divide both sides by $L C$:
+\begin{align*}
+    \frac{d^2 v_C}{dt^2} + \frac{r_L}{L} \frac{dv_C}{dt} + \frac{1}{L C} v_C = \frac{V_{\rm dc}}{L C}
+\end{align*}
+
+This is a standard second-order nonhomogeneous ODE. The homogeneous solution is:
+\begin{align*}
+    \frac{d^2 v_C}{dt^2} + 2\zeta \omega_n \frac{dv_C}{dt} + \omega_n^2 v_C = 0
+\end{align*}
+where:
+\begin{align*}
+    \omega_n &= \frac{1}{\sqrt{L C}} \\
+    \zeta &= \frac{r_L}{2} \sqrt{\frac{C}{L}}
+\end{align*}
+
+The general solution is:
+\begin{align*}
+    v_C(t) = v_{C,\infty} + \left[v_{C,0} - v_{C,\infty}\right] \left[1 - \frac{1}{\sqrt{1-\zeta^2}} e^{-\zeta \omega_n t} \sin(\omega_d t + \phi)\right]
+\end{align*}
+where $v_{C,\infty}$ is the steady-state value, $v_{C,0}$ is the initial value, and $\omega_d = \omega_n \sqrt{1-\zeta^2}$.
+
+For a step input, $v_{C,\infty} = x_{SS}$, and the solution simplifies to:
+\[
+\boxed{
+    x(t) = x_{SS} \left[1 - \frac{1}{\sqrt{1-\zeta^2}} e^{-\zeta \omega_n t} \sin(\omega_d t + \phi)\right]
+}
+\]
+
+For the given values ($r_L = 1~\Omega$, $L = 19~\text{mH}$, $C = 8.2~\mu\text{F}$), the numeric solution is:
+\[
+\boxed{
+    x(t) = 11.3 \left[1 - 1.00005 \, e^{-26.34\, t} \, \sin(2533.3\, t + 1.5604)\right]
+}
+\]
