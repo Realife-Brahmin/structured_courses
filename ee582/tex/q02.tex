@@ -3,23 +3,25 @@
 
 \section{Question 2}
 
-Consider the series $RLC$ circuit with parameters $r_L$, $L$, and $C$ as in Q1. The KVL equation is:
-\begin{align*}
-    V_{\rm dc} - r_L i_L - L \frac{di_L}{dt} - v_C = 0
-\end{align*}
+Consider the series $RLC$ circuit with parameters $r_L$, $L$, and $C$ as in Q1. The equations are:
+
+	\textbf{KVL:}
+\begin{align}
+    V_{\rm dc} - r_L i_L - L \frac{di_L}{dt} - v_C = 0 \tag{1}
+\end{align}
 where $i_L$ is the inductor current and $v_C$ is the capacitor voltage.
 
-Express $i_L$ in terms of $v_C$:
-\begin{align*}
-    i_L = C \frac{dv_C}{dt}
-\end{align*}
+	\textbf{Capacitor current:}
+\begin{align}
+    i_L = C \frac{dv_C}{dt} \tag{2}
+\end{align}
 
-Substitute into the KVL equation:
+	\textbf{Substitute (2) into (1):}
 \begin{align*}
     V_{\rm dc} - r_L C \frac{dv_C}{dt} - L C \frac{d^2 v_C}{dt^2} - v_C = 0
 \end{align*}
 
-Rearrange to standard form:
+	\textbf{Rearrange to standard form:}
 \begin{align*}
     L C \frac{d^2 v_C}{dt^2} + r_L C \frac{dv_C}{dt} + v_C = V_{\rm dc}
 \end{align*}
@@ -31,15 +33,39 @@ Divide both sides by $L C$:
 
 This is a standard second-order nonhomogeneous ODE. The homogeneous solution is:
 \begin{align*}
-    \frac{d^2 v_C}{dt^2} + 2\zeta \omega_n \frac{dv_C}{dt} + \omega_n^2 v_C = 0
-\end{align*}
-where:
-\begin{align*}
-    \omega_n &= \frac{1}{\sqrt{L C}} \\
-    \zeta &= \frac{r_L}{2} \sqrt{\frac{C}{L}}
+    \frac{d^2 v_C}{dt^2} + \frac{r_L}{L} \frac{dv_C}{dt} + \frac{1}{L C} v_C = 0
 \end{align*}
 
-The general solution is:
+	\textbf{Eigenvalue computation:}
+The characteristic equation is:
+\begin{align*}
+    s^2 + \frac{r_L}{L} s + \frac{1}{L C} = 0
+\end{align*}
+The eigenvalues are:
+\begin{align*}
+    s = \frac{-\frac{r_L}{L} \pm \sqrt{\left(\frac{r_L}{L}\right)^2 - 4 \cdot \frac{1}{L C}}}{2}
+\end{align*}
+
+For the given values ($r_L = 1~\Omega$, $L = 19~\text{mH}$, $C = 8.2~\mu\text{F}$):
+\begin{align*}
+    \frac{r_L}{L} &= \frac{1}{0.019} = 52.63~\text{s}^{-1} \\
+    \frac{1}{L C} &= \frac{1}{0.019 \times 8.2 \times 10^{-6}} = 6,430,041~\text{s}^{-2}
+\end{align*}
+
+Plug into the quadratic formula:
+\begin{align*}
+    s = \frac{-52.63 \pm \sqrt{(52.63)^2 - 4 \times 6,430,041}}{2}
+\end{align*}
+
+The discriminant is negative, so the roots are complex conjugates:
+\begin{align*}
+    s = -26.316 \pm j\,2533.3
+\end{align*}
+
+	\textbf{Interpretation:} The eigenvalues are complex conjugates with negative real parts, confirming the circuit is underdamped. Based on the very low value of the damping ratio $\zeta = 0.0104$ calculated in Q1, the transient response will exhibit oscillatory behavior with a slow decay.
+
+\vspace{1em}
+	\textbf{General solution:}
 \begin{align*}
     v_C(t) = v_{C,\infty} + \left[v_{C,0} - v_{C,\infty}\right] \left[1 - \frac{1}{\sqrt{1-\zeta^2}} e^{-\zeta \omega_n t} \sin(\omega_d t + \phi)\right]
 \end{align*}
@@ -55,6 +81,6 @@ For a step input, $v_{C,\infty} = x_{SS}$, and the solution simplifies to:
 For the given values ($r_L = 1~\Omega$, $L = 19~\text{mH}$, $C = 8.2~\mu\text{F}$), the numeric solution is:
 \[
 \boxed{
-    x(t) = 11.3 \left[1 - 1.00005 \, e^{-26.34\, t} \, \sin(2533.3\, t + 1.5604)\right]
+    x(t) [kV] = 11.3 * \left[1 - 1.00005 \, e^{-26.34\, t} \, \sin(2533.3\, t + 1.5604)\right]
 }
 \]
