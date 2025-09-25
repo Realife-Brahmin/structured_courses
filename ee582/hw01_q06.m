@@ -19,6 +19,8 @@ set(groot, 'defaultLegendTextColor', 'k');  % Black text for all legends
 T_horizon_s = 0.2;
 ode_solvers = ["ode5", "ode8"];
 h_ms_list = [0.5, 1.6]; % ms
+% ode_solvers = ["ode5"];
+% h_ms_list = [1.0];
 h_s_list = h_ms_list * 1e-3;
 
 Vc_results = cell(1, numel(h_s_list));
