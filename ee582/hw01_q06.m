@@ -17,10 +17,11 @@ set(groot, 'defaultLegendColor', 'w');      % White background for all legends
 set(groot, 'defaultLegendTextColor', 'k');  % Black text for all legends
 
 T_horizon_s = 0.2;
-ode_solvers = ["ode5", "ode8"];
-h_ms_list = [0.5, 1.6]; % ms
-% ode_solvers = ["ode5"];
-% h_ms_list = [1.0];
+% ode_solvers = ["ode5", "ode8"];
+% h_ms_list = [0.5, 1.6]; % converging
+ode_solvers = ["ode5"];
+h_ms_list = [0.1]; % good
+% h_ms_list = [1.0]; % diverging
 h_s_list = h_ms_list * 1e-3;
 
 Vc_results = cell(1, numel(h_s_list));
