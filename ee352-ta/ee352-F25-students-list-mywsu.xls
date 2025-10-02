@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html class='pc firefox win psc_dir-ltr psc_form-xlarge' dir='ltr' lang='en'>
+<!-- Copyright (c) 2000, 2024, Oracle and/or its affiliates.  -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><body><table border='1' cellpadding='3' cellspacing='0'>
+<tr>
+<th>Notify</th><th>ID</th><th>Email</th><th>Pronouns</th><th>Name</th><th>Units</th><th>Academic Program Code</th><th>Program and Plan</th><th>Level</th><th>Campus of Section</th><th>Repeating Course?</th></tr>
+<tr>
+<td  >Y</td>
+<td  >011714221</td>
+<td  >abdulrahman.alharbi@wsu.edu</td>
+<td  ></td>
+<td  >Alharbi,Abdulrahman</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011775693</td>
+<td  >andrewjames.arinas@wsu.edu</td>
+<td  ></td>
+<td  >Arinas,Andrew James</td>
+<td  >3.00</td>
+<td  >P2570</td>
+<td  >Computer Engineering, BS - Computer Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011850035</td>
+<td  >seoyoung.baek@wsu.edu</td>
+<td  ></td>
+<td  >Baek,Seo Young</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011796028</td>
+<td  >j.bautista@wsu.edu</td>
+<td  ></td>
+<td  >Bautista,Jonathan Peralta</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011834193</td>
+<td  >nicholas.behil@wsu.edu</td>
+<td  ></td>
+<td  >Behil,Nicholas</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011835227</td>
+<td  >jonathan.beil@wsu.edu</td>
+<td  ></td>
+<td  >Beil,Jonathan</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering/Honors College</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011868934</td>
+<td  >daniel.bereza@wsu.edu</td>
+<td  ></td>
+<td  >Bereza,Daniel Jonathan</td>
+<td  >3.00</td>
+<td  >P2570</td>
+<td  >Computer Engineering, BS - Computer Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011851214</td>
+<td  >seth.bingaman@wsu.edu</td>
+<td  ></td>
+<td  >Bingaman,Seth</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering/Honors College</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011897293</td>
+<td  >emily.p.bray@wsu.edu</td>
+<td  >She/Her</td>
+<td  >Bray,Emily</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011827364</td>
+<td  >aiden.brees@wsu.edu</td>
+<td  ></td>
+<td  >Brees,Aiden</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011901668</td>
+<td  >mekhi.brenberger@wsu.edu</td>
+<td  >He/Him</td>
+<td  >Brenberger,Mekhi</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011560034</td>
+<td  >ronnald.burke@wsu.edu</td>
+<td  ></td>
+<td  >Burke,Ronnald</td>
+<td  >3.00</td>
+<td  >P2570</td>
+<td  >Computer Engineering, BS - Computer Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011867510</td>
+<td  >christian.cartagena@wsu.edu</td>
+<td  >He / Him</td>
+<td  >Cartagena,Christian</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011779102</td>
+<td  >s.chinagudabha@wsu.edu</td>
+<td  >He/him</td>
+<td  >Chinagudabha,Siddharth</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011833228</td>
+<td  >carson.clary@wsu.edu</td>
+<td  ></td>
+<td  >Clary,Carson</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011775469</td>
+<td  >connor.clouse@wsu.edu</td>
+<td  ></td>
+<td  >Clouse,Connor Matthew</td>
+<td  >3.00</td>
+<td  >P2570</td>
+<td  >Computer Engineering, BS - Computer Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011532362</td>
+<td  >jason.r.cruz@wsu.edu</td>
+<td  ></td>
+<td  >Cruz,Jason</td>
+<td  >3.00</td>
+<td  >P2580</td>
+<td  >Computer Science, BS - Computer Science BS/Mathematics</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011898344</td>
+<td  >danna.deandasolis@wsu.edu</td>
+<td  >She/Her</td>
+<td  >De Anda Solis,Danna</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011793654</td>
+<td  >charlize.dixon@wsu.edu</td>
+<td  >She/her/hers</td>
+<td  >Dixon,Charlize</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011814277</td>
+<td  >kendelle.eleen@wsu.edu</td>
+<td  >She/her/hers</td>
+<td  >Eleen,Kendelle</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011794139</td>
+<td  >lilly.fredericksen@wsu.edu</td>
+<td  >She/her/hers</td>
+<td  >Fredericksen,Lilly Victoria</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011903158</td>
+<td  >alfonso.gonzalez@wsu.edu</td>
+<td  >he him</td>
+<td  >Gonzalez,Alfonso</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011836038</td>
+<td  >reid.grothen@wsu.edu</td>
+<td  ></td>
+<td  >Grothen,Reid Thomas</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011895347</td>
+<td  >jackson.lafferty@wsu.edu</td>
+<td  >he/him</td>
+<td  >Lafferty,Jackson John Michael</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011940187</td>
+<td  >ezra.lakew@wsu.edu</td>
+<td  >He/Him</td>
+<td  >Lakew,Ezra</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011867120</td>
+<td  >grant.layman@wsu.edu</td>
+<td  ></td>
+<td  >Layman,Grant</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011855086</td>
+<td  >timothy.z.le@wsu.edu</td>
+<td  >He/Him</td>
+<td  >Le,Timothy</td>
+<td  >3.00</td>
+<td  >P2570</td>
+<td  >Computer Engineering, BS - Computer Engineering/Honors College</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011806561</td>
+<td  >kaungmyat.lwin@wsu.edu</td>
+<td  ></td>
+<td  >Lwin,Kaung Myat</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011863334</td>
+<td  >miles.mckeown@wsu.edu</td>
+<td  ></td>
+<td  >McKeown,Miles</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011750565</td>
+<td  >alexa.midtbo@wsu.edu</td>
+<td  ></td>
+<td  >Midtbo,Alexa</td>
+<td  >3.00</td>
+<td  >P2570</td>
+<td  >Computer Engineering, BS - Computer Engineering/Computer Science/Mathematics</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011809821</td>
+<td  >william.obryan@wsu.edu</td>
+<td  >He/him/his</td>
+<td  >O'Bryan,William</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011916042</td>
+<td  >henrick.papritz@wsu.edu</td>
+<td  >He/Him</td>
+<td  >Papritz,Hank</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011848497</td>
+<td  >eric.porter@wsu.edu</td>
+<td  ></td>
+<td  >Porter,Eric</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011607517</td>
+<td  >mrityunjay.sani@wsu.edu</td>
+<td  ></td>
+<td  >Sani,Mrityunjay</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering/Mathematics</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011788000</td>
+<td  >justin.scofield@wsu.edu</td>
+<td  ></td>
+<td  >Scofield,Justin C</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011893520</td>
+<td  >gabriel.sico@wsu.edu</td>
+<td  >He</td>
+<td  >Sico,Gabriel</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011834103</td>
+<td  >julisa.singleton@wsu.edu</td>
+<td  ></td>
+<td  >Singleton,Julisa</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011847372</td>
+<td  >maxwell.whitney@wsu.edu</td>
+<td  ></td>
+<td  >Whitney,Maxwell</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011795904</td>
+<td  >ethan.winkler@wsu.edu</td>
+<td  >He/him/his</td>
+<td  >Winkler,Ethan</td>
+<td  >3.00</td>
+<td  >P2585</td>
+<td  >Electrical Engineering, BS - Electrical Engineering</td>
+<td  >Junior</td>
+<td  >Pullman</td>
+<td  ></td>
+<tr>
+<td  >Y</td>
+<td  >011738582</td>
+<td  >erfei.yang@wsu.edu</td>
+<td  ></td>
+<td  >Yang,Erfei</td>
+<td  >3.00</td>
+<td  >P2570</td>
+<td  >Computer Engineering, BS - Computer Engineering</td>
+<td  >Senior</td>
+<td  >Pullman</td>
+<td  ></td>
+</table></body></html>
