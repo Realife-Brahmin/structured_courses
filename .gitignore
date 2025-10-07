@@ -245,3 +245,12 @@ ee582/rawData/M3Case1.gf46/DS.f
 ee582/rawData/M3Case1.gf46/DS.o
 ee582/rawData/hw02.psmx
 ee582/rawData/hw02.pswx
+ee582/rawData/hw02.bakx
+*.bakx
+*.psmx
+*.pswx
+*.gf46
+*.dta
+*.f
+*.o
+*.cfg
