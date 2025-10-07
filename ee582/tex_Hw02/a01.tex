@@ -14,4 +14,24 @@ One way to analyze the properties of various discretization methods (e.g., in te
 1) Determine the step-by-step solution for the current in the capacitor (in terms of capacitance $C$, time-step size $\Delta t$, and source voltage) using the following discretization rules: a) Forward Euler, b) Backward Euler, c) Trapezoidal.
 
 \vspace{1em}
-% Your solution here
+
+\subsection*{Trapezoidal Discretization of Capacitor}
+The final equations for $v(t)$ and $i(t)$ are as follows:
+
+\begin{align}
+    \Aboxed{v(t) &= e_h + R_C i(t)} \label{eq:vt_final} \\
+    \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_final}
+\end{align}
+% \begin{align}
+%     \Aboxed{ 2x+y & = 11 } \\
+%     3x & = 19 - 2y
+% \end{align}
+
+where:
+\begin{itemize}
+    \item $R_C = \frac{\Delta t}{2C}$ is the equivalent resistance.
+    \item $e_h = v(t - \Delta t) + R_C i(t - \Delta t)$ is the history voltage.
+    \item $i_h = \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t)$ is the history current.
+\end{itemize}
+
+The derivation of these equations can be found in appendix \ref{sec:appendix_derivation}.

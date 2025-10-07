@@ -1,0 +1,50 @@
+\clearpage
+\appendix
+
+\section{Derivation of Trapezoidal Discretization Equations} \label{sec:appendix_derivation}
+The governing equation for a capacitor is given by:
+\begin{equation}
+    i(t) = C \frac{dv(t)}{dt}
+\end{equation}
+Using the trapezoidal rule, the discretized forms for the voltage $v(t)$ and current $i(t)$ are derived as follows:
+
+\paragraph{Core Relation:}
+\begin{equation}
+    v(t) - v(t - \Delta t) = \frac{\Delta t}{2C} \left[ i(t) + i(t - \Delta t) \right]
+\end{equation}
+Define the equivalent resistance $R_C$ and history terms:
+\begin{equation}
+    R_C = \frac{\Delta t}{2C}
+\end{equation}
+
+\subsubsection*{1) Thevenin (Series) Companion}
+Rewriting the core relation:
+\begin{equation}
+    v(t) = \left[ v(t - \Delta t) + R_C i(t - \Delta t) \right] + R_C i(t)
+\end{equation}
+Here, the capacitor at step $t$ is a voltage source $e_h$ in series with $R_C$:
+\begin{equation}
+    v(t) = e_h + R_C i(t)
+\end{equation}
+with the history voltage:
+\begin{equation}
+    e_h = v(t - \Delta t) + R_C i(t - \Delta t)
+\end{equation}
+
+\subsubsection*{2) Norton (Parallel) Companion}
+From the core relation:
+\begin{equation}
+    \frac{v(t) - v(t - \Delta t)}{R_C} = i(t) + i(t - \Delta t)
+\end{equation}
+Rewriting:
+\begin{equation}
+    i(t) = \frac{v(t)}{R_C} - \left[ \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t) \right]
+\end{equation}
+Here, the capacitor at step $t$ is a current source $i_h$ in parallel with conductance $1/R_C$:
+\begin{equation}
+    i(t) = \frac{v(t)}{R_C} - i_h
+\end{equation}
+with the history current:
+\begin{equation}
+    i_h = \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t)
+\end{equation}
