@@ -1,6 +1,6 @@
 \clearpage
 \section*{Section A (Numerical Oscillations of Discretization Rules)}
-\addcontentsline{toc}{section}{Section A (Numerical Oscillations of Discretization Rules)}
+\addcontentsline{toc}{section}{Section A (Numerical Oscillations of Discretization Rules): Question 1}
 
 One way to analyze the properties of various discretization methods (e.g., in terms of their numerical oscillations) is to solve a lossless first-order system (e.g., inductance or capacitance) when the state variable of the component is suddenly changed. The circuit on the right considers a case where a dc voltage is suddenly applied to a capacitor. Because the source voltage is applied like a step function, we know that the current of the capacitor should look like an impulse, analytically. Let us assume that in the simulations all the variables are zero at $t=0$ and the voltage source takes its value at $t=\Delta t$.
 
@@ -22,10 +22,6 @@ The final equations for $v(t)$ and $i(t)$ are as follows:
     \Aboxed{v(t) &= e_h + R_C i(t)} \label{eq:vt_final} \\
     \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_final}
 \end{align}
-% \begin{align}
-%     \Aboxed{ 2x+y & = 11 } \\
-%     3x & = 19 - 2y
-% \end{align}
 
 where:
 \begin{itemize}
@@ -33,5 +29,3 @@ where:
     \item $e_h = v(t - \Delta t) + R_C i(t - \Delta t)$ is the history voltage.
     \item $i_h = \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t)$ is the history current.
 \end{itemize}
-
-The derivation of these equations can be found in appendix \ref{sec:appendix_derivation}.
