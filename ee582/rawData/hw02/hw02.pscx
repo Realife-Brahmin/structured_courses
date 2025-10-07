@@ -23,7 +23,7 @@
     <param name="Warn" value="0" />
     <param name="Check" value="0" />
     <param name="description" value="" />
-    <param name="revisor" value="Aryan Ritwajeet Jha, 1759874526" />
+    <param name="revisor" value="Aryan Ritwajeet Jha, 1759875401" />
     <param name="labels" value="" />
   </paramlist>
   <Layers />
@@ -169,6 +169,33 @@
         <param name="active_1" value="true" />
       </paramlist>
     </Settings>
+    <Settings classid="GraphFrameSettings" id="795274331" link="1742176779">
+      <path>
+        <ref link="1017728826" />
+      </path>
+      <paramlist>
+        <param name="xmin" value="-1" />
+        <param name="xmax" value="1" />
+      </paramlist>
+    </Settings>
+    <Settings classid="OverlayGraphSettings" id="1589506434" link="514875560">
+      <path>
+        <ref link="1017728826" />
+      </path>
+      <paramlist>
+        <param name="ymin" value="-1" />
+        <param name="ymax" value="1" />
+      </paramlist>
+    </Settings>
+    <Settings classid="OverlayGraphSettings" id="1065960843" link="62218840">
+      <path>
+        <ref link="1017728826" />
+      </path>
+      <paramlist>
+        <param name="ymin" value="-1" />
+        <param name="ymax" value="1" />
+      </paramlist>
+    </Settings>
   </List>
   <bookmarks />
   <GlobalSubstitutions name="Default">
@@ -210,7 +237,7 @@
         </Wire>
       </schematic>
     </Definition>
-    <Definition classid="UserCmpDefn" name="Main" id="1578624236" group="" url="" version="" build="" crc="49846733" view="false" date="1759874503">
+    <Definition classid="UserCmpDefn" name="Main" id="1578624236" group="" url="" version="" build="" crc="45853823" view="false" date="1759874503">
       <paramlist name="">
         <param name="Description" value="" />
       </paramlist>
@@ -258,7 +285,7 @@
           <param name="animation_freq" value="500" />
         </paramlist>
         <grouping />
-        <User classid="UserCmp" defn="master:tbreakn" id="1692195642" x="198" y="378" w="78" h="59" z="70" orient="0" link="-1" q="4" disable="false">
+        <User classid="UserCmp" defn="master:tbreakn" id="1692195642" x="234" y="306" w="78" h="59" z="70" orient="0" link="-1" q="4" disable="false">
           <paramlist link="-1" name="" crc="130641473">
             <param name="NUMS" value="1" />
             <param name="INIT" value="1" />
@@ -267,11 +294,11 @@
             <param name="Name" value="" />
           </paramlist>
         </User>
-        <Wire classid="WireOrthogonal" name="" id="297265564" x="126" y="378" w="46" h="10" orient="0" disable="false">
+        <Wire classid="WireOrthogonal" name="" id="297265564" x="162" y="306" w="46" h="10" orient="0" disable="false">
           <vertex x="0" y="0" />
           <vertex x="36" y="0" />
         </Wire>
-        <User classid="UserCmp" defn="master:datalabel" id="1699985407" x="126" y="378" w="26" h="23" z="1" orient="0" link="-1" q="4" disable="false">
+        <User classid="UserCmp" defn="master:datalabel" id="1699985407" x="162" y="306" w="26" h="23" z="1" orient="0" link="-1" q="4" disable="false">
           <paramlist link="-1" name="" crc="127230955">
             <param name="Name" value="BRK" />
           </paramlist>
@@ -397,22 +424,22 @@
             </Curve>
           </Graph>
         </Frame>
-        <User classid="UserCmp" id="1252317157" name="master:datalabel" x="36" y="306" w="24" h="23" z="1" orient="0" defn="master:datalabel" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="1252317157" name="master:datalabel" x="72" y="234" w="24" h="23" z="1" orient="0" defn="master:datalabel" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="127230955">
             <param name="Name" value="e_t" />
           </paramlist>
         </User>
-        <User classid="UserCmp" id="2025328509" name="master:datalabel" x="144" y="306" w="18" h="23" z="1" orient="0" defn="master:datalabel" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="2025328509" name="master:datalabel" x="180" y="234" w="18" h="23" z="1" orient="0" defn="master:datalabel" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="127230955">
             <param name="Name" value="vL" />
           </paramlist>
         </User>
-        <User classid="UserCmp" id="1501270107" name="master:datalabel" x="252" y="306" w="16" h="23" z="1" orient="0" defn="master:datalabel" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="1501270107" name="master:datalabel" x="288" y="234" w="16" h="23" z="1" orient="0" defn="master:datalabel" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="127230955">
             <param name="Name" value="IL" />
           </paramlist>
         </User>
-        <User classid="UserCmp" id="356825599" name="master:pgb" x="72" y="306" w="41" h="40" z="40" orient="0" defn="master:pgb" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="356825599" name="master:pgb" x="108" y="234" w="41" h="40" z="40" orient="0" defn="master:pgb" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="65740200">
             <param name="Name" value="e_t" />
             <param name="Group" value="" />
@@ -430,7 +457,7 @@
             <param name="gaddress" value="100663297" />
           </paramlist>
         </User>
-        <User classid="UserCmp" id="60409226" name="master:pgb" x="180" y="306" w="41" h="28" z="50" orient="0" defn="master:pgb" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="60409226" name="master:pgb" x="216" y="234" w="41" h="28" z="50" orient="0" defn="master:pgb" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="65740200">
             <param name="Name" value="vL" />
             <param name="Group" value="" />
@@ -448,7 +475,7 @@
             <param name="gaddress" value="100663298" />
           </paramlist>
         </User>
-        <User classid="UserCmp" id="2081532271" name="master:pgb" x="288" y="306" w="41" h="40" z="60" orient="0" defn="master:pgb" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="2081532271" name="master:pgb" x="324" y="234" w="41" h="40" z="60" orient="0" defn="master:pgb" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="65740200">
             <param name="Name" value="IL" />
             <param name="Group" value="" />
@@ -466,15 +493,15 @@
             <param name="gaddress" value="100663299" />
           </paramlist>
         </User>
-        <Wire classid="WireOrthogonal" id="1019451320" name="" x="36" y="306" w="46" h="10" orient="0" disable="false">
+        <Wire classid="WireOrthogonal" id="1019451320" name="" x="72" y="234" w="46" h="10" orient="0" disable="false">
           <vertex x="0" y="0" />
           <vertex x="36" y="0" />
         </Wire>
-        <Wire classid="WireOrthogonal" id="1279265997" name="" x="144" y="306" w="46" h="10" orient="0" disable="false">
+        <Wire classid="WireOrthogonal" id="1279265997" name="" x="180" y="234" w="46" h="10" orient="0" disable="false">
           <vertex x="0" y="0" />
           <vertex x="36" y="0" />
         </Wire>
-        <Wire classid="WireOrthogonal" id="1707866458" name="" x="252" y="306" w="46" h="10" orient="0" disable="false">
+        <Wire classid="WireOrthogonal" id="1707866458" name="" x="288" y="234" w="46" h="10" orient="0" disable="false">
           <vertex x="0" y="0" />
           <vertex x="36" y="0" />
         </Wire>
@@ -576,7 +603,7 @@
   </definitions>
   <List classid="Resource" />
   <hierarchy>
-    <call link="2087722835" name="hw02:DS" z="-1" view="false" instance="0">
+    <call link="586018983" name="hw02:DS" z="-1" view="false" instance="0">
       <call link="1017728826" name="hw02:Main" z="-1" view="true" instance="0" />
     </call>
   </hierarchy>
