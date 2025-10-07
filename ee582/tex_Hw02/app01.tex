@@ -1,53 +1,35 @@
 \clearpage
 \appendix
 \renewcommand{\thesection}{\Roman{section}}
+\section{Appendix: Derivation of Trapezoidal Discretization for Capacitor} \label{sec:appendix_cap_trapz}
 
-% Add appendix reference
-\clearpage
-\section{Derivation of Trapezoidal Discretization Equations} \label{sec:appendix_derivation}
-The governing equation for a capacitor is given by:
-\begin{equation}
-    i(t) = C \frac{dv(t)}{dt}
-\end{equation}
-Using the trapezoidal rule, the discretized forms for the voltage $v(t)$ and current $i(t)$ are derived as follows:
+To derive the equations \( v_{t, \text{cap, trapz}} \) and \( i_{t, \text{cap, trapz}} \), the following steps are involved:
 
-\paragraph{Core Relation:}
-\begin{equation}
-    v(t) - v(t - \Delta t) = \frac{\Delta t}{2C} \left[ i(t) + i(t - \Delta t) \right]
-\end{equation}
-Define the equivalent resistance $R_C$ and history terms:
-\begin{equation}
-    R_C = \frac{\Delta t}{2C}
-\end{equation}
+\begin{itemize}
+    \item Start with the governing equation for a capacitor:
+    \begin{equation}
+        i(t) = C \frac{dv(t)}{dt}
+    \end{equation}
+    \item Apply the trapezoidal rule to discretize the relationship between voltage and current:
+    \begin{equation}
+        v(t) - v(t - \Delta t) = \frac{\Delta t}{2C} \left[ i(t) + i(t - \Delta t) \right]
+    \end{equation}
+    \item Define the equivalent resistance \( R_C \) and history terms:
+    \begin{equation}
+        R_C = \frac{\Delta t}{2C}
+    \end{equation}
+    \item Derive the Thevenin (series) and Norton (parallel) companion models.
+\end{itemize}
 
-\subsubsection*{1) Thevenin (Series) Companion}
-Rewriting the core relation:
-\begin{equation}
-    v(t) = \left[ v(t - \Delta t) + R_C i(t - \Delta t) \right] + R_C i(t)
-\end{equation}
-Here, the capacitor at step $t$ is a voltage source $e_h$ in series with $R_C$:
-\begin{equation}
-    v(t) = e_h + R_C i(t)
-\end{equation}
-with the history voltage:
-\begin{equation}
-    e_h = v(t - \Delta t) + R_C i(t - \Delta t)
-\end{equation}
+The final equations for the capacitor are:
 
-\subsubsection*{2) Norton (Parallel) Companion}
-From the core relation:
-\begin{equation}
-    \frac{v(t) - v(t - \Delta t)}{R_C} = i(t) + i(t - \Delta t)
-\end{equation}
-Rewriting:
-\begin{equation}
-    i(t) = \frac{v(t)}{R_C} - \left[ \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t) \right]
-\end{equation}
-Here, the capacitor at step $t$ is a current source $i_h$ in parallel with conductance $1/R_C$:
-\begin{equation}
-    i(t) = \frac{v(t)}{R_C} - i_h
-\end{equation}
-with the history current:
-\begin{equation}
-    i_h = \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t)
-\end{equation}
+\begin{align}
+    \Aboxed{v(t) &= e_h + R_C i(t)} \label{eq:vt_cap_trapz_app} \\
+    \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_cap_trapz_app}
+\end{align}
+
+where:
+\begin{itemize}
+    \item \( e_h = v(t - \Delta t) + R_C i(t - \Delta t) \)
+    \item \( i_h = \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t) \)
+\end{itemize}
