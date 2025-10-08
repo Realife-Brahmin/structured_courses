@@ -12,6 +12,35 @@
 
 \textbf{To show:} $|x + y| \leq |x - y|$
 
+\vspace{1em}
+
+\textbf{Visual Representation:}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[scale=1.2]
+    % Number line
+    \draw[thick, <->] (-3,0) -- (4,0);
+    
+    % Tick marks and labels
+    \draw (0,0.1) -- (0,-0.1) node[below] {$0$};
+    
+    % Points on the line
+    \draw[red, thick] (-1.5,0.1) -- (-1.5,-0.1) node[below, red] {$y$};
+    \draw[blue, thick] (2.5,0.1) -- (2.5,-0.1) node[below, blue] {$x$};
+
+    % Distance indicator showing d = x - y
+    \draw[black, <->] (-1.5,0.5) -- (2.5,0.5) node[midway, above] {$d = x - y$};
+    
+    % Additional labels
+    \node[red] at (-1.5, -0.8) {$y < 0$};
+    \node[blue] at (2.5, -0.8) {$x > 0$};
+    
+\end{tikzpicture}
+\caption{Number line showing the relationship between $x$, $y$, $x+y$, and $x-y$}
+\label{fig:q01_numberline}
+\end{figure}
+
 Since $x > 0$ and $y < 0$, we have $x - y > 0$, so $|x - y| = x - y$.
 
 Now we need to consider cases for $|x + y|$ based on whether $x + y$ is positive or negative.
