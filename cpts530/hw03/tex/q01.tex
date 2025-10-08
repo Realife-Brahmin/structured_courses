@@ -37,11 +37,13 @@
     \node[blue] at (2.5, -0.8) {$x > 0$};
     
 \end{tikzpicture}
-\caption{Number line showing the relationship between $x$, $y$, $x+y$, and $x-y$}
+\caption{Number line showing the relationship between $x$, $y$ and $x-y$}
 \label{fig:q01_numberline}
 \end{figure}
 
-Since $x > 0$ and $y < 0$, we have $x - y > 0$, so $|x - y| = x - y$.
+Since $x > 0$ and $y < 0$, we can assume that $x - y = d$ where $d > 0$.
+
+Therefore, $\text{RHS} = |x - y| = d$ is always true.
 
 Now we need to consider cases for $|x + y|$ based on whether $x + y$ is positive or negative.
 
@@ -49,42 +51,36 @@ Now we need to consider cases for $|x + y|$ based on whether $x + y$ is positive
 
 \textbf{Case I:} $x + y \geq 0$ 
 
-This means $2y + d \geq 0$ where $d = x - y > 0$.
+From $x - y = d$, we get $x = y + d$.
 
-Since $x + y \geq 0$, we have $|x + y| = x + y$.
+Therefore: $x + y = (y + d) + y = 2y + d$
 
-We need to show: $x + y \leq x - y$
-\begin{align}
-x + y &\leq x - y \\
-y &\leq -y \\
-2y &\leq 0 \\
-y &\leq 0
-\end{align}
+Since $x + y \geq 0$, we have $|x + y| = x + y = 2y + d$.
 
-This is true since $y < 0$.
+So $\text{LHS} = 2y + d$ and $\text{RHS} = d$.
+
+Since $y < 0$, we have $2y < 0$, which means $\text{LHS} = 2y + d < d = \text{RHS}$.
 
 \vspace{1em}
 
 \textbf{Case II:} $x + y < 0$
 
-This means $x + (y - d) < 0$ where $d = x - y > 0$.
+From $x - y = d$, we get $y = x - d$.
 
-Since $x + y < 0$, we have $|x + y| = -(x + y) = -x - y$.
+Therefore: $x + y = x + (x - d) = 2x - d < 0$
 
-We need to show: $-x - y \leq x - y$
-\begin{align}
--x - y &\leq x - y \\
--x &\leq x \\
--2x &\leq 0 \\
-x &\geq 0
-\end{align}
+Since $x + y < 0$, we have $|x + y| = -(x + y) = -(2x - d) = d - 2x$.
 
-This is true since $x > 0$.
+So $\text{LHS} = d - 2x$ and $\text{RHS} = d$.
+
+Since $x > 0$, we have $2x > 0$, which means $\text{LHS} = d - 2x < d = \text{RHS}$.
 
 \vspace{1em}
 
 \textbf{Conclusion:}
 
-In both cases (I) and (II), we have shown that $|x + y| \leq |x - y|$ when $x > 0$ and $y < 0$.
+Cases I and II exhaustively cover all possible scenarios. In both cases, we have shown that $\text{LHS} < \text{RHS}$, which means $|x + y| < |x - y|$.
 
-Therefore: $\boxed{|x + y| \leq |x - y| \text{ for } x > 0, y < 0}$
+Therefore, we have proven the stronger result: $\boxed{|x + y| \leq |x - y| \text{ for } x > 0, y < 0}$
+
+\textbf{Hence Proved.} $\square$
