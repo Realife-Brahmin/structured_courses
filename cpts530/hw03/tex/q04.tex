@@ -56,3 +56,82 @@ $$f(x) = \frac{k}{x}\left(x - \frac{1}{y}\right)$$
 
 Giving us the root of $f(x)$ or alternatively the fixed point of $F(x)$ at 
 $$x = r = \frac{1}{y}$$.
+
+\subsection*{Main Problem Solution}
+
+Now for the main problem with $F(x) = 2x - qx^2$ where $\frac{1}{2} \leq q \leq 1$.
+
+Basically here $y = q$, so the fixed point is $r = \frac{1}{q}$.
+
+For the fixed point iteration to converge, we need $|F'(x)| < 1$ in an interval $[a,b]$ containing the fixed point $r = \frac{1}{q}$.
+
+\textbf{Step 1: Find the derivative}
+$$F'(x) = 2 - 2qx$$
+
+\textbf{Step 2: Applying the convergence condition (from a previous theorem in homework 2)}
+For convergence: $|F'(x)| < 1$
+
+This gives us: $|2 - 2qx| < 1$
+
+\textbf{Step 3: Solve the inequality}
+$$-1 < 2 - 2qx < 1$$
+
+For upper limit: $2 - 2qx > -1$
+$$2qx < 3$$
+$$x < \frac{3}{2q}$$
+
+From lower limit: $2 - 2qx < 1$  
+$$2qx > 1$$
+$$x > \frac{1}{2q}$$
+
+Thus: $\frac{1}{2q} < x < \frac{3}{2q}$. We may note that the fixed point $r = \frac{1}{q}$ lies in this interval as well.
+
+Normally, a contractive function requires a closed interval like $[a,b]$, but here we have an open interval $(a,b)$. 
+
+This does not mean that the extreme points $a$ and $b$ are necessarily ruled out. We can check for $F(a)$ and $F(b)$ to see if they 'get' mapped into the contractive region and if they both are, we can safely claim that the closed interval $[a,b]$ is also valid.
+
+Calculating $F(a)$:
+$$F(a) = F\left(\frac{1}{2q}\right) = 2\left(\frac{1}{2q}\right) - q\left(\frac{1}{2q}\right)^2 = \frac{1}{q} - \frac{1}{4q} = \frac{3}{4q}$$
+
+Calculating $F(b)$:
+$$F(b) = F\left(\frac{3}{2q}\right) = 2\left(\frac{3}{2q}\right) - q\left(\frac{3}{2q}\right)^2 = \frac{3}{q} - \frac{9}{4q} = \frac{3}{4q}$$
+
+Thus we can see that both $F(a)$ and $F(b)$ map to $\frac{3}{4q}$ which lies in the interval $(a,b)$.
+
+Therefore we can safely say that the closed interval $[a,b]$ = $\left[\frac{1}{2q}, \frac{3}{2q}\right]$ is also valid.
+
+Now as $q$ itself is given as a parameter in the range $\frac{1}{2} \leq q \leq 1$, we can see that the interval $\left[\frac{1}{2q}, \frac{3}{2q}\right]$ will vary based on the value of $q$.
+
+We want to calculate the largest `common' interval of [a,b] valid for all $q$ in the given range.
+
+Actually this answer depends on whether we have an apriori knowledge of $q$ or not.
+
+If we do know the value of $q$ beforehand, then we can use the interval $\left[\frac{1}{2q}, \frac{3}{2q}\right]$ for that specific $q$.
+
+However if $q$ is strictly to be treated as a parameter between $\frac{1}{2}$ and $1$, we're interested in some `universal' interval where $F(x)$ will converge to a fixed point regardless of the value of $q$ -- also it may be noted that the fixed point itself is allowed to lie outside $[a, b]$. 
+
+We recognize that the values for $a$ and $b$ are monotonically dependent on the value of $q$, both $a$ and $b$ decrease as $q$ increases. 
+
+We can then exploit this monotonicity to come up with a formula for the universal interval of convergence.
+
+\textbf{Step 2: Intersection of all these intervals}
+
+The intersection of all $I_q$ over $q \in [0.5, 1]$ is:
+$$\bigcap_{q \in [0.5,1]} I_q = [\max a(q), \min b(q)] = [a(0.5), b(1)] = \left[1, \frac{3}{2}\right]$$
+
+
+Thus the largest common interval for all $q$ in the range $\frac{1}{2} \leq q \leq 1$ is $\left[1, \frac{3}{2}\right]$.
+
+
+
+\textbf{Final Answer:}
+
+The method of iteration using $F(x) = 2x - qx^2$ will converge to the fixed point $r = \frac{1}{q}$ on the interval:
+
+\textbf{If $q$ is known apriori:}
+$$\boxed{\left[\frac{1}{2q}, \frac{3}{2q}\right]}$$
+
+\textbf{If $q$ is strictly a parameter in the range $\frac{1}{2} \leq q \leq 1$:}
+$$\boxed{\left[1, \frac{3}{2}\right]}$$
+
+$\square$
