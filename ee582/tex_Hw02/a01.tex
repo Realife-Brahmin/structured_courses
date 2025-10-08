@@ -29,3 +29,33 @@ where:
     \item $e_h = v(t - \Delta t) + R_C i(t - \Delta t)$ is the history voltage.
     \item $i_h = \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t)$ is the history current.
 \end{itemize}
+
+\vspace{1em}
+
+\subsection*{Step-by-Step Solution Table}
+The following table shows the step-by-step evolution of the system variables:
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{2.5}
+\setlength{\tabcolsep}{12pt}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{$t$} & \textbf{$v(t)$} & \textbf{$i(t)$} & \textbf{$e_h$} & \textbf{$i_h$} \\[1ex]
+\hline
+$\text{-}h$ & $V_0$ & $0$ & $-$ & $-$ \\[1ex]
+\hline
+$0^+$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
+\hline
+$h$ & $V_{DC}$ & $\displaystyle{-}\frac{V_{DC}}{R_C} + \frac{V_0}{R_C}$ & $2V_{DC} - V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
+\hline
+$2h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
+\hline
+$3h$ & $V_{DC}$ & $\displaystyle{-}\frac{V_{DC}}{R_C} + \frac{V_0}{R_C}$ & $2V_{DC} - V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
+\hline
+$4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
+\hline
+\end{tabular}
+\caption{Step-by-step solution for trapezoidal discretization of circuit in \Cref{fig:a01_circuit}}
+\label{tab:trapz_solution_ckt_a}
+\end{table}
