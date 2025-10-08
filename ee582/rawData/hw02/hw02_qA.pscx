@@ -8,9 +8,9 @@
     <param name="branch_threshold" value=".0005" />
     <param name="StartType" value="0" />
     <param name="startup_filename" value="$(Namespace).snp" />
-    <param name="PlotType" value="0" />
+    <param name="PlotType" value="2" />
     <param name="output_filename" value="$(Namespace).out" />
-    <param name="SnapType" value="0" />
+    <param name="SnapType" value="2" />
     <param name="SnapTime" value="0.3" />
     <param name="snapshot_filename" value="$(Namespace).snp" />
     <param name="MrunType" value="0" />
@@ -23,7 +23,7 @@
     <param name="Warn" value="0" />
     <param name="Check" value="0" />
     <param name="description" value="" />
-    <param name="revisor" value="Aryan Ritwajeet Jha, 1759893542" />
+    <param name="revisor" value="Aryan Ritwajeet Jha, 1759894821" />
     <param name="labels" value="" />
   </paramlist>
   <Layers />
@@ -165,7 +165,7 @@
         </Wire>
       </schematic>
     </Definition>
-    <Definition classid="UserCmpDefn" name="Main" id="884583595" group="" url="" version="" build="" crc="35036948" view="false" date="1759890424">
+    <Definition classid="UserCmpDefn" name="Main" id="884583595" group="" url="" version="" build="" crc="53357230" view="false" date="1759890424">
       <paramlist name="">
         <param name="Description" value="" />
       </paramlist>
@@ -213,7 +213,7 @@
           <param name="animation_freq" value="500" />
         </paramlist>
         <grouping />
-        <User classid="UserCmp" defn="master:tbreakn" id="909491714" x="216" y="216" w="78" h="59" z="70" orient="0" link="-1" q="4" disable="false">
+        <User classid="UserCmp" defn="master:tbreakn" id="909491714" x="216" y="252" w="78" h="59" z="70" orient="0" link="-1" q="4" disable="false">
           <paramlist link="-1" name="" crc="130641473">
             <param name="NUMS" value="1" />
             <param name="INIT" value="1" />
@@ -222,11 +222,11 @@
             <param name="Name" value="" />
           </paramlist>
         </User>
-        <Wire classid="WireOrthogonal" name="" id="322815017" x="144" y="216" w="46" h="10" orient="0" disable="false">
+        <Wire classid="WireOrthogonal" name="" id="322815017" x="144" y="252" w="46" h="10" orient="0" disable="false">
           <vertex x="0" y="0" />
           <vertex x="36" y="0" />
         </Wire>
-        <User classid="UserCmp" defn="master:datalabel" id="583142114" x="144" y="216" w="26" h="23" z="1" orient="0" link="-1" q="4" disable="false">
+        <User classid="UserCmp" defn="master:datalabel" id="583142114" x="144" y="252" w="26" h="23" z="1" orient="0" link="-1" q="4" disable="false">
           <paramlist link="-1" name="" crc="127230955">
             <param name="Name" value="BRK" />
           </paramlist>
@@ -523,6 +523,22 @@
         <Wire classid="WireOrthogonal" id="633827117" name="" x="342" y="36" w="10" h="46" orient="0" disable="false">
           <vertex x="0" y="0" />
           <vertex x="0" y="36" />
+        </Wire>
+        <User classid="UserCmp" defn="master:export" id="1381942825" x="90" y="234" w="24" h="64" z="0" orient="3" link="-1" q="4" disable="true">
+          <paramlist link="-1" name="" crc="68967217">
+            <param name="Name" value="e_t" />
+          </paramlist>
+        </User>
+        <Wire classid="WireOrthogonal" id="967957018" name="" x="90" y="144" w="100" h="64" orient="0" disable="true">
+          <vertex x="0" y="0" />
+          <vertex x="0" y="54" />
+          <vertex x="90" y="54" />
+          <vertex x="90" y="0" />
+        </Wire>
+        <Wire classid="WireOrthogonal" id="1812605748" name="" x="180" y="198" w="118" h="64" orient="0" disable="true">
+          <vertex x="0" y="0" />
+          <vertex x="108" y="0" />
+          <vertex x="108" y="-54" />
         </Wire>
       </schematic>
     </Definition>
