@@ -1,9 +1,9 @@
 <project name="hw02_qA" version="5.0.1" schema="" Target="EMTDC">
   <paramlist name="Settings">
     <param name="creator" value="Aryan Ritwajeet Jha,1759885467" />
-    <param name="time_duration" value="0.5" />
-    <param name="time_step" value="50" />
-    <param name="sample_step" value="50" />
+    <param name="time_duration" value="0.001" />
+    <param name="time_step" value="100" />
+    <param name="sample_step" value="100" />
     <param name="chatter_threshold" value=".001" />
     <param name="branch_threshold" value=".0005" />
     <param name="StartType" value="0" />
@@ -23,7 +23,7 @@
     <param name="Warn" value="0" />
     <param name="Check" value="0" />
     <param name="description" value="" />
-    <param name="revisor" value="Aryan Ritwajeet Jha, 1759891213" />
+    <param name="revisor" value="Aryan Ritwajeet Jha, 1759893542" />
     <param name="labels" value="" />
   </paramlist>
   <Layers />
@@ -165,7 +165,7 @@
         </Wire>
       </schematic>
     </Definition>
-    <Definition classid="UserCmpDefn" name="Main" id="884583595" group="" url="" version="" build="" crc="32121251" view="false" date="1759890424">
+    <Definition classid="UserCmpDefn" name="Main" id="884583595" group="" url="" version="" build="" crc="35036948" view="false" date="1759890424">
       <paramlist name="">
         <param name="Description" value="" />
       </paramlist>
@@ -420,7 +420,7 @@
             <param name="xangle" value="0" />
             <param name="xtitle" value="sec" />
             <param name="xgridauto" value="false" />
-            <param name="xgrid" value="5e-05" />
+            <param name="xgrid" value="0.0001" />
           </paramlist>
           <paramlist name="" link="1384432778">
             <param name="xmin" value="0.000000" />
