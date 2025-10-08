@@ -1,0 +1,61 @@
+\clearpage
+\section*{Question 1}
+\addcontentsline{toc}{section}{Question 1}
+
+\textbf{Problem Statement:} Suppose that $x > 0$, $y < 0$. Using definition of absolute value and splitting into cases, show that $|x + y| \leq |x - y|$.
+
+\vspace{1em}
+
+\textbf{Solution:}
+
+\textbf{Given:} $x > 0$, $y < 0$
+
+\textbf{To show:} $|x + y| \leq |x - y|$
+
+Since $x > 0$ and $y < 0$, we have $x - y > 0$, so $|x - y| = x - y$.
+
+Now we need to consider cases for $|x + y|$ based on whether $x + y$ is positive or negative.
+
+\vspace{1em}
+
+\textbf{Case I:} $x + y \geq 0$ 
+
+This means $2y + d \geq 0$ where $d = x - y > 0$.
+
+Since $x + y \geq 0$, we have $|x + y| = x + y$.
+
+We need to show: $x + y \leq x - y$
+\begin{align}
+x + y &\leq x - y \\
+y &\leq -y \\
+2y &\leq 0 \\
+y &\leq 0
+\end{align}
+
+This is true since $y < 0$.
+
+\vspace{1em}
+
+\textbf{Case II:} $x + y < 0$
+
+This means $x + (y - d) < 0$ where $d = x - y > 0$.
+
+Since $x + y < 0$, we have $|x + y| = -(x + y) = -x - y$.
+
+We need to show: $-x - y \leq x - y$
+\begin{align}
+-x - y &\leq x - y \\
+-x &\leq x \\
+-2x &\leq 0 \\
+x &\geq 0
+\end{align}
+
+This is true since $x > 0$.
+
+\vspace{1em}
+
+\textbf{Conclusion:}
+
+In both cases (I) and (II), we have shown that $|x + y| \leq |x - y|$ when $x > 0$ and $y < 0$.
+
+Therefore: $\boxed{|x + y| \leq |x - y| \text{ for } x > 0, y < 0}$
