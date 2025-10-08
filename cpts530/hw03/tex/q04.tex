@@ -13,3 +13,46 @@ Identify it as the Newton iteration for a certain function.
 \vspace{1em}
 
 \textbf{Solution:}
+
+\subsection*{Analysis of Related Problem 3.2.5}
+
+First, let's identify what the iteration formula $x_{n+1} = 2x_n - x_n^2 y$ represents as a Newton iteration.
+
+The Newton-Raphson method for solving $f(x) = 0$ has the form:
+$$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
+
+Comparing with our given iteration:
+$$x_{n+1} = 2x_n - yx_n^2 = x_n - (-x_n + yx_n^2)$$
+
+Therefore:
+$$\frac{f(x_n)}{f'(x_n)} = yx_n^2 - x_n$$
+
+To solve for $f(x_n)$ we'll have to use integration. Let's temporarily switch to $x$ as a variable instead of $x_n$.
+$$\frac{f(x)}{f'(x)} = yx^2 - x$$
+
+or,
+$$\frac{f(x)}{\frac{df(x)}{dx}} = yx^2 - x$$
+
+Cross-multiplying with $\frac{1}{dx}$ on both sides:
+$$\frac{f(x)}{df(x)} = \frac{yx^2 -x}{dx}$$
+
+Equivalently, we can write:
+$$\frac{df(x)}{f(x)} = \frac{dx}{yx^2 - x}$$
+
+Integrating both sides:
+$$\ln|f(x)| = \int \frac{dx}{yx^2 - x} = \int \frac{dx}{x(yx - 1)}$$
+
+Dividing numerator and denominator or RHS by $y$:
+$$\ln|f(x)| = \int \frac{1/y}{x(x - 1/y)} dx$$
+
+Therefore:
+$$\ln|f(x)| = \int\left(\frac{1}{x - 1/y} - \frac{1}{x}\right)dx$$
+
+$$\text{or, } \ln|f(x)| = \ln\left|x - \frac{1}{y}\right| - \ln|x| + \ln k \text{ , } k \neq 0$$
+$$\text{or, } \ln|f(x)| =  \ln\left|\frac{k(x - \frac{1}{y})}{x}\right|$$
+
+Taking the exponential:
+$$f(x) = \frac{k}{x}\left(x - \frac{1}{y}\right)$$
+
+Giving us the root of $f(x)$ or alternatively the fixed point of $F(x)$ at 
+$$x = r = \frac{1}{y}$$.
