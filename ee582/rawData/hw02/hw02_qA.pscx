@@ -23,7 +23,7 @@
     <param name="Warn" value="0" />
     <param name="Check" value="0" />
     <param name="description" value="" />
-    <param name="revisor" value="Aryan Ritwajeet Jha, 1759891155" />
+    <param name="revisor" value="Aryan Ritwajeet Jha, 1759891213" />
     <param name="labels" value="" />
   </paramlist>
   <Layers />
@@ -42,8 +42,8 @@
         <ref link="790897599" />
       </path>
       <paramlist>
-        <param name="ymin" value="-1.0" />
-        <param name="ymax" value="1.0" />
+        <param name="ymin" value="-0.5" />
+        <param name="ymax" value="0.5" />
       </paramlist>
     </Settings>
     <Settings classid="OverlayGraphSettings" id="1300662915" link="459418424">
