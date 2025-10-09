@@ -86,7 +86,63 @@ $$x > \frac{1}{2q}$$
 
 Thus: $\frac{1}{2q} < x < \frac{3}{2q}$. We may note that the fixed point $r = \frac{1}{q}$ lies in this interval as well.
 
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[scale=1.5]
+    % Number line
+    \draw[thick, <->] (-1,0) -- (4,0);
+    
+    % Points on the line
+    \draw[red, thick] (0.5,0.1) -- (0.5,-0.1) node[below, red] {$a$};
+    \draw[blue, thick] (2,0.1) -- (2,-0.1) node[below, blue] {$\frac{1}{q}$};
+    \draw[red, thick] (3.5,0.1) -- (3.5,-0.1) node[below, red] {$b$};
+    
+    % Interval line
+    \draw[thick, red] (0.5,0.3) -- (3.5,0.3);
+    \draw[red] (0.5,0.3) circle (0.05);
+    \draw[red] (3.5,0.3) circle (0.05);
+    \node[red, above] at (2,0.3) {$[a,b]$};
+    
+\end{tikzpicture}
+\caption{Convergence interval showing $a = \frac{1}{2q}$, fixed point $r = \frac{1}{q}$, and $b = \frac{3}{2q}$. The closed interval containing the extreme points is proven to be valid for convergence (see below).}
+\label{fig:q04_interval}
+\end{figure}
+
 Normally, a contractive function requires a closed interval like $[a,b]$, but here we have an open interval $(a,b)$. 
+
+Since $F'(x) = 2 - 2qx$ is monotonically decreasing (as $q > 0$), we can verify that $F'(a) = 2 - 2q \cdot \frac{1}{2q} = 1$ and $F'(b) = 2 - 2q \cdot \frac{3}{2q} = -2$. This ensures that $|F'(x)| < 1$ throughout the open interval $(a,b)$.
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[scale=1.2]
+    % Coordinate system
+    \draw[->] (-0.5,0) -- (4,0) node[right] {$x$};
+    \draw[->] (0,-2.5) -- (0,1.5) node[above] {$F'(x)$};
+    
+    % Points on x-axis
+    \draw[red, thick] (0.5,0.1) -- (0.5,-0.1) node[below, red] {$a$};
+    \draw[blue, thick] (2,0.1) -- (2,-0.1) node[below, blue] {$\frac{1}{q}$};
+    \draw[red, thick] (3.5,0.1) -- (3.5,-0.1) node[below, red] {$b$};
+    
+    % Horizontal reference lines
+    \draw[dashed, gray] (-0.5,1) -- (4,1) node[right, gray] {$F'(x) = +1$};
+    \draw[dashed, gray] (-0.5,-1) -- (4,-1) node[right, gray] {$F'(x) = -1$};
+    
+    % F'(x) function line (without label)
+    \draw[thick, blue] (0.5,1) -- (3.5,-1);
+    
+    % F'(x) equation label positioned with breathing room
+    \node[blue, align=center] at (5.0, -0.4) {$F'(x) = 2-2qx$};
+    
+    % Point markers
+    \filldraw[red] (0.5,1) circle (0.05) node[above left] {$F'(a) < 1$};
+    \filldraw[red] (3.5,-1) circle (0.05) node[below right] {$F'(b) > -1$};
+    \filldraw[blue] (2,0) circle (0.05) node[above right] {$F'(\frac{1}{q})=0$};
+    
+\end{tikzpicture}
+\caption{Monotonic behavior of $F'(x) = 2-2qx$ showing convergence condition $|F'(x)| < 1$ satisfied in $(a,b)$}
+\label{fig:q04_derivative}
+\end{figure}
 
 This does not mean that the extreme points $a$ and $b$ are necessarily ruled out. We can check for $F(a)$ and $F(b)$ to see if they 'get' mapped into the contractive region and if they both are, we can safely claim that the closed interval $[a,b]$ is also valid.
 
