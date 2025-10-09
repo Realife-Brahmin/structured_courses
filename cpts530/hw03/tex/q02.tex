@@ -14,3 +14,65 @@ DO NOT use the standard methodology and estimates from the textbook. Try to find
 \vspace{1em}
 
 \textbf{Solution:}
+
+\subsection*{Assumptions:}
+
+\begin{enumerate}
+\item $F(x)$ is a contractive function in the given interval (I have the expression and can use it to generate $x_n$ as $n = 1, 2, 3, \ldots$ and some $x_0$).
+\item I start with an $x_0$ `close enough' to `r', so that I can assume that $F(x)$ will converge to $r$ with enough iterations, either because it was in its `region of contraction' or even otherwise. Else by running my solvers/algorithms repeatedly I can switch $x_0$ till I get a reliable convergence to some fixed point $r$.
+\end{enumerate}
+
+\subsection*{Approach:}
+
+From knowledge of $F(x)$, I can determine the order of convergence via Taylor's formula.
+
+\subsection*{Step 1: Determine Order of Convergence from Table}
+
+Since I don't know the exact fixed point $r$, I cannot directly compute the errors $e_n = |x_n - r|$. However, I can estimate the order of convergence $p$ using consecutive iterations.
+
+\subsection*{Step 2: Table Generation}
+
+Generate a table of $n$ vs $x_n$ values by recursively using $x_{n+1} = F(x_n)$:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+$n$ & $x_n$ \\
+\hline
+0 & $x_0$ \\
+1 & $x_1$ \\
+2 & $x_2$ \\
+$\vdots$ & $\vdots$ \\
+$n$ & $x_n$ \\
+$\vdots$ & $\vdots$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Step 3: Estimating the Order of Convergence $p$}
+
+For a convergent sequence with order of convergence $p$, I have:
+$$\lim_{n \to \infty} \frac{|x_{n+1} - r|}{|x_n - r|^p} = C$$
+
+where $C$ is a constant and $r$ is the unknown fixed point.
+
+Since I don't know $r$, I can use the approximation that for some sufficiently large $n$, $x_n \approx r$. This gives me:
+
+$$\frac{|x_{n+2} - x_{n+1}|}{|x_{n+1} - x_n|^p} \approx C$$
+
+Taking logarithms of consecutive ratios:
+$$\ln\left(\frac{|x_{n+2} - x_{n+1}|}{|x_{n+1} - x_n|}\right) \approx p \ln\left(\frac{|x_{n+1} - x_n|}{|x_n - x_{n-1}|}\right)$$
+
+Rearranging to solve for $p$:
+\begin{align}
+p &\approx \frac{\ln\left(\frac{|x_{n+2} - x_{n+1}|}{|x_{n+1} - x_n|}\right)}{\ln\left(\frac{|x_{n+1} - x_n|}{|x_n - x_{n-1}|}\right)} \label{eq:p-order-approximate}
+\end{align}
+% $$p \approx \frac{\ln\left(\frac{|x_{n+2} - x_{n+1}|}{|x_{n+1} - x_n|}\right)}{\ln\left(\frac{|x_{n+1} - x_n|}{|x_n - x_{n-1}|}\right)} \label{eq:p-order-approximate}$$
+
+This formula allows me to estimate $p$ using only the computed values $x_{n-1}$, $x_n$, $x_{n+1}$, and $x_{n+2}$ without knowing the exact fixed point $r$.
+
+\textbf{When do I know that the computed solution is close enough to the exact solution?}\\
+Once the RHS of Equation \ref{eq:p-order-approximate} stabilizes to a constant value (i.e., the estimated $p$ does not change significantly with further iterations), I can be confident that I'm `heading towards' the fixed point $r$ i.e. my FPI iterations are in the `region of contraction'.
+
+\textbf{How do you decide when to stop iterating?}\\
+Once `sufficient closeness' to $r$ is determined, I can employ a tolerance on the absolute (approximate) error value, say $\epsilon$,. I can then stop the iterations when my approximate $e_n$ falls below this threshold and conclude that my approximate $x_n \approx r$.
