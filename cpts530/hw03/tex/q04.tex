@@ -110,7 +110,7 @@ Thus: $\frac{1}{2q} < x < \frac{3}{2q}$. We may note that the fixed point $r = \
 
 Normally, a contractive function requires a closed interval like $[a,b]$, but here we have an open interval $(a,b)$. 
 
-Since $F'(x) = 2 - 2qx$ is monotonically decreasing (as $q > 0$), we can verify that $F'(a) = 2 - 2q \cdot \frac{1}{2q} = 1$ and $F'(b) = 2 - 2q \cdot \frac{3}{2q} = -2$. This ensures that $|F'(x)| < 1$ throughout the open interval $(a,b)$.
+Since $F'(x) = 2 - 2qx$ is monotonically decreasing (as $q > 0$), we can verify that $F'(a) = 2 - 2q \cdot \frac{1}{2q} \leq 1$ and $F'(b) = 2 - 2q \cdot \frac{3}{2q} \geq -1$. This ensures that $|F'(x)| < 1$ throughout the open interval $(a,b)$.
 
 \begin{figure}[h!]
 \centering
@@ -140,7 +140,7 @@ Since $F'(x) = 2 - 2qx$ is monotonically decreasing (as $q > 0$), we can verify 
     \filldraw[blue] (2,0) circle (0.05) node[above right] {$F'(\frac{1}{q})=0$};
     
 \end{tikzpicture}
-\caption{Monotonic behavior of $F'(x) = 2-2qx$ showing convergence condition $|F'(x)| < 1$ satisfied in $(a,b)$}
+\caption{Monotonic (decreasing) behavior of $F'(x) = 2-2qx$ showing convergence condition $|F'(x)| < 1$ satisfied in $(a,b)$ given that $q > 0$.}
 \label{fig:q04_derivative}
 \end{figure}
 
@@ -188,6 +188,4 @@ The method of iteration using $F(x) = 2x - qx^2$ will converge to the fixed poin
 $$\boxed{\left[\frac{1}{2q}, \frac{3}{2q}\right]}$$
 
 \textbf{If $q$ is strictly a parameter in the range $\frac{1}{2} \leq q \leq 1$:}
-$$\boxed{\left[1, \frac{3}{2}\right]}$$
-
-$\square$
+$$\boxed{\left[1, \frac{3}{2}\right]} \quad \square$$
