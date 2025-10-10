@@ -62,3 +62,33 @@ with the BE companion parameters (for the capacitor):
 \end{align}
 
 These expressions are used when implementing the Backward-Euler discretization in the numerical examples and the BE table in the main text.
+
+\clearpage
+\section{Appendix: Derivation of Forward-Euler Discretization for Capacitor} \label{sec:appendix_cap_fe}
+
+Starting from the capacitor constitutive relation
+\begin{equation}
+    i(t) = C\frac{dv(t)}{dt},
+\end{equation}
+the Forward-Euler (FE) discretization at time $t$ approximates the derivative using the previous time step:
+\begin{equation}
+    \frac{dv(t)}{dt} \approx \frac{v(t) - v(t-h)}{h}.
+\end{equation}
+Substituting and rearranging yields
+\begin{equation}
+    i(t) \approx C\frac{v(t)-v(t-h)}{h}.
+\end{equation}
+
+To cast this in a companion model form similar to BE and trapezoidal methods, we introduce an artificial small resistance $R_\epsilon = h/C$ (as justified in the main text to avoid division by zero). The final boxed companion equations used in the main text (capacitor, FE) are
+\begin{align}
+    \Aboxed{v(t) &= e_h(t)} \label{eq:vt_cap_fe_app} \\
+    \Aboxed{i(t) &= \frac{v(t) - e_h(t)}{R_\epsilon}} \label{eq:it_cap_fe_app}
+\end{align}
+with the FE companion parameters (for the capacitor):
+\begin{align}
+    R_\epsilon &= \frac{h}{C} \quad \text{(artificial resistance)}, \\
+    e_h(t) &= v(t-h) + R_c\, i(t-h), \\
+    i_h(t) &= \frac{e_h(t)}{R_\epsilon}.
+\end{align}
+
+These expressions are used when implementing the Forward-Euler discretization in the numerical examples and the FE table in the main text.
