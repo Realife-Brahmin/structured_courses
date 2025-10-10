@@ -193,19 +193,19 @@ fig1 = figure('Name', 'Trapezoidal vs Backward Euler', 'Position', [100 100 1200
 sgtitle({'\textbf{State Variables: Capacitor Circuit}', ...
     sprintf('$V_{\\mathrm{DC}} = %.0f$ V, $V_0 = %.0f$ V, $C = %.0f$ $\\mu$F, $h = %.0f$ $\\mu$s, $T = %.1f$ ms', ...
     V_DC, V_0, C*1e6, h*1e6, T_horizon_s*1e3)}, ...
-    'Interpreter', 'latex', 'FontSize', 13);
+    'Interpreter', 'latex', 'FontSize', 14, 'FontWeight', 'bold', 'Color', 'k');
 
 % Voltage comparison
 subplot(1,2,1);
 ax1 = gca;
-plot(t*1e3, v_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 2.8);
+plot(t*1e3, v_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 3.5);
 hold on;
-plot(t*1e3, v_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 2.8);
-plot(pscad_data.t*1e3, pscad_data.vC, 'd--', 'DisplayName', 'PSCAD', 'Color', color_pscad, 'LineWidth', 2.5, 'MarkerSize', 7);
+plot(t*1e3, v_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 3.5);
+plot(pscad_data.t*1e3, pscad_data.vC, 'd--', 'DisplayName', 'PSCAD', 'Color', color_pscad, 'LineWidth', 3.2, 'MarkerSize', 7);
 grid on;
 xlabel('Time [ms]', 'Interpreter', 'latex');
 ylabel('Voltage $v(t)$ [V]', 'Interpreter', 'latex');
-title('Voltage', 'Interpreter', 'latex');
+title('\textbf{Voltage}', 'Interpreter', 'latex', 'FontSize', 12, 'Color', 'k');
 legend('Location', 'best', 'Interpreter', 'latex');
 xlim([0 T_horizon_s*1e3]);
 set(ax1, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'latex');
@@ -219,14 +219,14 @@ ax1.MinorGridColor = [0.5 0.5 0.5];
 % Current comparison
 subplot(1,2,2);
 ax2 = gca;
-plot(t*1e3, i_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 2.8);
+plot(t*1e3, i_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 3.5);
 hold on;
-plot(t*1e3, i_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 2.8);
-plot(pscad_data.t*1e3, pscad_data.IC, 'd--', 'DisplayName', 'PSCAD', 'Color', color_pscad, 'LineWidth', 2.5, 'MarkerSize', 7);
+plot(t*1e3, i_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 3.5);
+plot(pscad_data.t*1e3, pscad_data.IC, 'd--', 'DisplayName', 'PSCAD', 'Color', color_pscad, 'LineWidth', 3.2, 'MarkerSize', 7);
 grid on;
 xlabel('Time [ms]', 'Interpreter', 'latex');
 ylabel('Current $i(t)$ [A]', 'Interpreter', 'latex');
-title('Current', 'Interpreter', 'latex');
+title('\textbf{Current}', 'Interpreter', 'latex', 'FontSize', 12, 'Color', 'k');
 legend('Location', 'best', 'Interpreter', 'latex');
 xlim([0 T_horizon_s*1e3]);
 set(ax2, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'latex');
@@ -269,8 +269,8 @@ if ~exist(figuresFolder, 'dir')
 end
 
 % Save Figure 1: State variable trajectory comparison (PNG only)
-saveas(fig1, fullfile(figuresFolder, 'state-variable-trajectory-comparison-cktA.png'));
-fprintf('Saved: state-variable-trajectory-comparison-cktA.png\n');
+saveas(fig1, fullfile(figuresFolder, 'hw02_qA_state-variable-trajectory-comparison.png'));
+fprintf('Saved: hw02_qA_state-variable-trajectory-comparison.png\n');
 
 % % Save Figure 2: Forward Euler
 % saveas(fig2, fullfile(figuresFolder, 'hw02_qA1_FE.png'));
