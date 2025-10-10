@@ -1,9 +1,9 @@
 <project name="hw02_qA" version="5.0.1" schema="" Target="EMTDC">
   <paramlist name="Settings">
     <param name="creator" value="Aryan Ritwajeet Jha,1759885467" />
-    <param name="time_duration" value="0.001" />
-    <param name="time_step" value="100" />
-    <param name="sample_step" value="100" />
+    <param name="time_duration" value="0.01" />
+    <param name="time_step" value="800" />
+    <param name="sample_step" value="800" />
     <param name="chatter_threshold" value=".001" />
     <param name="branch_threshold" value=".0005" />
     <param name="StartType" value="0" />
@@ -23,7 +23,7 @@
     <param name="Warn" value="0" />
     <param name="Check" value="0" />
     <param name="description" value="" />
-    <param name="revisor" value="Aryan Ritwajeet Jha, 1759894821" />
+    <param name="revisor" value="Aryan Ritwajeet Jha, 1760069155" />
     <param name="labels" value="" />
   </paramlist>
   <Layers />
@@ -34,7 +34,7 @@
       </path>
       <paramlist>
         <param name="xmin" value="0.0" />
-        <param name="xmax" value="0.001" />
+        <param name="xmax" value="0.01" />
       </paramlist>
     </Settings>
     <Settings classid="OverlayGraphSettings" id="1769365975" link="1240560667">
@@ -42,8 +42,8 @@
         <ref link="790897599" />
       </path>
       <paramlist>
-        <param name="ymin" value="-0.5" />
-        <param name="ymax" value="0.5" />
+        <param name="ymin" value="-0.1" />
+        <param name="ymax" value="0.1" />
       </paramlist>
     </Settings>
     <Settings classid="OverlayGraphSettings" id="1300662915" link="459418424">
@@ -51,7 +51,7 @@
         <ref link="790897599" />
       </path>
       <paramlist>
-        <param name="ymin" value="5.0" />
+        <param name="ymin" value="-2.0" />
         <param name="ymax" value="13.0" />
       </paramlist>
     </Settings>
@@ -124,6 +124,42 @@
         <param name="ymax" value="1" />
       </paramlist>
     </Settings>
+    <Settings classid="GraphFrameSettings" id="1309947093" link="326007932">
+      <path>
+        <ref link="790897599" />
+      </path>
+      <paramlist>
+        <param name="xmin" value="-1" />
+        <param name="xmax" value="1" />
+      </paramlist>
+    </Settings>
+    <Settings classid="OverlayGraphSettings" id="1248827388" link="370562812">
+      <path>
+        <ref link="790897599" />
+      </path>
+      <paramlist>
+        <param name="ymin" value="-1" />
+        <param name="ymax" value="1" />
+      </paramlist>
+    </Settings>
+    <Settings classid="OverlayGraphSettings" id="1108497882" link="204412769">
+      <path>
+        <ref link="790897599" />
+      </path>
+      <paramlist>
+        <param name="ymin" value="-1" />
+        <param name="ymax" value="1" />
+      </paramlist>
+    </Settings>
+    <Settings classid="OverlayGraphSettings" id="976560928" link="1850850711">
+      <path>
+        <ref link="790897599" />
+      </path>
+      <paramlist>
+        <param name="ymin" value="-1" />
+        <param name="ymax" value="1" />
+      </paramlist>
+    </Settings>
   </List>
   <bookmarks />
   <GlobalSubstitutions name="Default">
@@ -165,7 +201,7 @@
         </Wire>
       </schematic>
     </Definition>
-    <Definition classid="UserCmpDefn" name="Main" id="884583595" group="" url="" version="" build="" crc="53357230" view="false" date="1759890424">
+    <Definition classid="UserCmpDefn" name="Main" id="884583595" group="" url="" version="" build="" crc="131923763" view="false" date="1759890424">
       <paramlist name="">
         <param name="Description" value="" />
       </paramlist>
@@ -400,7 +436,7 @@
             <param name="title" value="$(GROUP) : Graphs" />
             <param name="XLabel" value="sec" />
             <param name="Pan" value="false" />
-            <param name="pan_enable" value="false" />
+            <param name="pan_enable" value="true" />
             <param name="pan_amount" value="75" />
             <param name="markers" value="true" />
             <param name="glyphs" value="false" />
@@ -414,12 +450,12 @@
             <param name="minorgrids" value="false" />
             <param name="lockmarkers" value="false" />
             <param name="deltareadout" value="false" />
-            <param name="xmarker" value="0" />
-            <param name="omarker" value="0" />
+            <param name="xmarker" value="0.000146198830409" />
+            <param name="omarker" value="0.000760233918129" />
             <param name="xfont" value="Tahoma, 9pt" />
             <param name="xangle" value="0" />
             <param name="xtitle" value="sec" />
-            <param name="xgridauto" value="false" />
+            <param name="xgridauto" value="true" />
             <param name="xgrid" value="0.0001" />
           </paramlist>
           <paramlist name="" link="1384432778">
@@ -434,7 +470,7 @@
               <param name="yintervalue" value="0" />
               <param name="grid" value="true" />
               <param name="ticks" value="false" />
-              <param name="glyphs" value="false" />
+              <param name="glyphs" value="true" />
               <param name="yinter" value="true" />
               <param name="xinter" value="true" />
               <param name="marker" value="true" />
@@ -462,8 +498,8 @@
               <param name="gridvalue" value="0.1" />
               <param name="yintervalue" value="0" />
               <param name="grid" value="true" />
-              <param name="ticks" value="false" />
-              <param name="glyphs" value="false" />
+              <param name="ticks" value="true" />
+              <param name="glyphs" value="true" />
               <param name="yinter" value="true" />
               <param name="xinter" value="false" />
               <param name="marker" value="true" />
@@ -492,7 +528,7 @@
               <param name="yintervalue" value="0" />
               <param name="grid" value="true" />
               <param name="ticks" value="false" />
-              <param name="glyphs" value="false" />
+              <param name="glyphs" value="true" />
               <param name="yinter" value="true" />
               <param name="xinter" value="true" />
               <param name="marker" value="true" />
@@ -545,7 +581,7 @@
   </definitions>
   <List classid="Resource" />
   <hierarchy>
-    <call link="1470416143" name="hw02_qA:DS" z="-1" view="false" instance="0">
+    <call link="993504414" name="hw02_qA:DS" z="-1" view="false" instance="0">
       <call link="790897599" name="hw02_qA:Main" z="-1" view="true" instance="0" />
     </call>
   </hierarchy>
