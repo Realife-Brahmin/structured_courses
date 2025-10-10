@@ -125,6 +125,8 @@ where:
 \vspace{1em}
 
 \subsection*{Forward Euler (FE) Discretization of Capacitor}
+Upon solving for the forward euler discretization of the capacitor, we encounter the issue of division by zero as $v(t)$ and $e_h(t)$ are equal at every time step (one source connected to another source directly), and $i(t)$ becomes undefined (because of lack of any resistance between them). $i(t)$ could be of an arbitrarily high magnitude, however in order to ascertain its sign, we introduce a very small resistance \( R_\epsilon \ll R_c\) in series with the capacitor to avoid division by zero. This resistance is artificial and does not represent any physical element in the circuit (or at best could be argued to represent the relatively negligible resistance of the connecting wires).
+
 The equations for the Forward Euler discretization of a capacitor are (note the made-up small resistance \( R_\epsilon \ll R_c\) to avoid division by zero):
 
 \begin{align}
