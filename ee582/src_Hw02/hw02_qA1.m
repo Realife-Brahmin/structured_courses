@@ -24,6 +24,7 @@ set(groot,'defaultLegendInterpreter','latex');
 % Superior color palette
 color_trapz = [0.85, 0.33, 0.10];  % Burnt Orange (sophisticated)
 color_BE = [0.00, 0.45, 0.74];     % Deep Blue (rich, professional)
+color_pscad = [0.05, 0.28, 0.63];  % Dark PSCAD Blue (distinct from BE)
 
 % --- Setup ---
 T_horizon_s = 1e-3;
@@ -47,6 +48,24 @@ t = 0:h:T_horizon_s;
 N = length(t);
 
 rawDataFolder = "./rawData/";
+processedDataFolder = "../processedData/Hw02/";
+
+%% ===================== Parse PSCAD Data =====================
+fprintf('\n=== Parsing PSCAD Data ===\n');
+pscad_folder = fullfile(processedDataFolder, 'hw02_qA_100mus');
+pscad_data = parse_pscad_output(pscad_folder, 'hw02_qA_100mus');
+
+% Display in table format similar to integration methods
+fprintf('\n--- PSCAD Simulation Results ---\n');
+fprintf('%-8s | %-12s | %-12s\n', 't [ms]', 'v_C [V]', 'i_C [A]');
+fprintf('%s\n', repmat('-', 1, 40));
+for idx = 1:length(pscad_data.t)
+    fprintf('%-8.3f | %-12.6f | %-12.6f\n', ...
+        pscad_data.t(idx)*1e3, ...  % Convert to ms
+        pscad_data.vC(idx), ...
+        pscad_data.IC(idx));
+end
+fprintf('\n');
 
 %% ===================== Trapezoidal Method =====================
 fprintf('\n=== Trapezoidal Method ===\n');
@@ -170,16 +189,23 @@ end
 %% ===================== Plot: Trapezoidal and BE Comparison =====================
 fig1 = figure('Name', 'Trapezoidal vs Backward Euler', 'Position', [100 100 1200 500], 'Color', 'w');
 
+% Add main title and subtitle with parameters
+sgtitle({'\textbf{State Variables: Capacitor Circuit}', ...
+    sprintf('$V_{\\mathrm{DC}} = %.0f$ V, $V_0 = %.0f$ V, $C = %.0f$ $\\mu$F, $h = %.0f$ $\\mu$s, $T = %.1f$ ms', ...
+    V_DC, V_0, C*1e6, h*1e6, T_horizon_s*1e3)}, ...
+    'Interpreter', 'latex', 'FontSize', 13);
+
 % Voltage comparison
 subplot(1,2,1);
 ax1 = gca;
-plot(t*1e3, v_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 2.2);
+plot(t*1e3, v_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 2.8);
 hold on;
-plot(t*1e3, v_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 2.2);
+plot(t*1e3, v_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 2.8);
+plot(pscad_data.t*1e3, pscad_data.vC, 'd--', 'DisplayName', 'PSCAD', 'Color', color_pscad, 'LineWidth', 2.5, 'MarkerSize', 7);
 grid on;
 xlabel('Time [ms]', 'Interpreter', 'latex');
 ylabel('Voltage $v(t)$ [V]', 'Interpreter', 'latex');
-title('Voltage: Trapezoidal vs BE', 'Interpreter', 'latex');
+title('Voltage', 'Interpreter', 'latex');
 legend('Location', 'best', 'Interpreter', 'latex');
 xlim([0 T_horizon_s*1e3]);
 set(ax1, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'latex');
@@ -193,13 +219,14 @@ ax1.MinorGridColor = [0.5 0.5 0.5];
 % Current comparison
 subplot(1,2,2);
 ax2 = gca;
-plot(t*1e3, i_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 2.2);
+plot(t*1e3, i_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 2.8);
 hold on;
-plot(t*1e3, i_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 2.2);
+plot(t*1e3, i_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 2.8);
+plot(pscad_data.t*1e3, pscad_data.IC, 'd--', 'DisplayName', 'PSCAD', 'Color', color_pscad, 'LineWidth', 2.5, 'MarkerSize', 7);
 grid on;
 xlabel('Time [ms]', 'Interpreter', 'latex');
 ylabel('Current $i(t)$ [A]', 'Interpreter', 'latex');
-title('Current: Trapezoidal vs BE', 'Interpreter', 'latex');
+title('Current', 'Interpreter', 'latex');
 legend('Location', 'best', 'Interpreter', 'latex');
 xlim([0 T_horizon_s*1e3]);
 set(ax2, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'latex');
@@ -241,9 +268,9 @@ if ~exist(figuresFolder, 'dir')
     mkdir(figuresFolder);
 end
 
-% Save Figure 1: Trapezoidal vs BE (PNG only)
-saveas(fig1, fullfile(figuresFolder, 'hw02_qA1_trapz_vs_BE.png'));
-fprintf('Saved: hw02_qA1_trapz_vs_BE.png\n');
+% Save Figure 1: State variable trajectory comparison (PNG only)
+saveas(fig1, fullfile(figuresFolder, 'state-variable-trajectory-comparison-cktA.png'));
+fprintf('Saved: state-variable-trajectory-comparison-cktA.png\n');
 
 % % Save Figure 2: Forward Euler
 % saveas(fig2, fullfile(figuresFolder, 'hw02_qA1_FE.png'));
