@@ -121,3 +121,55 @@ where:
 \caption{Step-by-step solution for backward euler discretization of circuit in \Cref{fig:a01_circuit}}
 \label{tab:be_solution_ckt_a}
 \end{table}
+
+\vspace{1em}
+
+\subsection*{Forward Euler (FE) Discretization of Capacitor}
+The equations for the Forward Euler discretization of a capacitor are (note the made-up small resistance \( R_\epsilon \) to avoid division by zero):
+
+\begin{align}
+    \Aboxed{v(t) &= v(t-h) + R_\epsilon\, i(t-h)} \label{eq:vt_cap_fe_cap} \\
+    \Aboxed{i(t) &= \frac{v(t) - v(t-h)}{R_\epsilon}} \label{eq:it_cap_fe_cap}
+\end{align}
+
+where:
+\begin{itemize}
+    \item $R_\epsilon = \dfrac{h}{C}$ (artificial resistance for FE table)
+    \item $e_h(t) = v(t-h) + R_\epsilon i(t-h)$
+    \item $i_h(t) = \frac{v(t-h)}{R_\epsilon} + i(t-h)$
+\end{itemize}
+
+\vspace{1em}
+\subsubsection*{Step-by-Step Solution Table for Forward-Euler Discretization}
+\Cref{tab:fe_solution_ckt_a} shows the step-by-step evolution of the system variables based on forward euler discretization, assuming a small resistance \( R_\epsilon \) to avoid division by zero.
+
+\definecolor{warmPink}{RGB}{255, 105, 180}
+\definecolor{lightPink}{RGB}{255, 230, 240}
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{2.5}
+\setlength{\tabcolsep}{12pt}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\rowcolor{warmPink}
+	\textbf{\color{white}$t$} & \textbf{\color{white}$v(t)$} & \textbf{\color{white}$i(t)$} & \textbf{\color{white}$e_h(t)$} & \textbf{\color{white}$i_h(t)$} \\[1ex]
+\hline
+\rowcolor{lightPink}
+    $-h$ & $V_0$ & $0$ & $-$ & $-$ \\[1ex]
+\hline
+    $0^+$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_0$ & $\displaystyle\frac{V_0}{R_\epsilon}$ \\[1ex]
+\hline
+\rowcolor{lightPink}
+    $h$ & $V_{DC}$ & $\displaystyle -\frac{V_{DC}}{R_\epsilon} + \frac{V_0}{R_\epsilon}$ & $V_{DC}$ & $\displaystyle\frac{V_0}{R_\epsilon}$ \\[1ex]
+\hline
+    $2h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon}$ \\[1ex]
+\hline
+\rowcolor{lightPink}
+    $3h$ & $V_{DC}$ & $\displaystyle -\frac{V_{DC}}{R_\epsilon} + \frac{V_0}{R_\epsilon}$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon}$ \\[1ex]
+\hline
+    $4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon}$ \\[1ex]
+\hline
+\end{tabular}
+\caption{Step-by-step solution for forward euler discretization of circuit in \Cref{fig:a01_circuit}. Note the made-up small resistance \( R_\epsilon \) to avoid division by zero.}
+\label{tab:fe_solution_ckt_a}
+\end{table}
