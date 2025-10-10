@@ -33,3 +33,32 @@ where:
     \item \( e_h = v(t - \Delta t) + R_C i(t - \Delta t) \)
     \item \( i_h = \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t) \)
 \end{itemize}
+
+\clearpage
+\section{Appendix: Derivation of Backward-Euler Discretization for Capacitor} \label{sec:appendix_cap_be}
+
+Starting from the capacitor constitutive relation
+\begin{equation}
+    i(t) = C\frac{dv(t)}{dt},
+\end{equation}
+the Backward-Euler (BE) discretization at time $t$ approximates the derivative by
+\begin{equation}
+    \frac{dv(t)}{dt} \approx \frac{v(t) - v(t-\Delta t)}{\Delta t}.
+\end{equation}
+Substituting and rearranging yields
+\begin{equation}
+    i(t) \approx C\frac{v(t)-v(t-\Delta t)}{\Delta t}.
+\end{equation}
+Writing the BE companion in a Thévenin/Norton form gives an equivalent resistance and history terms. The final boxed companion equations used in the main text (capacitor, BE) are
+\begin{align}
+    \Aboxed{v(t) &= e_h + R_C\, i(t)} \label{eq:vt_cap_be_app} \\
+    \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_cap_be_app}
+\end{align}
+with the BE companion parameters (for the capacitor):
+\begin{align}
+    R_C &= \frac{\Delta t}{C}, \\
+    e_h &= v(t-\Delta t), \\
+    i_h &= \frac{v(t-\Delta t)}{R_C}.
+\end{align}
+
+These expressions are used when implementing the Backward-Euler discretization in the numerical examples and the BE table in the main text.

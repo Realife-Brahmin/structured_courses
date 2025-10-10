@@ -16,6 +16,8 @@ One way to analyze the properties of various discretization methods (e.g., in te
 \vspace{1em}
 
 \subsection*{Trapezoidal Discretization of Capacitor}
+The equations for the Trapezoidal discretization of a capacitor are (see Appendix \ref{sec:appendix_cap_trapz} for derivation):
+
 The final equations for $v(t)$ and $i(t)$ are as follows:
 
 \begin{align}
@@ -32,8 +34,8 @@ where:
 
 \vspace{1em}
 
-\subsection*{Step-by-Step Solution Table}
-The following table shows the step-by-step evolution of the system variables:
+\subsubsection*{Step-by-Step Solution Table for Trapezoidal Discretization}
+\Cref{tab:trapz_solution_ckt_a} shows the step-by-step evolution of the system variables.
 
 \begin{table}[h!]
 \centering
@@ -55,14 +57,65 @@ The following table shows the step-by-step evolution of the system variables:
 \rowcolor{lightOrange}
  $h$ & $V_{DC}$ & $\displaystyle{-}\frac{V_{DC}}{R_C} + \frac{V_0}{R_C}$ & $2V_{DC} - V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
 \hline
- $2h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
+ $2h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
 \hline
 \rowcolor{lightOrange}
  $3h$ & $V_{DC}$ & $\displaystyle{-}\frac{V_{DC}}{R_C} + \frac{V_0}{R_C}$ & $2V_{DC} - V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
 \hline
- $4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
+ $4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
 \hline
 \end{tabular}
 \caption{Step-by-step solution for trapezoidal discretization of circuit in \Cref{fig:a01_circuit}}
 \label{tab:trapz_solution_ckt_a}
+\end{table}
+
+\vspace{1em}
+
+\subsection*{Backward-Euler (BE) Discretization of Capacitor}
+The equations for the Backward-Euler discretization of a capacitor are (see Appendix \ref{sec:appendix_cap_be} for derivation):
+
+\begin{align}
+    \Aboxed{v(t) &= e_h + R_C\, i(t)} \label{eq:vt_cap_be_cap} \\
+    \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_cap_be_cap}
+\end{align}
+
+where:
+\begin{itemize}
+    \item $R_C = \dfrac{\Delta t}{C}$
+    \item $e_h = v(t-\Delta t) + R_C i(t-\Delta t)$
+    \item $i_h = \dfrac{v(t-\Delta t)}{R_C}$
+\end{itemize}
+
+\vspace{1em}
+\subsubsection*{Step-by-Step Solution Table for Backward-Euler Discretization}
+
+\begin{table}[h!]
+\centering
+\definecolor{warmBlue}{RGB}{70,130,180}
+\definecolor{lightBlue}{RGB}{230,245,255}
+\renewcommand{\arraystretch}{2.5}
+\setlength{\tabcolsep}{12pt}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\rowcolor{warmBlue}
+	\textbf{\color{white}$t$} & \textbf{\color{white}$v(t)$} & \textbf{\color{white}$i(t)$} & \textbf{\color{white}$e_h$} & \textbf{\color{white}$i_h$} \\[1ex]
+\hline
+\rowcolor{lightBlue}
+    $-h$ & $V_0$ & $0$ & $-$ & $-$ \\[1ex]
+\hline
+    $0^+$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
+\hline
+\rowcolor{lightBlue}
+    $h$ & $V_{DC}$ & $0$ & $V_{DC}$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
+\hline
+    $2h$ & $V_{DC}$ & $0$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C}$ \\[1ex]
+\hline
+\rowcolor{lightBlue}
+    $3h$ & $V_{DC}$ & $0$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C}$ \\[1ex]
+\hline
+    $4h$ & $V_{DC}$ & $0$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C}$ \\[1ex]
+\hline
+\end{tabular}
+\caption{Step-by-step solution for backward euler discretization of circuit in \Cref{fig:a01_circuit}}
+\label{tab:be_solution_ckt_a}
 \end{table}
