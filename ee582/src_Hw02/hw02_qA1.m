@@ -11,10 +11,19 @@ set(groot,'defaultAxesTitleFontWeight','bold');
 set(groot,'defaultAxesTitleFontSizeMultiplier',1.1);
 set(groot,'defaultAxesXMinorGrid','on');
 set(groot,'defaultAxesYMinorGrid','on');
-set(groot,'defaultLineLineWidth',1.4);
-set(groot,'defaultLineMarkerSize',9);
+set(groot,'defaultLineLineWidth',2.2);
+set(groot,'defaultLineMarkerSize',8);
 set(groot, 'defaultLegendColor', 'w');      % White background for all legends
 set(groot, 'defaultLegendTextColor', 'k');  % Black text for all legends
+
+% LaTeX interpreter for all text
+set(groot,'defaultTextInterpreter','latex');
+set(groot,'defaultAxesTickLabelInterpreter','latex');
+set(groot,'defaultLegendInterpreter','latex');
+
+% Superior color palette
+color_trapz = [0.85, 0.33, 0.10];  % Burnt Orange (sophisticated)
+color_BE = [0.00, 0.45, 0.74];     % Deep Blue (rich, professional)
 
 % --- Setup ---
 T_horizon_s = 1e-3;
@@ -164,30 +173,42 @@ fig1 = figure('Name', 'Trapezoidal vs Backward Euler', 'Position', [100 100 1200
 % Voltage comparison
 subplot(1,2,1);
 ax1 = gca;
-plot(t*1e3, v_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', [1 0.5 0]);
+plot(t*1e3, v_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 2.2);
 hold on;
-plot(t*1e3, v_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', [0.2 0.5 0.8]);
+plot(t*1e3, v_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 2.2);
 grid on;
-xlabel('Time [ms]', 'Color', 'k');
-ylabel('Voltage v(t) [V]', 'Color', 'k');
-title('Voltage: Trapezoidal vs BE', 'Color', 'k');
-legend('Location', 'best');
+xlabel('Time [ms]', 'Interpreter', 'latex');
+ylabel('Voltage $v(t)$ [V]', 'Interpreter', 'latex');
+title('Voltage: Trapezoidal vs BE', 'Interpreter', 'latex');
+legend('Location', 'best', 'Interpreter', 'latex');
 xlim([0 T_horizon_s*1e3]);
-set(ax1, 'XColor', 'k', 'YColor', 'k', 'Color', 'w');
+set(ax1, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'latex');
+% Explicit minor grid settings
+ax1.XMinorGrid = 'on';
+ax1.YMinorGrid = 'on';
+ax1.MinorGridLineStyle = '-';
+ax1.MinorGridAlpha = 0.15;
+ax1.MinorGridColor = [0.5 0.5 0.5];
 
 % Current comparison
 subplot(1,2,2);
 ax2 = gca;
-plot(t*1e3, i_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', [1 0.5 0]);
+plot(t*1e3, i_trapz, 'o-', 'DisplayName', 'Trapezoidal', 'Color', color_trapz, 'LineWidth', 2.2);
 hold on;
-plot(t*1e3, i_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', [0.2 0.5 0.8]);
+plot(t*1e3, i_BE, 's-', 'DisplayName', 'Backward Euler', 'Color', color_BE, 'LineWidth', 2.2);
 grid on;
-xlabel('Time [ms]', 'Color', 'k');
-ylabel('Current i(t) [A]', 'Color', 'k');
-title('Current: Trapezoidal vs BE', 'Color', 'k');
-legend('Location', 'best');
+xlabel('Time [ms]', 'Interpreter', 'latex');
+ylabel('Current $i(t)$ [A]', 'Interpreter', 'latex');
+title('Current: Trapezoidal vs BE', 'Interpreter', 'latex');
+legend('Location', 'best', 'Interpreter', 'latex');
 xlim([0 T_horizon_s*1e3]);
-set(ax2, 'XColor', 'k', 'YColor', 'k', 'Color', 'w');
+set(ax2, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'latex');
+% Explicit minor grid settings
+ax2.XMinorGrid = 'on';
+ax2.YMinorGrid = 'on';
+ax2.MinorGridLineStyle = '-';
+ax2.MinorGridAlpha = 0.15;
+ax2.MinorGridColor = [0.5 0.5 0.5];
 
 % %% ===================== Plot: Forward Euler (Separate) =====================
 % fig2 = figure('Name', 'Forward Euler Method', 'Position', [150 150 1200 500], 'Color', 'w');
