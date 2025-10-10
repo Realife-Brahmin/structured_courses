@@ -37,23 +37,30 @@ The following table shows the step-by-step evolution of the system variables:
 
 \begin{table}[h!]
 \centering
+% Orange themed table: requires \usepackage{colortbl} in main file
+\definecolor{warmOrange}{RGB}{255,165,0}
+\definecolor{lightOrange}{RGB}{255,228,196}
 \renewcommand{\arraystretch}{2.5}
 \setlength{\tabcolsep}{12pt}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-\textbf{$t$} & \textbf{$v(t)$} & \textbf{$i(t)$} & \textbf{$e_h$} & \textbf{$i_h$} \\[1ex]
+\rowcolor{warmOrange}
+	\textbf{\color{white}$t$} & \textbf{\color{white}$v(t)$} & \textbf{\color{white}$i(t)$} & \textbf{\color{white}$e_h$} & \textbf{\color{white}$i_h$} \\[1ex]
 \hline
-$\text{-}h$ & $V_0$ & $0$ & $-$ & $-$ \\[1ex]
+\rowcolor{lightOrange}
+ $\text{-}h$ & $V_0$ & $0$ & $-$ & $-$ \\[1ex]
 \hline
-$0^+$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
+ $0^+$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
 \hline
-$h$ & $V_{DC}$ & $\displaystyle{-}\frac{V_{DC}}{R_C} + \frac{V_0}{R_C}$ & $2V_{DC} - V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
+\rowcolor{lightOrange}
+ $h$ & $V_{DC}$ & $\displaystyle{-}\frac{V_{DC}}{R_C} + \frac{V_0}{R_C}$ & $2V_{DC} - V_0$ & $\displaystyle\frac{V_0}{R_C}$ \\[1ex]
 \hline
-$2h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
+ $2h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
 \hline
-$3h$ & $V_{DC}$ & $\displaystyle{-}\frac{V_{DC}}{R_C} + \frac{V_0}{R_C}$ & $2V_{DC} - V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
+\rowcolor{lightOrange}
+ $3h$ & $V_{DC}$ & $\displaystyle{-}\frac{V_{DC}}{R_C} + \frac{V_0}{R_C}$ & $2V_{DC} - V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
 \hline
-$4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
+ $4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_C} - \frac{V_0}{R_C}$ & $V_0$ & $\displaystyle\frac{2V_{DC}}{R_C} - \frac{V_0}{R_C}$ \\[1ex]
 \hline
 \end{tabular}
 \caption{Step-by-step solution for trapezoidal discretization of circuit in \Cref{fig:a01_circuit}}
