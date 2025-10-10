@@ -86,9 +86,9 @@ To cast this in a companion model form similar to BE and trapezoidal methods, we
 \end{align}
 with the FE companion parameters (for the capacitor):
 \begin{align}
-    R_\epsilon &= \frac{h}{C} \quad \text{(artificial resistance)}, \\
+    R_c &= \frac{h}{C} \quad, \\
     e_h(t) &= v(t-h) + R_c\, i(t-h), \\
-    i_h(t) &= \frac{e_h(t)}{R_\epsilon}.
+    i_h(t) &= \frac{e_h(t)}{R_c}.
 \end{align}
 
 These expressions are used when implementing the Forward-Euler discretization in the numerical examples and the FE table in the main text.

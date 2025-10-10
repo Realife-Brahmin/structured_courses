@@ -125,41 +125,49 @@ for n = 2:N
     i_BE(n) = v_BE(n) / R_C_BE - i_h_BE(n);
 end
 
-% %% ===================== Forward Euler Method =====================
-% fprintf('\n=== Forward Euler Method ===\n');
-% fprintf('R_epsilon = %.6e Ω\n', R_epsilon);
-% fprintf('R_epsilon/R_C_BE ratio = %.6e\n', R_epsilon/R_C_BE);
-% 
-% % Initialize arrays
-% v_FE = zeros(1, N);
-% i_FE = zeros(1, N);
-% e_h_FE = zeros(1, N);
-% i_h_FE = zeros(1, N);
-% 
-% % Initial condition
-% v_FE(1) = V_0;
-% i_FE(1) = 0;
-% 
-% % Define R_c for FE (using same as BE for consistency)
-% R_c_FE = R_C_BE;
-% 
-% % Time step loop for FE
-% for n = 2:N
-%     if n == 2
-%         % First step
-%         e_h_FE(n) = V_0;
-%         i_h_FE(n) = e_h_FE(n) / R_epsilon;
-%         v_FE(n) = e_h_FE(n);
-%         i_FE(n) = (V_DC - e_h_FE(n)) / R_epsilon;
-%     else
-%         % History terms
-%         e_h_FE(n) = v_FE(n-1) + R_c_FE * i_FE(n-1);
-%         i_h_FE(n) = e_h_FE(n) / R_epsilon;
-%         % Current step
-%         v_FE(n) = e_h_FE(n);
-%         i_FE(n) = (V_DC - e_h_FE(n)) / R_epsilon;
-%     end
-% end
+%% ===================== Forward Euler Method =====================
+fprintf('\n=== Forward Euler Method ===\n');
+fprintf('R_epsilon = %.6e Ω\n', R_epsilon);
+fprintf('R_c = %.6e Ω\n', h/C);
+
+% Initialize arrays (including -h step for reference)
+v_FE = zeros(1, N+1);  % Extra element for t = -h
+i_FE = zeros(1, N+1);
+e_h_FE = zeros(1, N+1);
+i_h_FE = zeros(1, N+1);
+
+% Initial condition at t = -h (index 1)
+v_FE(1) = V_0;  % V(-h) = V_0
+i_FE(1) = 0;    % i(-h) = 0
+
+% Forward Euler companion model using your corrected equations:
+% v(t) = e_h(t)                                    (Eq 5)
+% i(t) = (v(t) - e_h(t)) / R_epsilon               (Eq 6)
+% where:
+% e_h(t) = v(t-h) + R_c * i(t-h)
+% i_h(t) = e_h(t) / R_c
+
+R_c = h/C;  % Discretized capacitor resistance
+
+% Time step loop for Forward Euler
+for n = 2:N+1  % n=2 corresponds to t=0, n=3 to t=h, etc.
+    % Step 1: v(t) is always V_DC for t > 0 (KVL constraint)
+    v_FE(n) = V_DC;
+    
+    % Step 2: Calculate e_h and i_h using PREVIOUS row's v(t-h) and i(t-h)
+    e_h_FE(n) = v_FE(n-1) + R_c * i_FE(n-1);
+    i_h_FE(n) = e_h_FE(n) / R_c;
+    
+    % Step 3: Calculate current i(t) using current row's v(t), e_h, i_h
+    % From FE equation: i(t) = (v(t) - e_h(t)) / R_epsilon
+    i_FE(n) = (v_FE(n) - e_h_FE(n)) / R_epsilon;
+end
+
+% Remove the -h step for plotting and table generation
+v_FE = v_FE(2:end);  % Remove first element (t = -h)
+i_FE = i_FE(2:end);
+e_h_FE = e_h_FE(2:end);
+i_h_FE = i_h_FE(2:end);
 
 %% ===================== Generate Tables =====================
 fprintf('\n=== Trapezoidal Method Table (First 5 steps) ===\n');
@@ -178,13 +186,13 @@ for n = 1:min(6, N)
         t(n)*1e3, v_BE(n), i_BE(n), e_h_BE(n), i_h_BE(n));
 end
 
-% fprintf('\n=== Forward Euler Method Table (First 5 steps) ===\n');
-% fprintf('%-10s %-15s %-15s %-15s %-15s\n', 't [ms]', 'v(t) [V]', 'i(t) [A]', 'e_h [V]', 'i_h [A]');
-% fprintf('%-10s %-15s %-15s %-15s %-15s\n', '----------', '---------------', '---------------', '---------------', '---------------');
-% for n = 1:min(6, N)
-%     fprintf('%-10.3f %-15.6e %-15.6e %-15.6e %-15.6e\n', ...
-%         t(n)*1e3, v_FE(n), i_FE(n), e_h_FE(n), i_h_FE(n));
-% end
+fprintf('\n=== Forward Euler Method Table (First 5 steps) ===\n');
+fprintf('%-10s %-15s %-15s %-15s %-15s\n', 't [ms]', 'v(t) [V]', 'i(t) [A]', 'e_h [V]', 'i_h [A]');
+fprintf('%-10s %-15s %-15s %-15s %-15s\n', '----------', '---------------', '---------------', '---------------', '---------------');
+for n = 1:min(6, N)
+    fprintf('%-10.3f %-15.6e %-15.6e %-15.6e %-15.6e\n', ...
+        t(n)*1e3, v_FE(n), i_FE(n), e_h_FE(n), i_h_FE(n));
+end
 
 %% ===================== Plot: Trapezoidal and BE Comparison =====================
 fig1 = figure('Name', 'Trapezoidal vs Backward Euler', 'Position', [100 100 1200 500], 'Color', 'w');
@@ -237,30 +245,48 @@ ax2.MinorGridLineStyle = '-';
 ax2.MinorGridAlpha = 0.15;
 ax2.MinorGridColor = [0.5 0.5 0.5];
 
-% %% ===================== Plot: Forward Euler (Separate) =====================
-% fig2 = figure('Name', 'Forward Euler Method', 'Position', [150 150 1200 500], 'Color', 'w');
-% 
-% % Voltage
-% subplot(1,2,1);
-% ax1 = gca;
-% plot(t*1e3, v_FE, 'o-', 'Color', [1 0.4 0.7]);
-% grid on;
-% xlabel('Time [ms]', 'Color', 'k');
-% ylabel('Voltage v(t) [V]', 'Color', 'k');
-% title('FE: Voltage', 'Color', 'k');
-% xlim([0 T_horizon_s*1e3]);
-% set(ax1, 'XColor', 'k', 'YColor', 'k', 'Color', 'w');
-% 
-% % Current (scaled y-axis for large values)
-% subplot(1,2,2);
-% ax2 = gca;
-% plot(t*1e3, i_FE, 'o-', 'Color', [1 0.4 0.7]);
-% grid on;
-% xlabel('Time [ms]', 'Color', 'k');
-% ylabel('Current i(t) [A]', 'Color', 'k');
-% title('FE: Current (Note: Large oscillations)', 'Color', 'k');
-% xlim([0 T_horizon_s*1e3]);
-% set(ax2, 'XColor', 'k', 'YColor', 'k', 'Color', 'w');
+%% ===================== Plot: Forward Euler (Separate) =====================
+fig2 = figure('Name', 'Forward Euler Method', 'Position', [150 150 1200 500], 'Color', 'w');
+
+% Add main title for FE plot
+sgtitle({'\textbf{Forward Euler Method: Capacitor Circuit}', ...
+    sprintf('$V_{\\mathrm{DC}} = %.0f$ V, $V_0 = %.0f$ V, $C = %.0f$ $\\mu$F, $h = %.0f$ $\\mu$s, $T = %.1f$ ms', ...
+    V_DC, V_0, C*1e6, h*1e6, T_horizon_s*1e3)}, ...
+    'Interpreter', 'latex', 'FontSize', 14, 'FontWeight', 'bold', 'Color', 'k');
+
+% Voltage
+subplot(1,2,1);
+ax1 = gca;
+plot(t*1e3, v_FE, 'o-', 'Color', [1 0.4 0.7], 'LineWidth', 3.5);
+grid on;
+xlabel('Time [ms]', 'Interpreter', 'latex');
+ylabel('Voltage $v(t)$ [V]', 'Interpreter', 'latex');
+title('\textbf{Voltage}', 'Interpreter', 'latex', 'FontSize', 12, 'Color', 'k');
+xlim([0 T_horizon_s*1e3]);
+set(ax1, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'latex');
+% Explicit minor grid settings
+ax1.XMinorGrid = 'on';
+ax1.YMinorGrid = 'on';
+ax1.MinorGridLineStyle = '-';
+ax1.MinorGridAlpha = 0.15;
+ax1.MinorGridColor = [0.5 0.5 0.5];
+
+% Current (scaled y-axis for large values)
+subplot(1,2,2);
+ax2 = gca;
+plot(t*1e3, i_FE, 'o-', 'Color', [1 0.4 0.7], 'LineWidth', 3.5);
+grid on;
+xlabel('Time [ms]', 'Interpreter', 'latex');
+ylabel('Current $i(t)$ [A]', 'Interpreter', 'latex');
+title('\textbf{Current (Note: Large oscillations)}', 'Interpreter', 'latex', 'FontSize', 12, 'Color', 'k');
+xlim([0 T_horizon_s*1e3]);
+set(ax2, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'latex');
+% Explicit minor grid settings
+ax2.XMinorGrid = 'on';
+ax2.YMinorGrid = 'on';
+ax2.MinorGridLineStyle = '-';
+ax2.MinorGridAlpha = 0.15;
+ax2.MinorGridColor = [0.5 0.5 0.5];
 
 %% ===================== Save Plots =====================
 figuresFolder = "../tex_Hw02/figures/";
@@ -272,9 +298,9 @@ end
 saveas(fig1, fullfile(figuresFolder, 'hw02_qA_state-variable-trajectory-comparison.png'));
 fprintf('Saved: hw02_qA_state-variable-trajectory-comparison.png\n');
 
-% % Save Figure 2: Forward Euler
-% saveas(fig2, fullfile(figuresFolder, 'hw02_qA1_FE.png'));
-% fprintf('Saved: hw02_qA1_FE.png\n');
+% Save Figure 2: Forward Euler
+saveas(fig2, fullfile(figuresFolder, 'hw02_qA_forward-euler-method.png'));
+fprintf('Saved: hw02_qA_forward-euler-method.png\n');
 
 fprintf('\n=== Simulation Complete ===\n');
 
