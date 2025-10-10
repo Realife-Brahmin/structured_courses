@@ -125,17 +125,17 @@ where:
 \vspace{1em}
 
 \subsection*{Forward Euler (FE) Discretization of Capacitor}
-The equations for the Forward Euler discretization of a capacitor are (note the made-up small resistance \( R_\epsilon \) to avoid division by zero):
+The equations for the Forward Euler discretization of a capacitor are (note the made-up small resistance \( R_\epsilon \ll R_c\) to avoid division by zero):
 
 \begin{align}
-    \Aboxed{v(t) &= v(t-h) + R_\epsilon\, i(t-h)} \label{eq:vt_cap_fe_cap} \\
-    \Aboxed{i(t) &= \frac{v(t) - v(t-h)}{R_\epsilon}} \label{eq:it_cap_fe_cap}
+    \Aboxed{v(t) &= e_h(t)} \label{eq:vt_cap_fe_cap} \\
+    \Aboxed{i(t) &= \frac{v(t) - e_h(t)}{R_\epsilon}} \label{eq:it_cap_fe_cap}
 \end{align}
 
 where:
 \begin{itemize}
     \item $R_\epsilon = \dfrac{h}{C}$ (artificial resistance for FE table)
-    \item $e_h(t) = v(t-h) + R_\epsilon i(t-h)$
+    \item $e_h(t) = v(t-h) + R_c i(t-h)$
     \item $i_h(t) = \frac{v(t-h)}{R_\epsilon} + i(t-h)$
 \end{itemize}
 
@@ -160,14 +160,14 @@ where:
     $0^+$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_0$ & $\displaystyle\frac{V_0}{R_\epsilon}$ \\[1ex]
 \hline
 \rowcolor{lightPink}
-    $h$ & $V_{DC}$ & $\displaystyle -\frac{V_{DC}}{R_\epsilon} + \frac{V_0}{R_\epsilon}$ & $V_{DC}$ & $\displaystyle\frac{V_0}{R_\epsilon}$ \\[1ex]
+    $h$ & $V_{DC}$ & $\displaystyle -\frac{V_{DC}}{R_\epsilon} + \frac{V_0}{R_\epsilon}$ & $V_{DC}\left(1+\frac{R_c}{R_\epsilon}\right) - V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $\displaystyle\frac{V_0}{R_\epsilon}$ \\[1ex]
 \hline
-    $2h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon}$ \\[1ex]
+    $2h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_{DC}\left(1-\frac{R_c}{R_\epsilon}\right) + V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $\displaystyle\frac{V_{DC}}{R_\epsilon}$ \\[1ex]
 \hline
 \rowcolor{lightPink}
-    $3h$ & $V_{DC}$ & $\displaystyle -\frac{V_{DC}}{R_\epsilon} + \frac{V_0}{R_\epsilon}$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon}$ \\[1ex]
+    $3h$ & $V_{DC}$ & $\displaystyle -\frac{V_{DC}}{R_\epsilon} + \frac{V_0}{R_\epsilon}$ & $V_{DC}\left(1+\frac{R_c}{R_\epsilon}\right) - V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $\displaystyle\frac{V_{DC}}{R_\epsilon}$ \\[1ex]
 \hline
-    $4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon}$ \\[1ex]
+    $4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_{DC}\left(1-\frac{R_c}{R_\epsilon}\right) + V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $\displaystyle\frac{V_{DC}}{R_\epsilon}$ \\[1ex]
 \hline
 \end{tabular}
 \caption{Step-by-step solution for forward euler discretization of circuit in \Cref{fig:a01_circuit}. Note the made-up small resistance \( R_\epsilon \) to avoid division by zero.}
