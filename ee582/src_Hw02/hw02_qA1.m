@@ -1,3 +1,10 @@
+% hw02_qA1.m
+
+% Dynamically generate the folder path based on the script's location
+currentScriptFolder = fileparts(mfilename('fullpath'));
+cd(currentScriptFolder);
+addpath(currentScriptFolder);
+
 %% ===================== Global light theme =====================
 set(groot,'defaultFigureColor','w');
 set(groot,'defaultAxesColor','w');
