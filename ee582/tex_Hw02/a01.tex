@@ -131,7 +131,7 @@ The equations for the Forward Euler discretization of a capacitor are (see Appen
 
 \begin{align}
     \Aboxed{v(t) &= e_h(t)} \label{eq:vt_cap_fe_cap} \\
-    \Aboxed{i(t) &= \frac{v(t) - e_h(t)}{R_\epsilon}} \label{eq:it_cap_fe_cap}
+    \Aboxed{i(t) &= \frac{v(t)}{R_\epsilon} - i_h(t)} \label{eq:it_cap_fe_cap}
 \end{align}
 
 where:
@@ -139,7 +139,7 @@ where:
     \item $R_c = \dfrac{h}{C}$ (discretized capacitor resistance)
     \item $R_\epsilon \ll \dfrac{h}{C}$ (artificial resistance for FE table)
     \item $e_h(t) = v(t-h) + R_c i(t-h)$
-    \item $i_h(t) = \frac{e_h(t)}{R_c}$
+    \item $i_h(t) = \frac{e_h(t)}{R_\epsilon}$
 \end{itemize}
 
 \vspace{1em}
