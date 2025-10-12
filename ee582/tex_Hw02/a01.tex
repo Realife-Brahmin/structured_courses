@@ -170,6 +170,8 @@ where:
 \rowcolor{lightPink}
     $3h$ & $V_{DC}$ & $\displaystyle\frac{V_0 - V_{DC}}{R_\epsilon^4/R_c^3}$ & $V_{DC}\left(1 + \frac{R_c^3}{R_\epsilon^3}\right) - V_0\left(\frac{R_c^3}{R_\epsilon^3}\right)$ & $\displaystyle\frac{V_{DC}\left(1 + \frac{R_c^3}{R_\epsilon^3}\right) - V_0\left(\frac{R_c^3}{R_\epsilon^3}\right)}{R_\epsilon}$ \\[1ex]
 \hline
+    $4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC} - V_0}{R_\epsilon^5/R_c^4}$ & $-V_{DC}\left(\frac{R_c^4}{R_\epsilon^4} - 1\right) + V_0\left(\frac{R_c^4}{R_\epsilon^4}\right)$ & $\displaystyle\frac{-V_{DC}\left(\frac{R_c^4}{R_\epsilon^4} - 1\right) + V_0\left(\frac{R_c^4}{R_\epsilon^4}\right)}{R_\epsilon}$ \\[1ex]
+\hline
 \end{tabular}
 \caption{Step-by-step solution for forward euler discretization of circuit in \Cref{fig:a01_circuit}. Note the diverging oscillations with successive powers of $(R_c/R_\epsilon)$, demonstrating numerical instability.}
 \label{tab:fe_solution_ckt_a}
