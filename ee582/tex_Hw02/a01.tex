@@ -160,19 +160,17 @@ where:
 \rowcolor{lightPink}
     $-h$ & $V_0$ & $0$ & $-$ & $-$ \\[1ex]
 \hline
-    $0^+$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_0$ & $\displaystyle\frac{V_0}{R_\epsilon}$ \\[1ex]
+    $0^+$ & $V_{DC}$ & $\displaystyle\frac{V_{DC} - V_0}{R_\epsilon}$ & $V_0$ & $\displaystyle\frac{V_0}{R_\epsilon}$ \\[1ex]
 \hline
 \rowcolor{lightPink}
-    $h$ & $V_{DC}$ & $\displaystyle -\frac{V_{DC}}{R_\epsilon} + \frac{V_0}{R_\epsilon}$ & $V_{DC}\left(1+\frac{R_c}{R_\epsilon}\right) - V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $\displaystyle V_{DC}\left(\frac{1}{R_\epsilon} + \frac{1}{R_c}\right) - V_0\left(\frac{1}{R_c}\right)$ \\[1ex]
+    $h$ & $V_{DC}$ & $\displaystyle V_{DC}\left(\frac{R_c}{R_\epsilon}\right) - V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $V_{DC}\left(1 + \frac{R_c}{R_\epsilon}\right) - V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - V_0\left(\frac{1}{R_\epsilon}\right)$ \\[1ex]
 \hline
-    $2h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_{DC}\left(1-\frac{R_c}{R_\epsilon}\right) + V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $\displaystyle V_{DC}\left(\frac{1}{R_\epsilon} - \frac{1}{R_c}\right) + V_0\left(\frac{1}{R_c}\right)$ \\[1ex]
+    $2h$ & $V_{DC}$ & $\displaystyle V_{DC}\left(\frac{R_c^2}{R_\epsilon^2}\right) - V_0\left(\frac{R_c^2}{R_\epsilon^2}\right)$ & $V_{DC}\left(1 - \frac{R_c^2}{R_\epsilon^2}\right) + V_0\left(\frac{R_c^2}{R_\epsilon^2}\right)$ & $\displaystyle V_{DC}\left(\frac{1}{R_\epsilon} - \frac{R_c}{R_\epsilon^2}\right) + V_0\left(\frac{R_c}{R_\epsilon^2}\right)$ \\[1ex]
 \hline
 \rowcolor{lightPink}
-    $3h$ & $V_{DC}$ & $\displaystyle -\frac{V_{DC}}{R_\epsilon} + \frac{V_0}{R_\epsilon}$ & $V_{DC}\left(1+\frac{R_c}{R_\epsilon}\right) - V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $\displaystyle V_{DC}\left(\frac{1}{R_\epsilon} + \frac{1}{R_c}\right) - V_0\left(\frac{1}{R_c}\right)$ \\[1ex]
-\hline
-    $4h$ & $V_{DC}$ & $\displaystyle\frac{V_{DC}}{R_\epsilon} - \frac{V_0}{R_\epsilon}$ & $V_{DC}\left(1-\frac{R_c}{R_\epsilon}\right) + V_0\left(\frac{R_c}{R_\epsilon}\right)$ & $\displaystyle V_{DC}\left(\frac{1}{R_\epsilon} - \frac{1}{R_c}\right) + V_0\left(\frac{1}{R_c}\right)$ \\[1ex]
+    $3h$ & $V_{DC}$ & $\displaystyle V_{DC}\left(\frac{R_c^3}{R_\epsilon^3}\right) - V_0\left(\frac{R_c^3}{R_\epsilon^3}\right)$ & $V_{DC}\left(1 + \frac{R_c^3}{R_\epsilon^3}\right) - V_0\left(\frac{R_c^3}{R_\epsilon^3}\right)$ & $\displaystyle V_{DC}\left(\frac{1}{R_\epsilon} + \frac{R_c^2}{R_\epsilon^3}\right) - V_0\left(\frac{R_c^2}{R_\epsilon^3}\right)$ \\[1ex]
 \hline
 \end{tabular}
-\caption{Step-by-step solution for forward euler discretization of circuit in \Cref{fig:a01_circuit}. Note the made-up small resistance \( R_\epsilon \) to avoid division by zero.}
+\caption{Step-by-step solution for forward euler discretization of circuit in \Cref{fig:a01_circuit}. Note the diverging oscillations with successive powers of $(R_c/R_\epsilon)$, demonstrating numerical instability.}
 \label{tab:fe_solution_ckt_a}
 \end{table}
