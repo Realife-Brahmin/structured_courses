@@ -148,7 +148,7 @@ v_FE(1) = V_0;  % V(-h) = V_0
 i_FE(1) = 0;    % i(-h) = 0
 
 % Forward Euler companion model using your corrected equations:
-% v(t) = e_h(t)                                    (Eq 5)
+% v(t) = V_DC for t > 0 (KVL constraint)
 % i(t) = (v(t) - e_h(t)) / R_epsilon               (Eq 6)
 % where:
 % e_h(t) = v(t-h) + R_c * i(t-h)
@@ -163,7 +163,7 @@ for n = 2:N+1  % n=2 corresponds to t=0, n=3 to t=h, etc.
     
     % Step 2: Calculate e_h and i_h using PREVIOUS row's v(t-h) and i(t-h)
     e_h_FE(n) = v_FE(n-1) + R_c * i_FE(n-1);
-    i_h_FE(n) = e_h_FE(n) / R_c;
+    i_h_FE(n) = e_h_FE(n) / R_epsilon;
     
     % Step 3: Calculate current i(t) using current row's v(t), e_h, i_h
     % From FE equation: i(t) = (v(t) - e_h(t)) / R_epsilon
@@ -278,16 +278,29 @@ ax1.MinorGridLineStyle = '-';
 ax1.MinorGridAlpha = 0.15;
 ax1.MinorGridColor = [0.5 0.5 0.5];
 
-% Current (scaled y-axis for large values)
+% Current (symmetric log scale for diverging oscillations)
 subplot(1,2,2);
 ax2 = gca;
-plot(t*1e3, i_FE, 'o-', 'Color', [1 0.4 0.7], 'LineWidth', 3.5);
+
+% Create symmetric log transformation: sign(x) * log10(abs(x)) but plot on linear scale
+% with custom tick labels showing actual values
+i_FE_symlog = sign(i_FE) .* log10(abs(i_FE) + 1e-10);
+
+plot(t*1e3, i_FE_symlog, 'o-', 'Color', [1 0.4 0.7], 'LineWidth', 3.5);
 grid on;
 xlabel('Time [ms]', 'Interpreter', 'latex');
 ylabel('Current $i(t)$ [A]', 'Interpreter', 'latex');
-title('\textbf{Current (Note: Large oscillations)}', 'Interpreter', 'latex', 'FontSize', 12, 'Color', 'k');
+title('\textbf{Current (Note: Diverging oscillations)}', 'Interpreter', 'latex', 'FontSize', 12, 'Color', 'k');
 xlim([0 T_horizon_s*1e3]);
-set(ax2, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'latex');
+
+% Set custom y-ticks based on actual data points
+% The data oscillates with powers: 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32 (positive and negative)
+% Each step multiplies by ~10^3, so we need higher powers
+yticks([-32, -29, -26, -23, -20, -17, -14, -11, -8, -5, -2, 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32]);
+yticklabels({'-10^{32}', '-10^{29}', '-10^{26}', '-10^{23}', '-10^{20}', '-10^{17}', '-10^{14}', '-10^{11}', '-10^{8}', '-10^{5}', '-10^{2}', ...
+             '10^{2}', '10^{5}', '10^{8}', '10^{11}', '10^{14}', '10^{17}', '10^{20}', '10^{23}', '10^{26}', '10^{29}', '10^{32}'});
+
+set(ax2, 'XColor', 'k', 'YColor', 'k', 'Color', 'w', 'TickLabelInterpreter', 'tex');
 % Explicit minor grid settings
 ax2.XMinorGrid = 'on';
 ax2.YMinorGrid = 'on';
