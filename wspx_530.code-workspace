@@ -4,10 +4,12 @@
 			"path": "."
 		}
 	],
-	"settings": {},
+	"settings": {
+		"workbench.colorTheme": "Omni",
+		"extensions.ignoreRecommendations": true
+	},
 	"extensions": {
 		"recommendations": [
-			"moondevaa.darkpluschocolate"
-		]
+			"rocketseat.theme-omni",		]
 	}
 }
