@@ -4,7 +4,9 @@
 			"path": "."
 		}
 	],
-	"settings": {},
+	"settings": {
+		"workbench.colorTheme": "Dark Plus Chocolate"
+	},
 	"extensions": {
 		"recommendations": [
 			"moondevaa.darkpluschocolate"
