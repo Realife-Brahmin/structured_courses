@@ -14,6 +14,11 @@
 \usepackage{xcolor}
 \usepackage{colortbl}
 
+% Custom section numbering: subsections get A.1.1, A.1.2, etc.
+\setcounter{secnumdepth}{3}  % Enable numbering for subsections
+\newcommand{\sectionprefix}{}  % Define command to hold section prefix
+\renewcommand{\thesubsection}{\sectionprefix.\arabic{subsection}}
+
 \title{Fall 2025 EE582 Homework 02 Report \\ Nodal-Analysis-based Modeling of Electric Circuits}
 \author{Aryan Ritwajeet Jha}
 \date{Due: Tuesday, October 7, 2025}

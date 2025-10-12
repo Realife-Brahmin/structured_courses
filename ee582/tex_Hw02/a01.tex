@@ -1,4 +1,6 @@
 \clearpage
+\renewcommand{\sectionprefix}{A.1}  % Set prefix for this question
+\setcounter{subsection}{0}  % Reset subsection counter
 \section*{Section A (Numerical Oscillations of Discretization Rules): Question 1}
 \addcontentsline{toc}{section}{Section A (Numerical Oscillations of Discretization Rules): Question 1}
 
@@ -17,14 +19,14 @@ One way to analyze the properties of various discretization methods (e.g., in te
 \noindent\rule{\textwidth}{0.4pt}
 % \vspace{1em}
 
-\subsection*{Trapezoidal Discretization of Capacitor}
+\subsection{Trapezoidal Discretization of Capacitor}
 The equations for the Trapezoidal discretization of a capacitor are (see Appendix \ref{sec:appendix_cap_trapz} for derivation):
 
 The final equations for $v(t)$ and $i(t)$ are as follows:
 
 \begin{align}
-    \Aboxed{v(t) &= e_h + R_C i(t)} \label{eq:vt_cap_trapz_app} \\
-    \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_cap_trapz_app}
+    \Aboxed{v(t) &= e_h + R_C i(t)} \label{eq:vt_cap_trapz} \\
+    \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_cap_trapz}
 \end{align}
 
 where:
@@ -73,12 +75,12 @@ where:
 
 \vspace{1em}
 
-\subsection*{Backward-Euler (BE) Discretization of Capacitor}
+\subsection{Backward-Euler (BE) Discretization of Capacitor}
 The equations for the Backward-Euler discretization of a capacitor are (see Appendix \ref{sec:appendix_cap_be} for derivation):
 
 \begin{align}
-    \Aboxed{v(t) &= e_h + R_C\, i(t)} \label{eq:vt_cap_be_cap} \\
-    \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_cap_be_cap}
+    \Aboxed{v(t) &= e_h + R_C\, i(t)} \label{eq:vt_cap_be} \\
+    \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_cap_be}
 \end{align}
 
 where:
@@ -126,14 +128,14 @@ where:
 
 \vspace{1em}
 
-\subsection*{Forward Euler (FE) Discretization of Capacitor}
+\subsection{Forward Euler (FE) Discretization of Capacitor}
 Upon solving for the forward euler discretization of the capacitor, we encounter the issue of division by zero as $v(t)$ and $e_h(t)$ are equal at every time step (one source connected to another source directly), and $i(t)$ becomes undefined (because of lack of any resistance between them). $i(t)$ could be of an arbitrarily high magnitude, however in order to ascertain its sign, we introduce a very small resistance \( R_\epsilon \ll R_c\) in series with the capacitor to avoid division by zero. This resistance is artificial and does not represent any physical element in the circuit (or at best could be argued to represent the relatively negligible resistance of the connecting wires).
 
 The equations for the Forward Euler discretization of a capacitor are (see Appendix \ref{sec:appendix_cap_fe} for derivation):
 
 \begin{align}
-    \Aboxed{v(t) &= e_h(t)} \label{eq:vt_cap_fe_cap} \\
-    \Aboxed{i(t) &= \frac{v(t)}{R_\epsilon} - i_h(t)} \label{eq:it_cap_fe_cap}
+    \Aboxed{v(t) &= e_h(t)} \label{eq:vt_cap_fe} \\
+    \Aboxed{i(t) &= \frac{v(t)}{R_\epsilon} - i_h(t)} \label{eq:it_cap_fe}
 \end{align}
 
 where:
