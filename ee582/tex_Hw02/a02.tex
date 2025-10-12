@@ -10,7 +10,7 @@ Comment on how the simulation time-step size impacts the numerical solution, and
 
 \subsection{Simulation Parameters}
 
-I implemented all three discretization methods in MATLAB with the following circuit parameters: $V_{DC} = 10$ V, $V_0 = 0$ V, $C = 1\,\mu$F, and $h = 100\,\mu$s. I also simulated the Trapezoidal method in PSCAD with chatter attenuation disabled to allow direct comparison with the analytical solution.
+I implemented all three discretization methods in MATLAB with the following circuit parameters: $V_{DC} = 10$ V, $V_0 = 0$ V, $C = 1\,\mu$F, and $h = 100\,\mu$, $T = 1ms$. I also simulated the Trapezoidal method in PSCAD with chatter attenuation disabled to allow direct comparison with the analytical solution.
 
 \subsection{Method Comparison and Selection}
 
@@ -43,17 +43,40 @@ Key observations:
     
     \item \textbf{Trapezoidal}: Exhibits sustained bounded oscillations (``chatter'') due to its energy-preserving nature. My MATLAB implementation and PSCAD solution (with chatter attenuation disabled) are \textit{identical}, confirming correct implementation. The chatter is a numerical artifact of discretizing a lossless system.
     
-    \item \textbf{PSCAD with chatter enabled}: When chatter attenuation is enabled in PSCAD, the solution approaches the BE behavior, demonstrating that PSCAD internally applies damping to suppress numerical oscillations.
 \end{itemize}
 
-\subsection{Impact of Step Size}
+\subsection{Impact of Step Size $h$}
 
-\begin{itemize}
-    \item \textbf{Smaller $h$}: Reduces $R_C = h/(2C)$ for Trapezoidal, increasing chatter magnitude but maintaining stability. For BE, reduces artificial damping.
-    \item \textbf{Larger $h$}: Increases numerical damping in BE (faster convergence to zero) and reduces chatter amplitude in Trapezoidal. Both remain stable.
-    \item \textbf{Forward Euler}: Unstable for any step size due to the amplification factor exceeding unity.
-\end{itemize}
+\definecolor{lushGreen}{RGB}{34,139,34}
+\definecolor{wineRed}{RGB}{139,0,0}
+\definecolor{lightGray}{RGB}{240,240,240}
+\definecolor{mediumGray}{RGB}{200,200,200}
+
+The discretization resistance $R_C$ scales linearly with step size $h$, directly coupling time-step selection to numerical behavior. Examining the step-by-step solutions in \Cref{tab:trapz_solution_ckt_a,tab:be_solution_ckt_a,tab:fe_solution_ckt_a}, the impact of increasing $h$ is summarized in \Cref{tab:step_size_impact}:
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{2.0}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{|c|c|c|p{5.0cm}|}
+\hline
+\rowcolor{mediumGray}
+\textbf{Method} & \textbf{$R_C$} & \textbf{Chatter} & \textbf{Remark} \\
+\hline
+\rowcolor{lightGray}
+\textbf{BE} & $h/C$ & {\color{lushGreen} $\times$} & $i(t) = 0$ (damped) as $t \geq 2h$ \\
+\hline
+\rowcolor{lightGray}
+\textbf{Trapz} & $h/(2C)$ & {\color{lushGreen} $\downarrow$} & Bounded oscillations persist \\
+\hline
+\rowcolor{lightGray}
+\textbf{FE} & $h/C$ & {\color{wineRed} Unstable} & Amplification: $(R_c/R_\epsilon)^n$ \\
+\hline
+\end{tabular}
+\caption{Impact of increasing $h$ on discretization behavior (chatter magnitude $\downarrow$ = desirable).}
+\label{tab:step_size_impact}
+\end{table}
 
 \subsection{Preferred Method}
 
-\textbf{Backward Euler} is preferred for this specific problem because it most closely represents the true steady-state behavior (zero current after capacitor fully charges), effectively eliminating the non-physical chatter artifacts. While Trapezoidal offers higher accuracy for transient analysis and matches PSCAD's unattenuated solution, the BE method's numerical damping produces the most physically meaningful result for a lossless capacitor reaching steady state.
+\textbf{Backward Euler} is preferred for this specific problem because it most closely represents the true steady-state behavior (zero current after capacitor fully charges), effectively eliminating the non-physical chatter artifacts. While in general Trapezoidal method offers higher accuracy (second-order vs. first-order), in this instance damping is prioritized over accuracy for the conclusion.
