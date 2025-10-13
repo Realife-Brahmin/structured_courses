@@ -182,11 +182,11 @@ pr11 = Dict(
 )
 
 pr_midterm_5_3 = Dict(
-    :a => 0.0,
-    :b => 2.0,
+    :a => -0.8,
+    :b => -0.6,
     :M => 100,
     :ϵ => 1e-5,
     :δ => 1e-5,
-    :f => (x -> x^3 - 6x^2 + 11x - 6)
+    :f => (x -> exp(x) - x^2)
 )
-bisection_search(pr, verbose=true)
+bisection_search(pr_midterm_5_3, verbose=true)
