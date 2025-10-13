@@ -20,9 +20,11 @@
 % Setup page headers
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[R]{\leftmark}
+\fancyhead[R]{\rightmark}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
 
 \title{Fall 2025 CPTS530 Midterm Project \\ MATH 448-548 \\ Numerical Analysis}
 \author{Aryan Ritwajeet Jha}
