@@ -181,4 +181,12 @@ pr11 = Dict(
     :f => (x -> x^2 - 5 * x + 6)
 )
 
+pr_midterm_5_3 = Dict(
+    :a => 0.0,
+    :b => 2.0,
+    :M => 100,
+    :ϵ => 1e-5,
+    :δ => 1e-5,
+    :f => (x -> x^3 - 6x^2 + 11x - 6)
+)
 bisection_search(pr, verbose=true)
