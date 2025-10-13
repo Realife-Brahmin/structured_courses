@@ -7,7 +7,10 @@
 	"settings": {
 		"workbench.colorTheme": "Omni",
 		"extensions.ignoreRecommendations": true,
-		"themeScheduler.schedules": [
+		"window.autoDetectColorScheme": false,
+		"workbench.preferredLightColorTheme": "Rosé Pine",
+		"workbench.preferredDarkColorTheme": "Omni",
+		"sundial.themes": [
 			{
 				"theme": "mvllow.rose-pine",
 				"from": "07:00",
