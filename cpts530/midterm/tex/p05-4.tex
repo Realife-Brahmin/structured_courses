@@ -1,3 +1,11 @@
+\clearpage
+
+\textbf{Problem Statement:} Implement and analyze the Ridders' method for solving the equation $f(x) = 0$. For guidance, you might wish to read the Wikipedia page on the Ridders' method. Also feel free to consult other sources.
+
+\subsection*{Brief Description of the method}
+
+Given the initial bracketing interval $[x_0, x_2]$, containing \textbf{one} solution, and such that $f(x_0)$ and $f(x_2)$ have opposite signs, compute the midpoint $x_1 = (x_0 + x_2)/2$. Then define a new function $h(x) = f(x)e^{ax}$. Find the parameter $a$ that ensures $h(x_1) = \frac{1}{2}(h(x_0) + h(x_2))$. Then define $x_3$ as the $x$-intercept of the line passing through $(x_0, h(x_0))$ and $(x_2, h(x_2))$. Use $x_3$ as one of the endpoints of the next interval bracketing the solution. The other endpoint is $x_1$ if $f(x_1)f(x_3) < 0$. Otherwise, choose either $x_0$ or $x_2$ based on the requirement that the sign of $f(x)$ at the chosen point must be opposite to the sign of $f(x_3)$. Continue until the desired accuracy is reached.
+
 \subsection*{Part 4}
 \addcontentsline{toc}{subsection}{Problem 5.4}
 
