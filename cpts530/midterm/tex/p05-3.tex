@@ -26,18 +26,22 @@ First I'll plot the graph of $e^x - x^2$ to identify the intervals where the fun
     \centering
     \begin{minipage}[t]{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{figures/p03-graph-of-ex-x2-zoomed-in.png}
+        \includegraphics[width=\linewidth]{figures/p05-3-graph-of-ex-x2-zoomed-in.png}
         \caption*{Zoomed in}
     \end{minipage}%
     \hfill
     \begin{minipage}[t]{0.48\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{figures/p03-graph-of-ex-x2-zoomed-out.png}
+        \includegraphics[width=\linewidth]{figures/p05-3-graph-of-ex-x2-zoomed-out.png}
         \caption*{Zoomed out}
     \end{minipage}
     \caption{Graphs of $e^x - x^2$: We can see from the zoomed in graph on the left that there is a single root in $[\text{-}0.8,\,\text{-}0.6]$. The zoomed out graph on the right shows the behavior of the function over a larger interval.}
     \label{fig:ex-x2-side-by-side}
 \end{figure}
+
+From \Cref{fig:ex-x2-side-by-side}, it can be seen that there is one root in the interval $[\text{-}0.8,\,\text{-}0.6]$. Since $f(x)<0$ for $x=\text{-}0.8$ and $f(x)>0$ for $x=\text{-}0.6$, I can use this interval to find the root using both the bisection method and Ridders' method.
+
+Using the bisection method (code may be found in my solution for hw02 Computer Problem 3.1.3), I found the root to be $r = \text{-}0.7034667969$ to 10 decimal places, which took 12 iterations.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
