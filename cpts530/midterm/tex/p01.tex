@@ -12,7 +12,41 @@ $$f'(x) \approx \frac{1}{2h} (-3f(x) + 4f(x+h) - f(x+2h)).$$
 
 \textbf{Solution:}
 
-% Solution will be added here
+We are given the finite-difference formula:
+\begin{equation*}
+    f'(x) \approx \frac{1}{2h}\left[-3f(x) + 4f(x+h) - f(x+2h)\right]
+\end{equation*}
+
+Expand $f(x+h)$ and $f(x+2h)$ about $x$ using Taylor's theorem, keeping terms up to $h^2$ and representing higher-order terms as $k_1 h^3$ and $k_2 h^4$:
+\begin{align*}
+    f(x+h) &= f(x) + h f'(x) + \frac{h^2}{2} f''(x) + k_1 h^3 \\
+    f(x+2h) &= f(x) + 2h f'(x) + 2h^2 f''(x) + k_2 h^3
+\end{align*}
+where $k_1, k_2$ are finite constants depending on third order derivatives of $f$ at $x$.
+
+Substitute into the formula:
+\begin{align*}
+    &\frac{1}{2h}\left[-3f(x) + 4f(x+h) - f(x+2h)\right] \\
+    &= \frac{1}{2h}\Big[-3f(x) + 4\left(f(x) + h f'(x) + \frac{h^2}{2} f''(x) + k_1 h^3\right) \\
+    &\qquad - \left(f(x) + 2h f'(x) + 2h^2 f''(x) + k_2 h^3\right)\Big]
+\end{align*}
+
+Simplifying the terms in the square brackets:
+\begin{align*}
+    &= \frac{1}{2h}\Big[2h f'(x) + (4k_1 - k_2) h^3\Big]
+\end{align*}
+
+Now, divide each term by $2h$:
+\begin{align*}
+    &= f'(x) + \frac{1}{2} (4k_1 - k_2) h^2
+\end{align*}
+
+Thus, the leading error term is $O(h^2)$:
+\begin{equation*}
+    \text{error} \sim O(h^2)
+\end{equation*}
+
+This shows the method is second-order accurate. Note that I've already checked if the third order term vanishes if we write out the taylor's polynomial to the third order, and it does not.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
