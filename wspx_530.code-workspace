@@ -5,26 +5,14 @@
 		}
 	],
 	"settings": {
-		"workbench.colorTheme": "Omni",
+		"window.autoDetectColorScheme": false, // required!
 		"extensions.ignoreRecommendations": true,
-		"window.autoDetectColorScheme": false,
 		"workbench.preferredLightColorTheme": "Rosé Pine",
 		"workbench.preferredDarkColorTheme": "Omni",
-		"sundial.themes": [
-			{
-				"theme": "mvllow.rose-pine",
-				"from": "07:00",
-				"to": "19:00"
-			},
-			{
-				"theme": "Omni",
-				"from": "19:00",
-				"to": "07:00"
-			}
-		]
 	},
 	"extensions": {
 		"recommendations": [
-			"rocketseat.theme-omni",		]
+			"rocketseat.theme-omni",
+			"mvllow.rose-pine"]
 	}
 }
