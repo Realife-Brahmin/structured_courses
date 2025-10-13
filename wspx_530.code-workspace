@@ -6,7 +6,19 @@
 	],
 	"settings": {
 		"workbench.colorTheme": "Omni",
-		"extensions.ignoreRecommendations": true
+		"extensions.ignoreRecommendations": true,
+		"themeScheduler.schedules": [
+			{
+				"theme": "mvllow.rose-pine",
+				"from": "07:00",
+				"to": "19:00"
+			},
+			{
+				"theme": "Omni",
+				"from": "19:00",
+				"to": "07:00"
+			}
+		]
 	},
 	"extensions": {
 		"recommendations": [
