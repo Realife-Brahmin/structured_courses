@@ -5,10 +5,14 @@
 		}
 	],
 	"settings": {
-		"workbench.colorTheme": "Dark Plus Chocolate"
+		"window.autoDetectColorScheme": false, // required!
+		"extensions.ignoreRecommendations": true,
+		"workbench.preferredLightColorTheme": "Dark Plus Chocolate",
+		"workbench.preferredDarkColorTheme": "Omni",
 	},
 	"extensions": {
 		"recommendations": [
+			"rocketseat.theme-omni",
 			"moondevaa.darkpluschocolate"
 		]
 	}
