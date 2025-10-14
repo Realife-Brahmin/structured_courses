@@ -20,7 +20,50 @@ Show that $a$ is uniquely defined and give the equation for finding it.
 
 \textbf{Solution:}
 
-% Solution will be added here
+Let $x_0$ and $x_2$ be the endpoints of the bracketing interval, and $x_1 = \frac{x_0 + x_2}{2}$ the midpoint. Let $d = x_2 - x_0$.
+
+Define $f_0 = f(x_0)$, $f_1 = f(x_1)$, $f_2 = f(x_2)$.
+
+Ridders' method introduces a function $h(x) = f(x) e^{a x}$, and chooses $a$ so that:
+\begin{align*}
+    h(x_1) &= \frac{1}{2} (h(x_0) + h(x_2)) \\
+    f_1 e^{a x_1} &= \frac{1}{2} \left( f_0 e^{a x_0} + f_2 e^{a x_2} \right)
+\end{align*}
+We know that $x_1 = x_0 + \frac{d}{2}$ and $x_2 = x_0 + d$.
+
+Substitute and rearrange:
+\begin{align*}
+    f_1 e^{a(x_0 + d/2)} &= \frac{1}{2} \left( f_0 e^{a x_0} + f_2 e^{a(x_0 + d)} \right) \\
+    \text{Dividing both sides by } e^{a x_0}: \\
+    2 f_1 e^{a d/2} &= f_0 + f_2 e^{a d} \\
+    2 f_1 e^{a d/2} - f_2 e^{a d} - f_0 &= 0
+\end{align*}
+Let $y = e^{a d/2}$, so $e^{a d} = y^2$.
+
+This gives a quadratic in $y$:
+\begin{align*}
+    f_2 y^2 - 2 f_1 y + f_0 &= 0
+\end{align*}
+Solving for $y$:
+\begin{align*}
+    y &= \frac{2 f_1 \pm \sqrt{(2 f_1)^2 - 4 f_2 f_0}}{2 f_2} \\
+    y &= \frac{f_1 \pm \sqrt{f_1^2 - f_2 f_0}}{f_2}
+\end{align*}
+Therefore,
+\begin{align*}
+    a &= \frac{2}{d} \ln\left( \frac{f_1 \pm \sqrt{f_1^2 - f_2 f_0}}{f_2} \right)
+\end{align*}
+We note that since $y=e^{a d/2}$, its value must be nonnegative. Since clearly $f_1^2 - f_2 f_0 > f_1^2$ ($f_2*f_0 < 0$), the sign is chosen so that $y$ is positive:
+\begin{align*}
+    \text{If } f_2 > 0: &\quad a = \frac{2}{d} \ln\left( \frac{f_1 + \sqrt{f_1^2 - f_2 f_0}}{f_2} \right) \\
+    \text{else If } f_2 < 0: &\quad a = \frac{2}{d} \ln\left( \frac{f_1 - \sqrt{f_1^2 - f_2 f_0}}{f_2} \right)
+\end{align*}
+Or, more concisely:
+\begin{align*}
+    a &= \frac{2}{d} \ln\left( \frac{f_1 + \operatorname{sgn}(f_2) \sqrt{f_1^2 - f_2 f_0}}{f_2} \right) \\
+    \text{or equivalently:}\\
+\end{align*}
+where $\operatorname{sgn}(f_2)$ is the sign of $f_2$.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
