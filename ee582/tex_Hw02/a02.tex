@@ -58,21 +58,23 @@ The discretization resistance $R_C$ scales linearly with step size $h$, directly
 \centering
 \renewcommand{\arraystretch}{2.0}
 \setlength{\tabcolsep}{6pt}
-\begin{tabular}{|c|c|c|p{5.0cm}|}
+
+\begin{tabular}{|c|c|c|l|}
 \hline
 \rowcolor{mediumGray}
-\textbf{Method} & \textbf{$R_C$} & \textbf{Chatter} & \textbf{Remark} \\
+\textbf{Method} & \textbf{$R_C$} & \textbf{Chatter} & \multicolumn{1}{c|}{\textbf{Remark}} \\
 \hline
 \rowcolor{lightGray}
-\textbf{BE} & $h/C$ & {\color{lushGreen} \textbf{None}} & $i(t) = 0$ (damped) as $t \geq 2h$ \\
+\textbf{BE} & $h/C$ & {\color{lushGreen} \textbf{None}} & \parbox{5cm}{$i(t) = 0$ (damped) as $t \geq 2h$} \\
 \hline
 \rowcolor{lightGray}
-\textbf{Trapz} & $h/(2C)$ & {\color{lushGreen} $\downarrow$} & Bounded oscillations persist \\
+\textbf{Trapz} & $h/(2C)$ & {\color{lushGreen} $\downarrow$} & \parbox{5cm}{Bounded oscillations persist} \\
 \hline
 \rowcolor{lightGray}
-\textbf{FE} & $h/C$ & {\color{wineRed} Unstable} & Amplification: $(R_c/R_\epsilon)^n$ \\
+\textbf{FE} & $h/C$ & {\color{wineRed} Unstable} & \parbox{5cm}{Amplification: $(R_c/R_\epsilon)^n$} \\
 \hline
 \end{tabular}
+
 \caption{Impact of increasing $h$ on discretization behavior (chatter magnitude $\downarrow$ = desirable).}
 \label{tab:step_size_impact}
 \end{table}
