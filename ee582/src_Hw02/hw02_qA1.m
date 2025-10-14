@@ -5,28 +5,8 @@ currentScriptFolder = fileparts(mfilename('fullpath'));
 cd(currentScriptFolder);
 addpath(currentScriptFolder);
 
-%% ===================== Global light theme =====================
-set(groot,'defaultFigureColor','w');
-set(groot,'defaultAxesColor','w');
-set(groot,'defaultAxesXColor','k');
-set(groot,'defaultAxesYColor','k');
-set(groot,'defaultAxesGridColor',[.2 .2 .2]);
-set(groot,'defaultAxesMinorGridColor',[.6 .6 .6]);
-set(groot,'defaultAxesFontName','Helvetica');
-set(groot,'defaultAxesFontSize',12);
-set(groot,'defaultAxesTitleFontWeight','bold');
-set(groot,'defaultAxesTitleFontSizeMultiplier',1.1);
-set(groot,'defaultAxesXMinorGrid','on');
-set(groot,'defaultAxesYMinorGrid','on');
-set(groot,'defaultLineLineWidth',2.2);
-set(groot,'defaultLineMarkerSize',8);
-set(groot, 'defaultLegendColor', 'w');      % White background for all legends
-set(groot, 'defaultLegendTextColor', 'k');  % Black text for all legends
-
-% LaTeX interpreter for all text
-set(groot,'defaultTextInterpreter','latex');
-set(groot,'defaultAxesTickLabelInterpreter','latex');
-set(groot,'defaultLegendInterpreter','latex');
+%% ===================== Setup Plot Theme =====================
+setup_plot_theme();
 
 % Superior color palette
 color_trapz = [0.85, 0.33, 0.10];  % Burnt Orange (sophisticated)
