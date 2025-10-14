@@ -92,3 +92,93 @@ with the FE companion parameters (for the capacitor):
 \end{align}
 
 These expressions are used when implementing the Forward-Euler discretization in the numerical examples and the FE table in the main text.
+
+\clearpage
+\section{Appendix: Derivation of Trapezoidal Discretization for Inductor} \label{sec:appendix_ind_trapz}
+
+Starting from the inductor constitutive relation
+\begin{equation}
+    v(t) = L\frac{di(t)}{dt},
+\end{equation}
+we integrate from $t-h$ to $t$ to obtain:
+\begin{equation}
+    \int_{t-h}^{t} v(\tau) \, d\tau = L \left[ i(t) - i(t-h) \right].
+\end{equation}
+
+The trapezoidal rule approximates the integral as:
+\begin{equation}
+    \int_{t-h}^{t} v(\tau) \, d\tau \approx \frac{h}{2} \left[ v(t-h) + v(t) \right].
+\end{equation}
+
+Substituting and rearranging:
+\begin{equation}
+    i(t) - i(t-h) = \frac{h}{2L} \left[ v(t-h) + v(t) \right].
+\end{equation}
+
+Multiply both sides by $\frac{2L}{h}$ and rearrange:
+\begin{equation}
+    \frac{2L}{h} \left( i(t) - i(t-h) \right) = v(t-h) + v(t).
+\end{equation}
+
+Define the equivalent resistance $R_L = \frac{2L}{h}$:
+\begin{equation}
+    R_L \left( i(t) - i(t-h) \right) = v(t-h) + v(t).
+\end{equation}
+
+Solving for $v(t)$:
+\begin{equation}
+    v(t) = R_L i(t) - \underbrace{\left[ R_L i(t-h) + v(t-h) \right]}_{e_h}.
+\end{equation}
+
+The companion model parameters are:
+\begin{align}
+    R_L &= \frac{2L}{h} \\
+    e_h &= R_L i(t-h) + v(t-h) \\
+    i_h &= \frac{e_h}{R_L} = i(t-h) + \frac{v(t-h)}{R_L}
+\end{align}
+
+The final boxed equations are:
+\begin{align}
+    \Aboxed{v(t) &= R_L i(t) - e_h} \label{eq:vt_ind_trapz_app} \\
+    \Aboxed{i(t) &= \frac{v(t)}{R_L} + i_h} \label{eq:it_ind_trapz_app}
+\end{align}
+
+\clearpage
+\section{Appendix: Derivation of Backward Euler Discretization for Inductor} \label{sec:appendix_ind_be}
+
+Starting from the inductor constitutive relation
+\begin{equation}
+    v(t) = L\frac{di(t)}{dt},
+\end{equation}
+the Backward Euler discretization approximates the derivative at time $t$ as:
+\begin{equation}
+    \frac{di(t)}{dt} \approx \frac{i(t) - i(t-h)}{h}.
+\end{equation}
+
+Substituting:
+\begin{equation}
+    v(t) \approx L \frac{i(t) - i(t-h)}{h}.
+\end{equation}
+
+Rearranging:
+\begin{equation}
+    v(t) = \frac{L}{h} i(t) - \frac{L}{h} i(t-h).
+\end{equation}
+
+Define the equivalent resistance $R_L = \frac{L}{h}$:
+\begin{equation}
+    v(t) = R_L i(t) - \underbrace{R_L i(t-h)}_{e_h}.
+\end{equation}
+
+The companion model parameters are:
+\begin{align}
+    R_L &= \frac{L}{h} \\
+    e_h &= R_L i(t-h) \\
+    i_h &= i(t-h) = \frac{e_h}{R_L}
+\end{align}
+
+The final boxed equations are:
+\begin{align}
+    \Aboxed{v(t) &= R_L i(t) - e_h} \label{eq:vt_ind_be_app} \\
+    \Aboxed{i(t) &= \frac{v(t)}{R_L} + i_h} \label{eq:it_ind_be_app}
+\end{align}

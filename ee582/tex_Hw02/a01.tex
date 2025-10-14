@@ -22,21 +22,23 @@ One way to analyze the properties of various discretization methods (e.g., in te
 \textbf{Note}: I'm assuming that the capacitor has an initial voltage \( V_0 \) at \( t=0^- \) for generating the state variable trajectory tables. However in question 2, I simulate the case with \( V_0 = 0 \) V.
 
 \subsection{Trapezoidal Discretization of Capacitor}
+
+\definecolor{burntOrange}{RGB}{217, 84, 26}
+
 The equations for the Trapezoidal discretization of a capacitor are (see Appendix \ref{sec:appendix_cap_trapz} for derivation):
 
-The final equations for $v(t)$ and $i(t)$ are as follows:
-
+\begin{tcolorbox}[colback=burntOrange!5, colframe=burntOrange!80!black, title={\color{white}\textbf{Trapezoidal: Capacitor Companion Model}}]
 \begin{align}
     \Aboxed{v(t) &= e_h + R_C i(t)} \label{eq:vt_cap_trapz} \\
     \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_cap_trapz}
 \end{align}
-
 where:
-\begin{itemize}
-    \item $R_C = \frac{\Delta t}{2C}$ is the equivalent resistance.
-    \item $e_h = v(t - \Delta t) + R_C i(t - \Delta t)$ is the history voltage.
-    \item $i_h = \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t)$ is the history current.
-\end{itemize}
+\begin{align}
+    R_C &= \frac{\Delta t}{2C} \quad \text{(equivalent resistance)} \\
+    e_h &= v(t - \Delta t) + R_C i(t - \Delta t) \quad \text{(history voltage)} \\
+    i_h &= \frac{v(t - \Delta t)}{R_C} - i(t - \Delta t) \quad \text{(history current)}
+\end{align}
+\end{tcolorbox}
 
 \vspace{1em}
 
@@ -78,19 +80,23 @@ where:
 \vspace{1em}
 
 \subsection{Backward-Euler (BE) Discretization of Capacitor}
+
+\definecolor{deepBlue}{RGB}{0, 115, 189}
+
 The equations for the Backward-Euler discretization of a capacitor are (see Appendix \ref{sec:appendix_cap_be} for derivation):
 
+\begin{tcolorbox}[colback=deepBlue!5, colframe=deepBlue!80!black, title={\color{white}\textbf{Backward Euler: Capacitor Companion Model}}]
 \begin{align}
     \Aboxed{v(t) &= e_h + R_C\, i(t)} \label{eq:vt_cap_be} \\
     \Aboxed{i(t) &= \frac{v(t)}{R_C} - i_h} \label{eq:it_cap_be}
 \end{align}
-
 where:
-\begin{itemize}
-    \item $R_C = \dfrac{\Delta t}{C}$
-    \item $e_h = v(t-\Delta t) + R_C i(t-\Delta t)$
-    \item $i_h = \dfrac{v(t-\Delta t)}{R_C}$
-\end{itemize}
+\begin{align}
+    R_C &= \frac{\Delta t}{C} \\
+    e_h &= v(t-\Delta t) \\
+    i_h &= \frac{v(t-\Delta t)}{R_C}
+\end{align}
+\end{tcolorbox}
 
 \vspace{1em}
 \subsubsection*{Step-by-Step Solution Table for Backward-Euler Discretization}
@@ -131,22 +137,26 @@ where:
 \vspace{1em}
 
 \subsection{Forward Euler (FE) Discretization of Capacitor}
+
+\definecolor{hotPink}{RGB}{255, 105, 180}
+
 Upon solving for the forward euler discretization of the capacitor, we encounter the issue of division by zero as $v(t)$ and $e_h(t)$ are equal at every time step (one source connected to another source directly), and $i(t)$ becomes undefined (because of lack of any resistance between them). $i(t)$ could be of an arbitrarily high magnitude, however in order to ascertain its sign, we introduce a very small resistance \( R_\epsilon \ll R_c\) in series with the capacitor to avoid division by zero. This resistance is artificial and does not represent any physical element in the circuit (or at best could be argued to represent the relatively negligible resistance of the connecting wires).
 
 The equations for the Forward Euler discretization of a capacitor are (see Appendix \ref{sec:appendix_cap_fe} for derivation):
 
+\begin{tcolorbox}[colback=hotPink!5, colframe=hotPink!80!black, title={\color{white}\textbf{Forward Euler: Capacitor Companion Model}}]
 \begin{align}
     \Aboxed{v(t) &= e_h(t)} \label{eq:vt_cap_fe} \\
     \Aboxed{i(t) &= \frac{v(t)}{R_\epsilon} - i_h(t)} \label{eq:it_cap_fe}
 \end{align}
-
 where:
-\begin{itemize}
-    \item $R_c = \dfrac{h}{C}$ (discretized capacitor resistance)
-    \item $R_\epsilon \ll \dfrac{h}{C}$ (artificial resistance for FE table)
-    \item $e_h(t) = v(t-h) + R_c i(t-h)$
-    \item $i_h(t) = \frac{e_h(t)}{R_\epsilon}$
-\end{itemize}
+\begin{align}
+    R_c &= \frac{h}{C} \quad \text{(discretized capacitor resistance)} \\
+    R_\epsilon &\ll \frac{h}{C} \quad \text{(artificial resistance)} \\
+    e_h(t) &= v(t-h) + R_c i(t-h) \\
+    i_h(t) &= \frac{e_h(t)}{R_\epsilon}
+\end{align}
+\end{tcolorbox}
 
 \vspace{1em}
 \subsubsection*{Step-by-Step Solution Table for Forward-Euler Discretization}
