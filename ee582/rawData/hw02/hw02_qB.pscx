@@ -1,14 +1,14 @@
-<project name="hw02" version="5.0.1" schema="" Target="EMTDC">
+<project name="hw02_qB" version="5.0.1" schema="" Target="EMTDC">
   <paramlist name="Settings">
     <param name="creator" value="aryan,1759819346" />
     <param name="time_duration" value="0.01" />
-    <param name="time_step" value="100" />
-    <param name="sample_step" value="100" />
+    <param name="time_step" value="800" />
+    <param name="sample_step" value="800" />
     <param name="chatter_threshold" value=".001" />
     <param name="branch_threshold" value=".0005" />
     <param name="StartType" value="0" />
     <param name="startup_filename" value="$(Namespace).snp" />
-    <param name="PlotType" value="0" />
+    <param name="PlotType" value="2" />
     <param name="output_filename" value="$(Namespace).out" />
     <param name="SnapType" value="0" />
     <param name="SnapTime" value="0.3" />
@@ -23,7 +23,7 @@
     <param name="Warn" value="0" />
     <param name="Check" value="0" />
     <param name="description" value="" />
-    <param name="revisor" value="Aryan Ritwajeet Jha, 1759875401" />
+    <param name="revisor" value="Aryan Ritwajeet Jha, 1760477935" />
     <param name="labels" value="" />
   </paramlist>
   <Layers />
@@ -206,7 +206,7 @@
     </paramlist>
   </GlobalSubstitutions>
   <definitions>
-    <Definition classid="StationDefn" name="DS" id="1624597105" group="" url="" version="" build="" crc="13049833" view="false">
+    <Definition classid="StationDefn" name="DS" id="1624597105" group="" url="" version="" build="" crc="17562719" view="false">
       <paramlist name="">
         <param name="Description" value="" />
       </paramlist>
@@ -231,13 +231,13 @@
           <vertex x="0" y="18" />
           <vertex x="54" y="54" />
           <vertex x="54" y="72" />
-          <User classid="UserCmp" id="1017728826" name="hw02:Main" x="0" y="0" w="0" h="0" z="-1" orient="0" defn="hw02:Main" link="-1" q="4" disable="false">
+          <User classid="UserCmp" id="1017728826" name="hw02_qB:Main" x="0" y="0" w="0" h="0" z="-1" orient="0" defn="hw02_qB:Main" link="-1" q="4" disable="false">
             <paramlist name="" link="-1" crc="4361682" />
           </User>
         </Wire>
       </schematic>
     </Definition>
-    <Definition classid="UserCmpDefn" name="Main" id="1578624236" group="" url="" version="" build="" crc="45853823" view="false" date="1759874503">
+    <Definition classid="UserCmpDefn" name="Main" id="1578624236" group="" url="" version="" build="" crc="5735272" view="false" date="1760477155">
       <paramlist name="">
         <param name="Description" value="" />
       </paramlist>
@@ -519,12 +519,7 @@
             <param name="Name" value="e_t" />
           </paramlist>
         </User>
-        <User classid="UserCmp" id="2066360120" name="master:voltmetergnd" x="252" y="108" w="20" h="36" z="30" orient="0" defn="master:voltmetergnd" link="-1" q="4" disable="false">
-          <paramlist name="" link="-1" crc="116145885">
-            <param name="Name" value="vL" />
-          </paramlist>
-        </User>
-        <User classid="UserCmp" id="636691787" name="master:ground" x="360" y="162" w="26" h="34" z="-1" orient="1" defn="master:ground" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="636691787" name="master:ground" x="396" y="162" w="26" h="34" z="-1" orient="1" defn="master:ground" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="28206164" />
         </User>
         <Wire classid="WireOrthogonal" id="1976407473" name="" x="54" y="108" w="46" h="10" orient="0" disable="false">
@@ -587,24 +582,42 @@
             <param name="CUR" value="" />
           </paramlist>
         </User>
-        <User classid="UserCmp" id="1762828737" name="master:resistor" x="360" y="126" w="33" h="68" z="1" orient="1" defn="master:resistor" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="1762828737" name="master:resistor" x="396" y="126" w="33" h="68" z="1" orient="1" defn="master:resistor" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="10119665">
             <param name="Name" value="" />
             <param name="R" value="10.0 [ohm]" />
           </paramlist>
         </User>
-        <Wire classid="WireOrthogonal" id="672044941" name="" x="324" y="108" w="46" h="28" orient="0" disable="false">
+        <Wire classid="WireOrthogonal" id="672044941" name="" x="360" y="108" w="46" h="28" orient="0" disable="false">
           <vertex x="0" y="0" />
           <vertex x="36" y="0" />
           <vertex x="36" y="18" />
+        </Wire>
+        <User classid="UserCmp" id="591072487" name="master:voltmeter" x="252" y="108" w="20" h="44" z="30" orient="0" defn="master:voltmeter" link="-1" q="4" disable="false">
+          <paramlist name="" link="-1" crc="26842314">
+            <param name="Name" value="vL" />
+          </paramlist>
+        </User>
+        <Wire classid="WireOrthogonal" id="1779403053" name="" x="252" y="144" w="82" h="10" orient="0" disable="false">
+          <vertex x="0" y="0" />
+          <vertex x="72" y="0" />
+        </Wire>
+        <Wire classid="WireOrthogonal" id="602502174" name="" x="324" y="108" w="46" h="10" orient="0" disable="false">
+          <vertex x="0" y="0" />
+          <vertex x="36" y="0" />
+        </Wire>
+        <Wire classid="WireOrthogonal" id="854617473" name="" x="324" y="144" w="28" h="46" orient="0" disable="false">
+          <vertex x="0" y="0" />
+          <vertex x="18" y="0" />
+          <vertex x="18" y="-36" />
         </Wire>
       </schematic>
     </Definition>
   </definitions>
   <List classid="Resource" />
   <hierarchy>
-    <call link="586018983" name="hw02:DS" z="-1" view="false" instance="0">
-      <call link="1017728826" name="hw02:Main" z="-1" view="true" instance="0" />
+    <call link="256740071" name="hw02_qB:DS" z="-1" view="false" instance="0">
+      <call link="1017728826" name="hw02_qB:Main" z="-1" view="true" instance="0" />
     </call>
   </hierarchy>
 </project>
