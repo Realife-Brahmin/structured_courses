@@ -4,9 +4,18 @@
 \section*{Section B : Question 2}
 \addcontentsline{toc}{section}{Section B: Question 2}
 
-Discretize the circuit and write a MATLAB code to solve the circuit step-by-step using the two discretization rules: a) Backward Euler, b) Trapezoidal, each with time-step sizes $\Delta t = 0.1\,\text{ms}$ and $\Delta t = 0.8\,\text{ms}$.
+Discretize the circuit in \Cref{fig:b01_circuit} and write a MATLAB code to solve the circuit step-by-step using the two discretization rules: a) Backward Euler, b) Trapezoidal, each with time-step sizes $\Delta t = 0.1\,\text{ms}$ and $\Delta t = 0.8\,\text{ms}$.
 
 \noindent\rule{\textwidth}{0.4pt}
+
+\textbf{Note on Circuit and Equations:} The circuit topology in \Cref{fig:b01_circuit} is identical for both Backward Euler and Trapezoidal discretization methods - only the companion model parameters ($R_L$, $e_h$, $i_h$) differ between the two methods. The state variable trajectory generating (SVTG) equations derived from KVL are also identical for both methods, as shown below. Unlike Question A.1 where symbolic step-by-step tables were feasible, the expressions here become algebraically complex due to the resistor-inductor interaction. Therefore, I present only the generating equations and proceed directly to numerical MATLAB trajectory generation.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/hw02_qB_cktB-hand-drawn-variables-red.png}
+    \caption{Circuit analysis with labeled variables showing companion model components for discretization}
+    \label{fig:b02_circuit_analysis}
+\end{figure}
 
 \subsection{Inductor Discretization Formulas}
 
@@ -44,6 +53,69 @@ where:
     R_L &= \frac{L}{h} \\
     e_h &= R_L i(t-h) \\
     i_h &= i(t-h) = \frac{e_h}{R_L}
+\end{align}
+\end{tcolorbox}
+
+\subsection{State Variable Trajectory Generating Equations}
+
+
+The circuit consists of a resistor $R$, an inductor $L$, and a DC voltage source $e(t)$. Using the companion model formulas above, the state variables at time $t$ are calculated using the following causality:
+
+\textbf{Important Note on Causality:} At each time step $t$, assuming $e_h$ and $i_h$ are already computed from the previous step, we calculate in this order:
+\begin{enumerate}
+    \item Calculate $i(t)$ first (using KVL and companion model)
+    \item Then calculate $v_L(t)$ (using the companion model voltage equation)
+\end{enumerate}
+
+\subsubsection*{Trapezoidal Rule - Table Generating Equations}
+
+For the RL circuit with KVL: $V_{DC} - i(t) \cdot R - v_L(t) = 0$
+
+Substituting the companion model $v_L(t) = R_L i(t) - e_h$ into KVL:
+\begin{align}
+    V_{DC} - i(t) \cdot R - (R_L i(t) - e_h) &= 0 \\
+    V_{DC} + e_h &= i(t)(R + R_L)
+\end{align}
+
+\textbf{State variable calculation sequence:}
+\begin{tcolorbox}[colback=burntOrange!10, colframe=burntOrange!70!black, title={\textbf{Trapezoidal: State Variables at Time } $t$}]
+\begin{align}
+    \boxed{i(t) = \frac{V_{DC} + e_h}{R + R_L}} \quad &\text{(calculate current first)} \\[0.5em]
+    \boxed{v_L(t) = R_L i(t) - e_h} \quad &\text{(then calculate voltage)}
+\end{align}
+
+\textbf{History terms for next step:}
+\begin{align}
+    e_h &= R_L i(t) + v_L(t) \quad \text{(for use at } t+h\text{)} \\
+    i_h &= i(t) + \frac{v_L(t)}{R_L} \quad \text{(for use at } t+h\text{)}
+\end{align}
+
+\textbf{Initial conditions at } $t = 0^-$:
+\begin{align}
+    v_L(0^-) &= 0, \quad i(0^-) = 0
+\end{align}
+\end{tcolorbox}
+
+\subsubsection*{Backward Euler - Table Generating Equations}
+
+\textbf{Important:} The state variable calculation equations are \textit{identical} to Trapezoidal (shown above). The only difference lies in the history term updates, which depend on the method-specific companion model parameters.
+
+\textbf{State variable calculation sequence:}
+\begin{tcolorbox}[colback=deepBlue!10, colframe=deepBlue!70!black, title={\textbf{Backward Euler: State Variables at Time } $t$}]
+\begin{align}
+    \boxed{i(t) = \frac{V_{DC} + e_h}{R + R_L}} \quad &\text{(calculate current first)} \\[0.5em]
+    \boxed{v_L(t) = R_L i(t) - e_h} \quad &\text{(then calculate voltage)}
+\end{align}
+
+\textbf{History terms for next step:}
+\begin{align}
+    e_h &= R_L i(t) \quad \text{(for use at } t+h\text{)} \\
+    i_h &= i(t) = \frac{e_h}{R_L} \quad \text{(for use at } t+h\text{)}
+\end{align}
+
+\textbf{Initial conditions at } $t = 0^-$:
+\begin{align}
+    v_L(0^-) &= 0, \quad i(0^-) = 0
 \end{align}
 \end{tcolorbox}
 
