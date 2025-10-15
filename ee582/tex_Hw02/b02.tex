@@ -8,15 +8,6 @@ Discretize the circuit in \Cref{fig:b01_circuit} and write a MATLAB code to solv
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\textbf{Note on Circuit and Equations:} The circuit topology in \Cref{fig:b01_circuit} is identical for both Backward Euler and Trapezoidal discretization methods - only the companion model parameters ($R_L$, $e_h$, $i_h$) differ between the two methods. The state variable trajectory generating (SVTG) equations derived from KVL are also identical for both methods, as shown below. Unlike Question A.1 where symbolic step-by-step tables were feasible, the expressions here become algebraically complex due to the resistor-inductor interaction. Therefore, I present only the generating equations and proceed directly to numerical MATLAB trajectory generation.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.6\textwidth]{figures/hw02_qB_cktB-hand-drawn-variables-red.png}
-    \caption{Circuit analysis with labeled variables showing companion model components for discretization}
-    \label{fig:b02_circuit_analysis}
-\end{figure}
-
 \subsection{Inductor Discretization Formulas}
 
 \definecolor{burntOrange}{RGB}{217, 84, 26}
@@ -57,6 +48,15 @@ where:
 \end{tcolorbox}
 
 \subsection{State Variable Trajectory Generating Equations}
+
+\textbf{Note on Circuit and Equations:} The circuit topology in \Cref{fig:b01_circuit} is identical for both Backward Euler and Trapezoidal discretization methods - only the companion model parameters ($R_L$, $e_h$, $i_h$) differ between the two methods. The state variable trajectory generating (SVTG) equations derived from KVL are also identical for both methods, as shown below. Unlike Question A.1 where symbolic step-by-step tables were feasible, the expressions here become algebraically complex due to the resistor-inductor interaction. Therefore, I present only the generating equations and proceed directly to numerical MATLAB trajectory generation.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/hw02_qB_cktB-hand-drawn-variables-red.png}
+    \caption{Circuit analysis with labeled variables showing companion model components for discretization}
+    \label{fig:b02_circuit_analysis}
+\end{figure}
 
 
 The circuit consists of a resistor $R$, an inductor $L$, and a DC voltage source $e(t)$. Using the companion model formulas above, the state variables at time $t$ are calculated using the following causality:
