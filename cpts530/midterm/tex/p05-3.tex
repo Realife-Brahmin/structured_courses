@@ -27,13 +27,11 @@ First I'll plot the graph of $e^x - x^2$ to identify the intervals where the fun
     \begin{minipage}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/p05-3-graph-of-ex-x2-zoomed-in.png}
-        \caption{Graph of $e^x - x^2$ zoomed in}
     \end{minipage}%
     \hfill
     \begin{minipage}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/p05-3-graph-of-ex-x2-zoomed-out.png}
-        \caption{Graph of $e^x - x^2$ zoomed out}
     \end{minipage}
     \caption{Graphs of $e^x - x^2$: We can see from the zoomed in graph on the left that there is a single root in $[\text{-}0.8,\,\text{-}0.6]$. The zoomed out graph on the right shows that the function is monotonically increasing and has no other zeros.}
     \label{fig:ex-x2-side-by-side}
@@ -41,16 +39,18 @@ First I'll plot the graph of $e^x - x^2$ to identify the intervals where the fun
 
 From \Cref{fig:ex-x2-side-by-side}, it can be seen that there is one root in the interval $[\text{-}0.8,\,\text{-}0.6]$. Since $f(x)<0$ for $x=\text{-}0.8$ and $f(x)>0$ for $x=\text{-}0.6$, I can use this interval to find the root using both the bisection method and Ridders' method.
 
-Using the bisection method (code may be found in my solution for Hw02 Computer Problem 3.1.3), I found the root to be $r = \text{-}0.7034667969$ to 10 decimal places, which took 12 iterations.
+\subsubsection*{Root Finding on the Original Interval}
 
-A screenshot of the results may be viewed in \Cref{fig:bisection-output}.
+For the purpose of \textbf{root finding}, I applied both methods to the smaller interval $[\text{-}0.8,\,\text{-}0.6]$ with tolerances $\epsilon = 10^{-5}$ and $\delta = 10^{-5}$. The results are shown in \Cref{fig:combined-output}.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/p05-3-bisection-method-output-on-ex-x2.png}
-    \caption{Terminal output showing results of root finding for $e^x - x^2$ using the bisection method.}
-    \label{fig:bisection-output}
+    \includegraphics[width=0.9\textwidth]{"figures/p05-3-bisection-and-ridders-methods-outputs-on-ex-x2.png"}
+    \caption{Terminal output comparing root finding results for $e^x - x^2$ using both Ridders' method and bisection method on the interval $[\text{-}0.8,\,\text{-}0.6]$. Ridders' method converged in just 1 iteration, while bisection required 12 iterations to achieve similar accuracy.}
+    \label{fig:combined-output}
 \end{figure}
+
+As shown in \Cref{fig:combined-output}, Ridders' method found the root $x = \text{-}0.703468627463942$ with $|f(x)| \approx 2.29 \times 10^{-6}$ in only \textbf{1 iteration}, while the bisection method required \textbf{12 iterations} to find $c = \text{-}0.703466796875000$ with $|f(c)| \approx 1.19 \times 10^{-6}$. This dramatic difference in iteration count demonstrates the superior efficiency of Ridders' method even on a relatively small interval.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
