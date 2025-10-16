@@ -24,8 +24,9 @@ Show that $a$ is uniquely defined and give the equation for finding it.
 
 \begin{center}
 \begin{tikzpicture}[scale=1.5]
-    % Draw x-axis
-    \draw[->] (0,0) -- (6,0) node[right] {$x$};
+    % Draw axes
+    \draw[->] (0,-1) -- (0,1.5) node[above] {$f(x)$};
+    \draw[->] (-0.5,0) -- (6,0) node[right] {$x$};
     
     % Draw a curved function that crosses the x-axis
     \draw[red, thick, domain=0.5:5.5, samples=50] plot (\x, {0.3*sin(deg(\x - 2)) + 0.1*(\x - 3)});
