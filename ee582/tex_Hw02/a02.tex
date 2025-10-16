@@ -10,7 +10,14 @@ Comment on how the simulation time-step size impacts the numerical solution, and
 
 \subsection{Simulation Parameters}
 
-I implemented all three discretization methods in MATLAB with the following circuit parameters: $V_{DC} = 10$ V, $V_0 = 0$ V, $C = 1\,\mu$F, and $h = 100\,\mu$, $T = 1ms$. I also simulated the Trapezoidal method in PSCAD with chatter attenuation disabled to allow direct comparison with the analytical solution.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/qA-pscad-schematic.png}
+    \caption{PSCAD schematic for capacitor circuit simulation}
+    \label{fig:a01_pscad_schematic}
+\end{figure}
+
+I implemented all three discretization methods in MATLAB with the following circuit parameters: $V_{DC} = 10$ V, $V_0 = 0$ V, $C = 1\,\mu$F, and $h = 100\,\mu$, $T = 1ms$. I also simulated the Trapezoidal method in PSCAD as shown in \Cref{fig:a01_pscad_schematic} with chatter attenuation disabled to allow direct comparison with the analytical solution.
 
 \subsection{Method Comparison and Selection}
 
