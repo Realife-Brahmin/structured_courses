@@ -1,2 +1,8 @@
+name = "cpts530"
+uuid = "530c530c-530c-530c-530c-530c530c530c"
+version = "0.1.0"
+
 [deps]
+Crayons = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
 Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
