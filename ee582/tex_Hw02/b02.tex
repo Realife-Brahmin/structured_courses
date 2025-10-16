@@ -78,7 +78,7 @@ Substituting the companion model $v_L(t) = R_L i(t) - e_h$ into KVL:
 \end{align}
 
 \textbf{State variable calculation sequence:}
-\begin{tcolorbox}[colback=burntOrange!10, colframe=burntOrange!70!black, title={\textbf{Trapezoidal: State Variables at Time } $t$}]
+\begin{tcolorbox}[colback=burntOrange!10, colframe=burntOrange!70!black, title={\textbf{Trapezoidal: State Variables at Time $t$ for \Cref{fig:b01_circuit}}}]
 \begin{align}
     \boxed{i(t) = \frac{V_{DC} + e_h}{R + R_L}} \quad &\text{(calculate current first)} \\[0.5em]
     \boxed{v_L(t) = R_L i(t) - e_h} \quad &\text{(then calculate voltage)}
@@ -101,7 +101,7 @@ Substituting the companion model $v_L(t) = R_L i(t) - e_h$ into KVL:
 \textbf{Important:} The state variable calculation equations are \textit{identical} to Trapezoidal (shown above). The only difference lies in the history term updates, which depend on the method-specific companion model parameters.
 
 \textbf{State variable calculation sequence:}
-\begin{tcolorbox}[colback=deepBlue!10, colframe=deepBlue!70!black, title={\textbf{Backward Euler: State Variables at Time } $t$}]
+\begin{tcolorbox}[colback=deepBlue!10, colframe=deepBlue!70!black, title={\textbf{Backward Euler: State Variables at Time $t$ for \Cref{fig:b01_circuit}}}]
 \begin{align}
     \boxed{i(t) = \frac{V_{DC} + e_h}{R + R_L}} \quad &\text{(calculate current first)} \\[0.5em]
     \boxed{v_L(t) = R_L i(t) - e_h} \quad &\text{(then calculate voltage)}
