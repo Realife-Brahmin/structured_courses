@@ -10,10 +10,10 @@
 		"workbench.preferredLightColorTheme": "Dark Plus Chocolate",
 		"workbench.preferredDarkColorTheme": "Omni",
 	},
-	"extensions": {
-		"recommendations": [
-			"rocketseat.theme-omni",
-			"moondevaa.darkpluschocolate"
-		]
-	}
+	// "extensions": {
+	// 	"recommendations": [
+	// 		"rocketseat.theme-omni",
+	// 		"moondevaa.darkpluschocolate"
+	// 	]
+	// }
 }
