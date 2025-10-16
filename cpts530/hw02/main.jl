@@ -570,10 +570,10 @@ function ridders_search_with_tracking(pr; verbose=false)
 end
 
 function analyze_midterm_convergence()
-    # Use tighter tolerance and wider interval to see more iterations
+    # Use tighter tolerance and extremely wide interval to see more iterations
     pr_midterm = Dict(
-        :a => -1.5,
-        :b => 0.5,
+        :a => -100.0,
+        :b => 100.0,
         :M => 100,
         :ϵ => 1e-12,  # Much tighter tolerance
         :δ => 1e-12,
@@ -611,40 +611,88 @@ function analyze_midterm_convergence()
         
         # Convergence rate analysis
         if length(history) > 1
+            # Proper convergence order analysis using errors |x_n - x*|
             println(INFO, "\n" * "=" ^ 80, RESET)
-            println(INFO, "CONVERGENCE RATE ANALYSIS", RESET)
+            println(INFO, "CONVERGENCE ORDER ANALYSIS: |eₙ₊₁| ≈ C|eₙ|ᵖ", RESET)
+            println(INFO, "Using x* ≈ ", @sprintf("%.15f", root), " as true root", RESET)
+            println(INFO, "Formula: p ≈ log(|eₙ₊₁|/|eₙ|) / log(|eₙ|/|eₙ₋₁|)", RESET)
             println(INFO, "=" ^ 80, RESET)
-            println(@sprintf("%-4s %-15s %-15s %-15s", "Itr", "|f(x3)|", "Ratio", "Order"))
+            println(@sprintf("%-4s %-20s %-15s", "Itr", "|eₙ| = |xₙ - x*|", "Order p"))
             println("-" ^ 80)
             
+            x_star = root
+            errors = []
+            
             for i in 1:length(history)
-                itr, _, _, _, _, _, _, _, _, _, abs_f3 = history[i]
-                if i > 1
-                    prev_abs_f3 = history[i-1][11]
-                    ratio = abs_f3 / prev_abs_f3
-                    order = -log(ratio)
-                    println(@sprintf("%-4d %-15.3e %-15.3e %-15.3f", itr, abs_f3, ratio, order))
+                itr, _, _, _, x3, _, _, _, _, _, _ = history[i]
+                error = abs(x3 - x_star)
+                push!(errors, error)
+                
+                # Compute order using three consecutive errors (starting from iteration 3)
+                if i >= 3
+                    e_n_minus_1 = errors[i-2]  # e_{n-1}
+                    e_n = errors[i-1]          # e_n
+                    e_n_plus_1 = errors[i]     # e_{n+1}
+                    
+                    # p ≈ log(|e_{n+1}|/|e_n|) / log(|e_n|/|e_{n-1}|)
+                    if e_n_minus_1 > 1e-15 && e_n > 1e-15 && e_n_plus_1 > 1e-15
+                        numerator = log(e_n_plus_1 / e_n)
+                        denominator = log(e_n / e_n_minus_1)
+                        if abs(denominator) > 1e-15
+                            order_estimate = numerator / denominator
+                            println(@sprintf("%-4d %-20.3e %-15.3f", itr, error, order_estimate))
+                        else
+                            println(@sprintf("%-4d %-20.3e %-15s", itr, error, "N/A"))
+                        end
+                    else
+                        println(@sprintf("%-4d %-20.3e %-15s", itr, error, "N/A"))
+                    end
                 else
-                    println(@sprintf("%-4d %-15.3e %-15s %-15s", itr, abs_f3, "N/A", "N/A"))
+                    # First two iterations: just print error, no order yet
+                    println(@sprintf("%-4d %-20.3e %-15s", itr, error, "-"))
                 end
             end
             
-            # Average convergence order
-            if length(history) > 2
+            # Compute average convergence order from middle iterations (skip early and late)
+            if length(history) > 4
                 orders = []
-                for i in 2:length(history)
-                    abs_f3_curr = history[i][11]
-                    abs_f3_prev = history[i-1][11]
-                    if abs_f3_prev > 0 && abs_f3_curr > 0
-                        ratio = abs_f3_curr / abs_f3_prev
-                        push!(orders, -log(ratio))
+                for i in 4:length(history)-1  # Skip first 3 and last iteration
+                    if i <= length(errors) && i-1 <= length(errors) && i-2 <= length(errors)
+                        error_curr = errors[i]
+                        error_prev = errors[i-1]
+                        error_prev_prev = errors[i-2]
+                        
+                        if error_prev_prev > 1e-15 && error_prev > 1e-15 && error_curr > 1e-15
+                            numerator = log(error_curr / error_prev)
+                            denominator = log(error_prev / error_prev_prev)
+                            if abs(denominator) > 1e-15
+                                order_est = numerator / denominator
+                                # Only include reasonable values (avoid outliers)
+                                if 0.5 < order_est < 10.0
+                                    push!(orders, order_est)
+                                end
+                            end
+                        end
                     end
                 end
+                
                 if !isempty(orders)
                     avg_order = sum(orders) / length(orders)
-                    println(INFO, "\nAverage convergence order: ", WARNING, 
-                           @sprintf("%.3f", avg_order), RESET)
-                    println(INFO, "Theoretical Ridders order: ", WARNING, "1.839", RESET)
+                    println(INFO, "\n" * "-" ^ 80, RESET)
+                    println(INFO, "Estimated convergence order p: ", SUCCESS, 
+                           @sprintf("%.3f", avg_order), RESET, 
+                           " (from iterations 4-$(length(history)-1))")
+                    println(INFO, "Theoretical Ridders order:     ", WARNING, "1.839", RESET)
+                    println(INFO, "Bisection order:               ", INFO, "1.000", RESET)
+                    
+                    # Interpretation
+                    if avg_order > 1.7
+                        println(SUCCESS, "\n✓ Superlinear convergence confirmed! (p > 1.7)", RESET)
+                    elseif avg_order > 1.5
+                        println(WARNING, "\n~ Near-superlinear convergence (p > 1.5)", RESET)
+                    else
+                        println(INFO, "\n• Estimated order close to linear", RESET)
+                    end
                 end
             end
         end
