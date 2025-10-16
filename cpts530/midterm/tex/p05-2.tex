@@ -18,6 +18,31 @@ Work out a formula for $x_3$ in detail.
 
 \textbf{Solution:}
 
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Draw axes
+    \draw[->] (0,-1) -- (0,2.5) node[above] {$h(x)$};
+    \draw[->] (-0.5,0) -- (6,0) node[right] {$x$};
+    
+    % Define points: x1 at position 1 with positive h, x2 at position 5 with negative h
+    % Line passing through (1, 2) and (5, -0.8) intersects x-axis at x3
+    % Calculate x3: (2 - 0)/(2 - (-0.8)) = 2/2.8, so x3 = 1 + (2/2.8)*4 ≈ 3.857
+    
+    % Draw the line through (x1, h1) and (x2, h2)
+    \draw[red, thick] (1,2) -- (5,-0.8);
+    
+    % Mark points
+    \fill[red] (1,2) circle (2pt) node[above right] {$x_1, h(x_1)$};
+    \fill[red] (5,-0.8) circle (2pt) node[below right] {$x_2, h(x_2)$};
+    \fill[red] (3.857,0) circle (2pt) node[below left] {$x_3, 0$};
+    
+    % Label "0" on y-axis
+    \node at (-0.4,0) {$0$};
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.5em}
+
 From the diagram, we want to find $x_3$, the x-intercept of the line passing through $(x_1, h(x_1))$ and $(x_2, h(x_2))$.
 
 Let $h_1 = h(x_1)$ and $h_2 = h(x_2)$. The slope of the line is:
