@@ -442,5 +442,249 @@ end
 # Add Printf for formatted output
 using Printf
 
-# Run the test
-test_all_problems(false)
+function ridders_search_with_tracking(pr; verbose=false)
+    """
+    Modified Ridders method that tracks convergence at each iteration.
+    Returns: (root, f_root, iteration_history)
+    where iteration_history contains: [itr, x0, x2, x1, x3, f0, f1, f2, f3, interval_size]
+    """
+    @unpack a, b, M, ϵ, δ, f = pr;
+    itr = 1
+    shouldStop = false
+    
+    history = []
+    
+    # Initial bracketing interval [x0, x2]
+    x0 = a
+    x2 = b
+    f0 = f(x0)
+    f2 = f(x2)
+    
+    sgn_f0 = sign(f0)
+    sgn_f2 = sign(f2)
+    
+    if sgn_f0 * sgn_f2 > 0
+        shouldStop = true
+        error("f(x0) and f(x2) must have opposite signs for ridders_search to work.")
+        return nothing, nothing, history
+    end
+    
+    while !shouldStop
+        # Compute midpoint x1
+        x1 = (x0 + x2) / 2
+        f1 = f(x1)
+        
+        # Compute distance d
+        d = x2 - x0
+        
+        myprintln(verbose, "itr=$itr, x0=$x0, x2=$x2, x1=$x1, f0=$f0, f1=$f1, f2=$f2, d=$d")
+        
+        # Check convergence on interval size
+        if abs(d) < δ
+            shouldStop = true
+            @error("Interval sufficiently small: |x2 - x0| = $d < δ = $δ")
+            return nothing, nothing, history
+        end
+        
+        # Compute parameter a for h(x) = f(x)*e^(a*x)
+        discriminant = f1^2 - f2 * f0
+        
+        if discriminant < 0
+            shouldStop = true
+            @error("Negative discriminant: f1^2 - f2*f0 = $discriminant < 0")
+            return nothing, nothing, history
+        end
+        
+        a_param = (2 / d) * log((f1 + sign(f2) * sqrt(discriminant)) / f2)
+        
+        # Compute h(x) values
+        h0 = f0 * exp(a_param * x0)
+        h1 = f1 * exp(a_param * x1)
+        h2 = f2 * exp(a_param * x2)
+        
+        myprintln(verbose, "    a_param=$a_param, h0=$h0, h1=$h1, h2=$h2")
+        
+        # Compute x3 (x-intercept of line through (x0, h0) and (x2, h2))
+        if abs(h2 - h1) < 1e-14
+            shouldStop = true
+            @error("h2 - h1 too small: cannot compute x3")
+            return nothing, nothing, history
+        end
+        
+        x3 = (x1 * h2 - x2 * h1) / (h2 - h1)
+        f3 = f(x3)
+        
+        # Store iteration data
+        push!(history, (itr, x0, x2, x1, x3, f0, f1, f2, f3, d, abs(f3)))
+        
+        myprintln(verbose, "    x3=$x3, f3=$f3")
+        
+        # Check convergence on function value
+        if abs(f3) < ϵ
+            shouldStop = true
+            println("Root found at x3 = $x3 with f(x3) = $f3")
+            return x3, f3, history
+        end
+        
+        # Determine next bracketing interval
+        sgn_f1 = sign(f1)
+        sgn_f3 = sign(f3)
+        
+        if sgn_f1 * sgn_f3 < 0
+            # Root is in [x1, x3] or [x3, x1]
+            if x1 < x3
+                x0 = x1
+                x2 = x3
+                f0 = f1
+                f2 = f3
+            else
+                x0 = x3
+                x2 = x1
+                f0 = f3
+                f2 = f1
+            end
+        elseif sgn_f0 * sgn_f3 < 0
+            # Root is in [x0, x3]
+            x2 = x3
+            f2 = f3
+        elseif sgn_f2 * sgn_f3 < 0
+            # Root is in [x3, x2]
+            x0 = x3
+            f0 = f3
+        else
+            shouldStop = true
+            @error("Cannot determine next bracketing interval")
+            return nothing, nothing, history
+        end
+        
+        sgn_f0 = sign(f0)
+        sgn_f2 = sign(f2)
+        
+        itr += 1
+        if itr > M
+            shouldStop = true
+            @error("Exceeded maximum iterations M = $M")
+            return nothing, nothing, history
+        end
+    end
+end
+
+function analyze_midterm_convergence()
+    # Use tighter tolerance and wider interval to see more iterations
+    pr_midterm = Dict(
+        :a => -1.5,
+        :b => 0.5,
+        :M => 100,
+        :ϵ => 1e-12,  # Much tighter tolerance
+        :δ => 1e-12,
+        :f => (x -> exp(x) - x^2)
+    )
+    
+    println(INFO, "\n" * "=" ^ 80, RESET)
+    println(INFO, "MIDTERM PROBLEM 5 - CONVERGENCE ANALYSIS", RESET)
+    println(INFO, "Problem: f(x) = exp(x) - x²", RESET)
+    println(INFO, "Interval: [$(pr_midterm[:a]), $(pr_midterm[:b])], ϵ=$(pr_midterm[:ϵ]), δ=$(pr_midterm[:δ])", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    
+    # Run Ridders with tracking
+    println(INFO, "\nRunning Ridders Method with convergence tracking...\n", RESET)
+    root, f_root, history = ridders_search_with_tracking(pr_midterm, verbose=true)
+    
+    if root !== nothing
+        println(SUCCESS, "\n✓ Converged successfully!", RESET)
+        println("Final root: x = ", SUCCESS, @sprintf("%.15f", root), RESET)
+        println("Final f(x): ", SUCCESS, @sprintf("%.15e", f_root), RESET)
+        println("Number of iterations: ", SUCCESS, length(history), RESET)
+        
+        # Print convergence table
+        println(INFO, "\n" * "=" ^ 80, RESET)
+        println(INFO, "CONVERGENCE TABLE", RESET)
+        println(INFO, "=" ^ 80, RESET)
+        println(@sprintf("%-4s %-12s %-12s %-12s %-12s %-12s %-12s", 
+                        "Itr", "x3", "|f(x3)|", "Interval", "x0", "x2", "d"))
+        println("-" ^ 80)
+        
+        for (itr, x0, x2, x1, x3, f0, f1, f2, f3, d, abs_f3) in history
+            println(@sprintf("%-4d %-12.8f %-12.3e %-12.3e %-12.8f %-12.8f %-12.3e", 
+                            itr, x3, abs_f3, d, x0, x2, d))
+        end
+        
+        # Convergence rate analysis
+        if length(history) > 1
+            println(INFO, "\n" * "=" ^ 80, RESET)
+            println(INFO, "CONVERGENCE RATE ANALYSIS", RESET)
+            println(INFO, "=" ^ 80, RESET)
+            println(@sprintf("%-4s %-15s %-15s %-15s", "Itr", "|f(x3)|", "Ratio", "Order"))
+            println("-" ^ 80)
+            
+            for i in 1:length(history)
+                itr, _, _, _, _, _, _, _, _, _, abs_f3 = history[i]
+                if i > 1
+                    prev_abs_f3 = history[i-1][11]
+                    ratio = abs_f3 / prev_abs_f3
+                    order = -log(ratio)
+                    println(@sprintf("%-4d %-15.3e %-15.3e %-15.3f", itr, abs_f3, ratio, order))
+                else
+                    println(@sprintf("%-4d %-15.3e %-15s %-15s", itr, abs_f3, "N/A", "N/A"))
+                end
+            end
+            
+            # Average convergence order
+            if length(history) > 2
+                orders = []
+                for i in 2:length(history)
+                    abs_f3_curr = history[i][11]
+                    abs_f3_prev = history[i-1][11]
+                    if abs_f3_prev > 0 && abs_f3_curr > 0
+                        ratio = abs_f3_curr / abs_f3_prev
+                        push!(orders, -log(ratio))
+                    end
+                end
+                if !isempty(orders)
+                    avg_order = sum(orders) / length(orders)
+                    println(INFO, "\nAverage convergence order: ", WARNING, 
+                           @sprintf("%.3f", avg_order), RESET)
+                    println(INFO, "Theoretical Ridders order: ", WARNING, "1.839", RESET)
+                end
+            end
+        end
+        
+        println(INFO, "\n" * "=" ^ 80, RESET)
+    else
+        println(FAILURE, "\n✗ Failed to converge", RESET)
+    end
+    
+    return root, f_root, history
+end
+
+# Run the analysis
+# test_all_problems(false)
+
+# First show the original problem
+println(INFO, "\n" * "=" ^ 80, RESET)
+println(INFO, "PART 1: Original Problem Settings (as given in midterm)", RESET)
+println(INFO, "=" ^ 80, RESET)
+
+pr_original = Dict(
+    :a => -0.8,
+    :b => -0.6,
+    :M => 100,
+    :ϵ => 1e-5,
+    :δ => 1e-5,
+    :f => (x -> exp(x) - x^2)
+)
+
+println(INFO, "Interval: [-0.8, -0.6], ϵ=1e-5, δ=1e-5\n", RESET)
+root_orig, f_orig, history_orig = ridders_search_with_tracking(pr_original, verbose=false)
+if root_orig !== nothing
+    println(SUCCESS, "✓ Converged in $(length(history_orig)) iteration(s)", RESET)
+    println("  Root: x = ", @sprintf("%.15f", root_orig))
+    println("  f(x): ", @sprintf("%.3e", f_orig))
+end
+
+# Then show extended analysis
+println(INFO, "\n" * "=" ^ 80, RESET)
+println(INFO, "PART 2: Extended Analysis (wider interval, tighter tolerance)", RESET)
+println(INFO, "=" ^ 80, RESET)
+
+analyze_midterm_convergence()
