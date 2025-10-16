@@ -61,6 +61,126 @@ function bisection_search(pr; verbose=false)
     end
 end
 
+function ridders_search(pr; verbose=false)
+    @unpack a, b, M, ϵ, δ, f = pr;
+    itr = 1
+    shouldStop = false
+    
+    # Initial bracketing interval [x0, x2]
+    x0 = a
+    x2 = b
+    f0 = f(x0)
+    f2 = f(x2)
+    
+    sgn_f0 = sign(f0)
+    sgn_f2 = sign(f2)
+    
+    if sgn_f0 * sgn_f2 > 0
+        shouldStop = true
+        error("f(x0) and f(x2) must have opposite signs for ridders_search to work.")
+        return nothing, nothing
+    end
+    
+    while !shouldStop
+        # Compute midpoint x1
+        x1 = (x0 + x2) / 2
+        f1 = f(x1)
+        
+        # Compute distance d
+        d = x2 - x0
+        
+        myprintln(verbose, "itr=$itr, x0=$x0, x2=$x2, x1=$x1, f0=$f0, f1=$f1, f2=$f2, d=$d")
+        
+        # Check convergence on interval size
+        if abs(d) < δ
+            shouldStop = true
+            @error("Interval sufficiently small: |x2 - x0| = $d < δ = $δ")
+            return nothing, nothing
+        end
+        
+        # Compute parameter a for h(x) = f(x)*e^(a*x)
+        # a = (2/d) * ln((f1 + sgn(f2)*sqrt(f1^2 - f2*f0)) / f2)
+        discriminant = f1^2 - f2 * f0
+        
+        if discriminant < 0
+            shouldStop = true
+            @error("Negative discriminant: f1^2 - f2*f0 = $discriminant < 0")
+            return nothing, nothing
+        end
+        
+        a_param = (2 / d) * log((f1 + sign(f2) * sqrt(discriminant)) / f2)
+        
+        # Compute h(x) values
+        h0 = f0 * exp(a_param * x0)
+        h1 = f1 * exp(a_param * x1)
+        h2 = f2 * exp(a_param * x2)
+        
+        myprintln(verbose, "    a_param=$a_param, h0=$h0, h1=$h1, h2=$h2")
+        
+        # Compute x3 (x-intercept of line through (x0, h0) and (x2, h2))
+        # x3 = (x1*h2 - x2*h1) / (h2 - h1)
+        # Alternative form: x3 = x1 - h1*(x1 - x2)/(h1 - h2)
+        if abs(h2 - h1) < 1e-14
+            shouldStop = true
+            @error("h2 - h1 too small: cannot compute x3")
+            return nothing, nothing
+        end
+        
+        x3 = (x1 * h2 - x2 * h1) / (h2 - h1)
+        f3 = f(x3)
+        
+        myprintln(verbose, "    x3=$x3, f3=$f3")
+        
+        # Check convergence on function value
+        if abs(f3) < ϵ
+            shouldStop = true
+            println("Root found at x3 = $x3 with f(x3) = $f3")
+            return x3, f3
+        end
+        
+        # Determine next bracketing interval
+        sgn_f1 = sign(f1)
+        sgn_f3 = sign(f3)
+        
+        if sgn_f1 * sgn_f3 < 0
+            # Root is in [x1, x3] or [x3, x1]
+            if x1 < x3
+                x0 = x1
+                x2 = x3
+                f0 = f1
+                f2 = f3
+            else
+                x0 = x3
+                x2 = x1
+                f0 = f3
+                f2 = f1
+            end
+        elseif sgn_f0 * sgn_f3 < 0
+            # Root is in [x0, x3]
+            x2 = x3
+            f2 = f3
+        elseif sgn_f2 * sgn_f3 < 0
+            # Root is in [x3, x2]
+            x0 = x3
+            f0 = f3
+        else
+            shouldStop = true
+            @error("Cannot determine next bracketing interval")
+            return nothing, nothing
+        end
+        
+        sgn_f0 = sign(f0)
+        sgn_f2 = sign(f2)
+        
+        itr += 1
+        if itr > M
+            shouldStop = true
+            @error("Exceeded maximum iterations M = $M")
+            return nothing, nothing
+        end
+    end
+end
+
 
 # Root = None in the interval [1,2] (tan has asymptote at π/2 ≈ 1.5708)
 pr = Dict(
@@ -189,4 +309,13 @@ pr_midterm_5_3 = Dict(
     :δ => 1e-5,
     :f => (x -> exp(x) - x^2)
 )
+
+println("=" ^ 60)
+println("Testing Bisection Search on pr_midterm_5_3")
+println("=" ^ 60)
 bisection_search(pr_midterm_5_3, verbose=true)
+
+println("\n" * "=" ^ 60)
+println("Testing Ridders Search on pr_midterm_5_3")
+println("=" ^ 60)
+ridders_search(pr_midterm_5_3, verbose=true)
