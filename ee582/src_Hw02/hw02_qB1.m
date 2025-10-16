@@ -10,9 +10,10 @@ addpath(currentScriptFolder);
 %% ===================== Setup Plot Theme =====================
 setup_plot_theme();
 
-% Superior color palette
-color_100us = [0.85, 0.33, 0.10];  % Burnt Orange (100µs)
-color_800us = [0.00, 0.45, 0.74];  % Deep Blue (800µs)
+% PSCAD color palette (blue and gold/yellow from PSCAD branding)
+color_pscad_blue = [0.05, 0.28, 0.63];      % Dark PSCAD Blue
+color_pscad_gold = [0.80, 0.65, 0.20];      % PSCAD Gold/Mustard Yellow
+marker_size_small = 4;  % Smaller markers for dense data
 
 %% ===================== Circuit Parameters =====================
 R = 10;             % Resistance [Ω]
@@ -47,11 +48,15 @@ sgtitle({'\textbf{PSCAD Simulation: RL Circuit}', ...
 % Subplot 1: Inductor Voltage v_L(t)
 subplot(2,1,1);
 ax1 = gca;
-plot(pscad_100us.t*1e3, pscad_100us.vL, 'o-', 'DisplayName', '$\Delta t = 100$ $\mu$s', ...
-    'Color', color_100us, 'LineWidth', 3.5, 'MarkerSize', 6);
+% 100µs: Blue line with gold/yellow markers (complementary pair)
+h1 = plot(pscad_100us.t*1e3, pscad_100us.vL, 'o-', 'DisplayName', '$\Delta t = 100$ $\mu$s', ...
+    'Color', color_pscad_blue, 'LineWidth', 2.2, 'MarkerSize', marker_size_small, ...
+    'MarkerFaceColor', color_pscad_gold, 'MarkerEdgeColor', color_pscad_blue);
 hold on;
-plot(pscad_800us.t*1e3, pscad_800us.vL, 's-', 'DisplayName', '$\Delta t = 800$ $\mu$s', ...
-    'Color', color_800us, 'LineWidth', 3.5, 'MarkerSize', 8);
+% 800µs: Gold/yellow line with blue markers (reversed complementary pair)
+h2 = plot(pscad_800us.t*1e3, pscad_800us.vL, 's-', 'DisplayName', '$\Delta t = 800$ $\mu$s', ...
+    'Color', color_pscad_gold, 'LineWidth', 2.8, 'MarkerSize', 7, ...
+    'MarkerFaceColor', color_pscad_blue, 'MarkerEdgeColor', color_pscad_gold);
 grid on;
 xlabel('Time [ms]', 'Interpreter', 'latex');
 ylabel('Inductor Voltage $v_L(t)$ [V]', 'Interpreter', 'latex');
@@ -69,11 +74,15 @@ ax1.MinorGridColor = [0.5 0.5 0.5];
 % Subplot 2: Inductor Current i(t)
 subplot(2,1,2);
 ax2 = gca;
-plot(pscad_100us.t*1e3, pscad_100us.IL, 'o-', 'DisplayName', '$\Delta t = 100$ $\mu$s', ...
-    'Color', color_100us, 'LineWidth', 3.5, 'MarkerSize', 6);
+% 100µs: Blue line with gold/yellow markers (complementary pair)
+h3 = plot(pscad_100us.t*1e3, pscad_100us.IL, 'o-', 'DisplayName', '$\Delta t = 100$ $\mu$s', ...
+    'Color', color_pscad_blue, 'LineWidth', 2.2, 'MarkerSize', marker_size_small, ...
+    'MarkerFaceColor', color_pscad_gold, 'MarkerEdgeColor', color_pscad_blue);
 hold on;
-plot(pscad_800us.t*1e3, pscad_800us.IL, 's-', 'DisplayName', '$\Delta t = 800$ $\mu$s', ...
-    'Color', color_800us, 'LineWidth', 3.5, 'MarkerSize', 8);
+% 800µs: Gold/yellow line with blue markers (reversed complementary pair)
+h4 = plot(pscad_800us.t*1e3, pscad_800us.IL, 's-', 'DisplayName', '$\Delta t = 800$ $\mu$s', ...
+    'Color', color_pscad_gold, 'LineWidth', 2.8, 'MarkerSize', 7, ...
+    'MarkerFaceColor', color_pscad_blue, 'MarkerEdgeColor', color_pscad_gold);
 grid on;
 xlabel('Time [ms]', 'Interpreter', 'latex');
 ylabel('Inductor Current $i(t)$ [A]', 'Interpreter', 'latex');
