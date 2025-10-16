@@ -19,12 +19,27 @@ The parameters of the circuit below are: $R = 10\Omega$, $L = 20\text{mH}$, $e(t
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.5\textwidth]{figures/qB-pscad-schematic.png}
+    \includegraphics[width=0.99\textwidth]{figures/qB-pscad-schematic.png}
     \caption{PSCAD schematic for RL circuit simulation}
     \label{fig:b01_pscad_schematic}
 \end{figure}
 
-As shown in \Cref{fig:b01_pscad_schematic}, I implemented the RL circuit in PSCAD with the specified parameters and simulated it using two different time-step sizes: $\Delta t = 0.1$ ms and $\Delta t = 0.8$ ms. The results for the inductor current and voltage waveforms are presented below.
+As shown in \Cref{fig:b01_pscad_schematic}, I implemented the RL circuit in PSCAD with the specified parameters and simulated it using two different time-step sizes: $\Delta t = 0.1$ ms and $\Delta t = 0.8$ ms. The results for the inductor current and voltage waveforms are presented in \Cref{fig:b01_pscad_results}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.99\textwidth]{figures/hw02_qB_pscad-comparison.png}
+    \caption{PSCAD simulation results for inductor voltage and current with two time-step sizes}
+    \label{fig:b01_pscad_results}
+\end{figure}
+
+\textbf{Observations:}
+
+\textbf{Inductor Voltage:} The inductor voltage $v_L(t)$ exhibits the expected exponential decay from an initial value of approximately 10~V (at $t = 0^+$) to zero as the circuit reaches steady state. The voltage decays with time constant $\tau = L/R = 2$~ms. Both time-step sizes capture this behavior accurately, with the finer time step ($\Delta t = 0.1$~ms) providing smoother resolution of the transient. The coarser time step ($\Delta t = 0.8$~ms) still captures the overall decay trend but with fewer sample points.
+
+\textbf{Inductor Current:} The inductor current $i(t)$ rises exponentially from zero to its steady-state value of $I_{\text{ss}} = V_{\text{DC}}/R = 1$~A, following the complementary behavior to the voltage. Both time-step sizes converge to the same steady-state value, demonstrating that PSCAD's trapezoidal integration method is stable for this problem. The finer time step provides better resolution of the initial transient behavior.
+
+\textbf{Step Size Impact:} The coarser time step ($\Delta t = 0.8$~ms) is close to half the time constant ($\tau/2.5 = 0.8$~ms), yet still produces acceptable results without numerical instability. This demonstrates the robustness of PSCAD's implicit integration scheme for this first-order RL circuit.
 
 \vspace{1em}
 \noindent\rule{\textwidth}{0.4pt}
