@@ -1,4 +1,10 @@
+# Activate the cpts530 environment
+import Pkg
+Pkg.activate(joinpath(@__DIR__, ".."))
+
 using Parameters
+using Crayons
+using Printf
 
 # Print like println when no verbose flag is given
 myprintln(args...) = println(args...)
@@ -310,12 +316,131 @@ pr_midterm_5_3 = Dict(
     :f => (x -> exp(x) - x^2)
 )
 
-println("=" ^ 60)
-println("Testing Bisection Search on pr_midterm_5_3")
-println("=" ^ 60)
-bisection_search(pr_midterm_5_3, verbose=true)
+# Define color schemes
+const SUCCESS = Crayon(foreground=:green, bold=true)
+const FAILURE = Crayon(foreground=:red, bold=true)
+const INFO = Crayon(foreground=:cyan, bold=true)
+const WARNING = Crayon(foreground=:yellow, bold=true)
+const RESET = Crayon(reset=true)
 
-println("\n" * "=" ^ 60)
-println("Testing Ridders Search on pr_midterm_5_3")
-println("=" ^ 60)
-ridders_search(pr_midterm_5_3, verbose=true)
+function test_all_problems(verbose=false)
+    problems = [
+        ("pr1", pr1, "cos(x) - x"),
+        ("pr2", pr2, "exp(-x) - x"),
+        ("pr3", pr3, "x³ - x - 1"),
+        ("pr4", pr4, "sin(x) - x/2"),
+        ("pr5", pr5, "exp(x) - 3x"),
+        ("pr6", pr6, "log(x) + x - 2"),
+        ("pr7", pr7, "(x-1)⁷"),
+        ("pr8", pr8, "(x-1)exp(-100(x-1)²)"),
+        ("pr9", pr9, "tan(x) - x"),
+        ("pr10", pr10, "exp(x) - sin(x)"),
+        ("pr11", pr11, "x² - 5x + 6"),
+        ("pr_midterm_5_3", pr_midterm_5_3, "exp(x) - x²")
+    ]
+    
+    println(INFO, "\n" * "=" ^ 80, RESET)
+    println(INFO, "Testing All Problems: Bisection vs Ridders", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    
+    results = []
+    
+    for (name, prob, desc) in problems
+        println(INFO, "\n" * "-" ^ 80, RESET)
+        println(INFO, "Problem: $name | f(x) = $desc", RESET)
+        println(INFO, "Interval: [$(prob[:a]), $(prob[:b])], ϵ=$(prob[:ϵ]), δ=$(prob[:δ])", RESET)
+        println(INFO, "-" ^ 80, RESET)
+        
+        # Test Bisection
+        print("Bisection: ")
+        bisection_result = nothing
+        bisection_root = nothing
+        try
+            bisection_result = bisection_search(prob, verbose=verbose)
+            bisection_root = bisection_result[1]
+            if bisection_root !== nothing
+                println(SUCCESS, "✓ Root = $bisection_root", RESET)
+            else
+                println(FAILURE, "✗ Failed to converge", RESET)
+            end
+        catch e
+            println(FAILURE, "✗ Error: $(typeof(e))", RESET)
+        end
+        
+        # Test Ridders
+        print("Ridders:   ")
+        ridders_result = nothing
+        ridders_root = nothing
+        try
+            ridders_result = ridders_search(prob, verbose=verbose)
+            ridders_root = ridders_result[1]
+            if ridders_root !== nothing
+                println(SUCCESS, "✓ Root = $ridders_root", RESET)
+            else
+                println(FAILURE, "✗ Failed to converge", RESET)
+            end
+        catch e
+            println(FAILURE, "✗ Error: $(typeof(e))", RESET)
+        end
+        
+        # Compare results
+        if bisection_root !== nothing && ridders_root !== nothing
+            abs_diff = abs(bisection_root - ridders_root)
+            rel_diff = abs_diff / max(abs(bisection_root), abs(ridders_root), 1e-15)
+            
+            println("\nComparison:")
+            println("  Absolute difference: ", WARNING, @sprintf("%.3e", abs_diff), RESET)
+            println("  Relative difference: ", WARNING, @sprintf("%.3e", rel_diff), RESET)
+            
+            # Verify both are actually roots
+            f_bisection = prob[:f](bisection_root)
+            f_ridders = prob[:f](ridders_root)
+            println("  |f(x_bisection)|: ", @sprintf("%.3e", abs(f_bisection)))
+            println("  |f(x_ridders)|:   ", @sprintf("%.3e", abs(f_ridders)))
+            
+            push!(results, (name, desc, bisection_root, ridders_root, abs_diff, rel_diff, 
+                           abs(f_bisection), abs(f_ridders), true, true))
+        else
+            push!(results, (name, desc, bisection_root, ridders_root, nothing, nothing,
+                           nothing, nothing, bisection_root !== nothing, ridders_root !== nothing))
+        end
+    end
+    
+    # Summary table
+    println(INFO, "\n\n" * "=" ^ 80, RESET)
+    println(INFO, "SUMMARY TABLE", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    println(@sprintf("%-20s %-12s %-12s %-12s %-12s", "Problem", "Bisection", "Ridders", "Abs Diff", "Rel Diff"))
+    println("-" ^ 80)
+    
+    for result in results
+        name, desc, b_root, r_root, abs_diff, rel_diff, f_b, f_r, b_success, r_success = result
+        
+        b_str = b_success ? (b_root !== nothing ? @sprintf("%.8f", b_root) : "Failed") : "Error"
+        r_str = r_success ? (r_root !== nothing ? @sprintf("%.8f", r_root) : "Failed") : "Error"
+        
+        if abs_diff !== nothing
+            diff_str = @sprintf("%.3e", abs_diff)
+            rel_str = @sprintf("%.3e", rel_diff)
+            
+            status = (abs_diff < 1e-6) ? SUCCESS : WARNING
+            print(status)
+            println(@sprintf("%-20s %-12s %-12s %-12s %-12s", name, b_str, r_str, diff_str, rel_str))
+            print(RESET)
+        else
+            print(FAILURE)
+            println(@sprintf("%-20s %-12s %-12s %-12s %-12s", name, b_str, r_str, "N/A", "N/A"))
+            print(RESET)
+        end
+    end
+    
+    println(INFO, "=" ^ 80, RESET)
+    
+    return results
+end
+
+# Add Printf for formatted output
+using Printf
+
+# Run the test
+test_all_problems(false)
