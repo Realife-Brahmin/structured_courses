@@ -18,7 +18,52 @@ Work out a formula for $x_3$ in detail.
 
 \textbf{Solution:}
 
-% Solution will be added here
+From the diagram, we want to find $x_3$, the x-intercept of the line passing through $(x_1, h(x_1))$ and $(x_2, h(x_2))$.
+
+Let $h_1 = h(x_1)$ and $h_2 = h(x_2)$. The slope of the line is:
+\[
+    m = \frac{h(x_1) - h(x_2)}{x_1 - x_2} = \frac{h_1 - h_2}{x_1 - x_2}
+\]
+
+The equation of the line passing through $(x_1, h_1)$ with slope $m$ is:
+\[
+    h(x) - h_1 = m(x - x_1)
+\]
+
+To find $x_3$, set $h(x_3) = 0$:
+\[
+    0 = h_1 + m(x_3 - x_1)
+\]
+
+Solving for $x_3$:
+\[
+    m(x_3 - x_1) = -h_1
+\]
+\[
+    x_3 - x_1 = -\frac{h_1}{m}
+\]
+\[
+    x_3 = x_1 - \frac{h_1}{m}
+\]
+
+Substitute the expression for $m$:
+\[
+    x_3 = x_1 - \frac{h_1}{\frac{h_1 - h_2}{x_1 - x_2}}
+\]
+\[
+    x_3 = x_1 - \frac{h_1(x_1 - x_2)}{h_1 - h_2}
+\]
+
+Now, using $d/2 = x_2 - x_1$, we have:
+
+\[
+    \boxed{x_3 = x_1 + \frac{d}{2} \cdot \frac{1}{1 - h_2/h_1}}
+\]
+
+Or equivalently:
+\[
+    \boxed{x_3 = \frac{x_1 h_2 - x_2 h_1}{h_2 - h_1}}
+\]
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
