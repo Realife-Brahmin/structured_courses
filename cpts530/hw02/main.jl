@@ -67,6 +67,68 @@ function bisection_search(pr; verbose=false)
     end
 end
 
+function bisection_search_with_tracking(pr; verbose=false)
+    """
+    Bisection method with convergence tracking.
+    Returns: (root, f_root, iteration_history)
+    where iteration_history contains: [itr, a, b, c, f_c, interval_size]
+    """
+    @unpack a, b, M, ϵ, δ, f = pr;
+    itr = 1
+    shouldStop = false
+    history = []
+    
+    u = f(a); v = f(b); e = b - a;
+    sgn_f_a = sign(u); sgn_f_b = sign(v);
+    if sgn_f_a * sgn_f_b > 0
+        shouldStop = true
+        error("f(a) and f(b) must have opposite signs for bisection_search to work (using MVT).")
+        return nothing, nothing, history
+    end
+
+    while !shouldStop
+        e = e / 2
+        c = a + e
+        w = f(c)
+        
+        # Store iteration data
+        push!(history, (itr, a, b, c, w, 2*abs(e), abs(w)))
+        
+        myprintln(verbose, "itr=$itr, a=$a, b=$b, c=$c, f(c)=$(f(c)), |b-a|=$(2*abs(e))")
+        
+        if abs(w) < ϵ
+            shouldStop = true
+            println("Root found at c = $c with f(c) = $w")
+            return c, w, history
+        end
+        if abs(e) < δ
+            shouldStop = true
+            @error("Interval sufficiently small: |b - a| = $(2*abs(e)) < δ = $δ")
+            return nothing, nothing, history
+        end
+        sgn_f_c = sign(w)
+        if sgn_f_a * sgn_f_c < 0 # root is in [a, c]
+            b = c
+            v = w
+            sgn_f_b = sgn_f_c
+        elseif sgn_f_b * sgn_f_c < 0 # root is in [c, b]
+            a = c
+            u = w
+            sgn_f_a = sgn_f_c
+        else # w == 0, found exact root?
+            @error("floc")
+            shouldStop = true
+            return nothing, nothing, history
+        end
+        itr += 1
+        if itr > M
+            shouldStop = true
+            @error("Exceeded maximum iterations M = $M")
+            return nothing, nothing, history
+        end
+    end
+end
+
 function ridders_search(pr; verbose=false)
     @unpack a, b, M, ϵ, δ, f = pr;
     itr = 1
@@ -705,6 +767,135 @@ function analyze_midterm_convergence()
     return root, f_root, history
 end
 
+function analyze_bisection_convergence()
+    # Use same settings as Ridders for fair comparison
+    pr_bisection = Dict(
+        :a => -100.0,
+        :b => 100.0,
+        :M => 100,
+        :ϵ => 1e-12,
+        :δ => 1e-12,
+        :f => (x -> exp(x) - x^2)
+    )
+    
+    println(INFO, "\n" * "=" ^ 80, RESET)
+    println(INFO, "BISECTION METHOD - CONVERGENCE ANALYSIS", RESET)
+    println(INFO, "Problem: f(x) = exp(x) - x²", RESET)
+    println(INFO, "Interval: [$(pr_bisection[:a]), $(pr_bisection[:b])], ϵ=$(pr_bisection[:ϵ]), δ=$(pr_bisection[:δ])", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    
+    # Run Bisection with tracking
+    println(INFO, "\nRunning Bisection Method with convergence tracking...\n", RESET)
+    root, f_root, history = bisection_search_with_tracking(pr_bisection, verbose=false)
+    
+    if root !== nothing
+        println(SUCCESS, "\n✓ Converged successfully!", RESET)
+        println("Final root: c = ", SUCCESS, @sprintf("%.15f", root), RESET)
+        println("Final f(c): ", SUCCESS, @sprintf("%.15e", f_root), RESET)
+        println("Number of iterations: ", SUCCESS, length(history), RESET)
+        
+        # Print convergence table
+        println(INFO, "\n" * "=" ^ 80, RESET)
+        println(INFO, "CONVERGENCE TABLE", RESET)
+        println(INFO, "=" ^ 80, RESET)
+        println(@sprintf("%-4s %-12s %-12s %-12s %-12s", 
+                        "Itr", "c", "|f(c)|", "Interval", "a"))
+        println("-" ^ 80)
+        
+        # Show first 15 iterations for comparison with Ridders
+        for i in 1:min(15, length(history))
+            itr, a, b, c, f_c, interval, abs_f_c = history[i]
+            println(@sprintf("%-4d %-12.8f %-12.3e %-12.3e %-12.8f", 
+                            itr, c, abs_f_c, interval, a))
+        end
+        
+        if length(history) > 15
+            println("...")
+            println("(Showing first 15 of $(length(history)) iterations)")
+        end
+        
+        # Convergence order analysis
+        println(INFO, "\n" * "=" ^ 80, RESET)
+        println(INFO, "CONVERGENCE ORDER ANALYSIS: |eₙ₊₁| ≈ C|eₙ|ᵖ", RESET)
+        println(INFO, "Using c* ≈ ", @sprintf("%.15f", root), " as true root", RESET)
+        println(INFO, "Formula: p ≈ log(|eₙ₊₁|/|eₙ|) / log(|eₙ|/|eₙ₋₁|)", RESET)
+        println(INFO, "=" ^ 80, RESET)
+        println(@sprintf("%-4s %-20s %-15s", "Itr", "|eₙ| = |cₙ - c*|", "Order p"))
+        println("-" ^ 80)
+        
+        c_star = root
+        errors = []
+        
+        for i in 1:min(15, length(history))
+            itr, _, _, c, _, _, _ = history[i]
+            error = abs(c - c_star)
+            push!(errors, error)
+            
+            # Compute order using three consecutive errors (starting from iteration 3)
+            if i >= 3
+                e_n_minus_1 = errors[i-2]
+                e_n = errors[i-1]
+                e_n_plus_1 = errors[i]
+                
+                if e_n_minus_1 > 1e-15 && e_n > 1e-15 && e_n_plus_1 > 1e-15
+                    numerator = log(e_n_plus_1 / e_n)
+                    denominator = log(e_n / e_n_minus_1)
+                    if abs(denominator) > 1e-15
+                        order_estimate = numerator / denominator
+                        println(@sprintf("%-4d %-20.3e %-15.3f", itr, error, order_estimate))
+                    else
+                        println(@sprintf("%-4d %-20.3e %-15s", itr, error, "N/A"))
+                    end
+                else
+                    println(@sprintf("%-4d %-20.3e %-15s", itr, error, "N/A"))
+                end
+            else
+                println(@sprintf("%-4d %-20.3e %-15s", itr, error, "-"))
+            end
+        end
+        
+        # Compute average convergence order
+        if length(errors) > 4
+            orders = []
+            for i in 4:min(15, length(errors))
+                e_n_minus_1 = errors[i-2]
+                e_n = errors[i-1]
+                e_n_plus_1 = errors[i]
+                
+                if e_n_minus_1 > 1e-15 && e_n > 1e-15 && e_n_plus_1 > 1e-15
+                    numerator = log(e_n_plus_1 / e_n)
+                    denominator = log(e_n / e_n_minus_1)
+                    if abs(denominator) > 1e-15
+                        order_est = numerator / denominator
+                        if 0.5 < order_est < 1.5
+                            push!(orders, order_est)
+                        end
+                    end
+                end
+            end
+            
+            if !isempty(orders)
+                avg_order = sum(orders) / length(orders)
+                println(INFO, "\n" * "-" ^ 80, RESET)
+                println(INFO, "Estimated convergence order p: ", SUCCESS, 
+                       @sprintf("%.3f", avg_order), RESET, 
+                       " (from iterations 4-15)")
+                println(INFO, "Theoretical bisection order:   ", WARNING, "1.000", RESET)
+                
+                if abs(avg_order - 1.0) < 0.1
+                    println(SUCCESS, "\n✓ Linear convergence confirmed! (p ≈ 1.0)", RESET)
+                end
+            end
+        end
+        
+        println(INFO, "\n" * "=" ^ 80, RESET)
+    else
+        println(FAILURE, "\n✗ Failed to converge", RESET)
+    end
+    
+    return root, f_root, history
+end
+
 # Run the analysis
 # test_all_problems(false)
 
@@ -723,16 +914,30 @@ pr_original = Dict(
 )
 
 println(INFO, "Interval: [-0.8, -0.6], ϵ=1e-5, δ=1e-5\n", RESET)
+
+# Test Ridders method
+println(INFO, "Ridders Method:", RESET)
 root_orig, f_orig, history_orig = ridders_search_with_tracking(pr_original, verbose=false)
 if root_orig !== nothing
-    println(SUCCESS, "✓ Converged in $(length(history_orig)) iteration(s)", RESET)
+    println(SUCCESS, "✓ Ridders converged in $(length(history_orig)) iteration(s)", RESET)
     println("  Root: x = ", @sprintf("%.15f", root_orig))
     println("  f(x): ", @sprintf("%.3e", f_orig))
 end
+println()
 
-# Then show extended analysis
+# Test Bisection method
+println(INFO, "Bisection Method:", RESET)
+root_bis_orig, f_bis_orig, history_bis_orig = bisection_search_with_tracking(pr_original, verbose=false)
+if root_bis_orig !== nothing
+    println(SUCCESS, "✓ Bisection converged in $(length(history_bis_orig)) iteration(s)", RESET)
+    println("  Root: c = ", @sprintf("%.15f", root_bis_orig))
+    println("  f(c): ", @sprintf("%.3e", f_bis_orig))
+end
+
+# Then show extended analysis for both methods
 println(INFO, "\n" * "=" ^ 80, RESET)
-println(INFO, "PART 2: Extended Analysis (wider interval, tighter tolerance)", RESET)
+println(INFO, "PART 2: Comparative Analysis (wider interval, tighter tolerance)", RESET)
 println(INFO, "=" ^ 80, RESET)
 
 analyze_midterm_convergence()
+analyze_bisection_convergence()
