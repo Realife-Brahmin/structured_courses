@@ -22,6 +22,32 @@ Show that $a$ is uniquely defined and give the equation for finding it.
 
 \textbf{Note}: Thanks to the wikipedia article which itself cites the original paper by Ridders, it was easier to derive all the relevant formulae. I have chosen my target formulae and required derivations to align with those, with little variation. \\
 
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+    % Draw x-axis
+    \draw[->] (0,0) -- (6,0) node[right] {$x$};
+    
+    % Draw a curved function that crosses the x-axis
+    \draw[red, thick, domain=0.5:5.5, samples=50] plot (\x, {0.3*sin(deg(\x - 2)) + 0.1*(\x - 3)});
+    
+    % Mark x0, x1, x2
+    \draw (1,0) -- (1,-0.1) node[below] {$x_0$};
+    \draw (5,0) -- (5,-0.1) node[below] {$x_2$};
+    \draw (3,0) -- (3,-0.1) node[below] {$x_1$};
+    
+    % Draw distance d
+    \draw[<->, blue, thick] (1,1.2) -- (5,1.2) node[midway, above] {$d = x_2 - x_0$};
+    \draw[<->, blue, thick] (1,0.7) -- (3,0.7) node[midway, above] {$x_1 - x_0 = d/2$};
+    
+    % Mark f(x0) and f(x2) with opposite signs
+    \fill[red] (1,{0.3*sin(deg(1-2)) + 0.1*(1-3)}) circle (1.5pt) node[below left, yshift=-3pt] {$f(x_0)$};
+    \fill[red] (5,{0.3*sin(deg(5-2)) + 0.1*(5-3)}) circle (1.5pt) node[above right, yshift=3pt] {$f(x_2)$};
+    \fill[red] (3,{0.3*sin(deg(3-2)) + 0.1*(3-3)}) circle (1.5pt) node[above] {$f(x_1)$};
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.5em}
+
 Let $x_0$ and $x_2$ be the endpoints of the bracketing interval, and $x_1 = \frac{x_0 + x_2}{2}$ the midpoint. Let $d = x_2 - x_0$.
 
 Define $f_0 = f(x_0)$, $f_1 = f(x_1)$, $f_2 = f(x_2)$.
