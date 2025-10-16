@@ -20,37 +20,25 @@ Numerically, compare the convergence rate of both algorithms. Discuss the result
 
 \subsubsection*{Need for a Wider Interval}
 
-While the interval $[\text{-}0.8,\,\text{-}0.6]$ was suitable for root finding (as shown in Part 3), it is \textbf{too small for proper convergence analysis}. Ridders' method converges so rapidly on this small interval that it reaches the solution in just 1 iteration, making it impossible to observe the convergence behavior over multiple iterations.
-
-To properly analyze and compare the convergence rates of both algorithms, I extended the analysis to a much wider interval $[\text{-}100,\,100]$ with tighter tolerances $\epsilon = 10^{-12}$ and $\delta = 10^{-12}$. This wider interval:
-\begin{itemize}
-    \item Forces both methods to perform many more iterations before converging
-    \item Allows us to observe the characteristic convergence patterns of each method
-    \item Provides sufficient data points to compute meaningful convergence order estimates
-    \item Demonstrates the robustness of both methods when starting far from the root
-\end{itemize}
-
-The Mean Value Theorem condition is satisfied since $f(\text{-}100) = \text{-}10000 < 0$ and $f(100) = 2.688 \times 10^{43} > 0$, confirming that $f(\text{-}100) \cdot f(100) < 0$.
+The interval $[\text{-}0.8,\,\text{-}0.6]$ from Part 3 is too small for convergence analysis---Ridders' method converges in just 1 iteration, preventing observation of convergence behavior. To properly compare both algorithms, I use the wider interval $[\text{-}100,\,100]$ with tolerances $\epsilon = \delta = 10^{-12}$. This generates enough iterations to compute meaningful convergence orders and demonstrates robustness when starting far from the root. The MVT condition is satisfied: $f(\text{-}100) \cdot f(100) < 0$.
 
 \subsubsection*{Convergence Analysis Results}
 
 \paragraph{Ridders' Method}
 
-\Cref{fig:ridders-output} shows the terminal output for Ridders' method, demonstrating that it converged in \textbf{12 iterations} from the wide interval.
+Ridders' method converged in \textbf{12 iterations} to machine precision ($\approx 10^{-16}$), as shown in \Cref{fig:ridders-output,fig:ridders-convergence-trajectory}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{figures/p05-4-ridders-method-output-on-ex-x2.png}
-    \caption{Terminal output showing Ridders' method convergence on $e^x - x^2$ using the extended interval $[\text{-}100,\,100]$. The method converged to machine precision ($\approx 10^{-16}$) in 12 iterations.}
+    \caption{Ridders' method terminal output: 12 iterations to convergence.}
     \label{fig:ridders-output}
 \end{figure}
-
-\Cref{fig:ridders-convergence-trajectory} presents the \textbf{convergence trajectory table} showing how the approximate root $x_3$, function value $|f(x_3)|$, and interval size decrease at each iteration.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/p05-4-ridders-method-convergence-table-on-ex-x2.png}
-    \caption{Convergence trajectory table for Ridders' method showing iteration number, approximate root $x_3$, absolute function value $|f(x_3)|$, interval size, and the endpoints $x_0$, $x_2$ at each iteration. The interval size decreases rapidly, demonstrating superlinear convergence.}
+    \caption{Ridders' convergence trajectory table: rapid decrease in interval size demonstrates superlinear convergence.}
     \label{fig:ridders-convergence-trajectory}
 \end{figure}
 
@@ -58,21 +46,19 @@ The Mean Value Theorem condition is satisfied since $f(\text{-}100) = \text{-}10
 
 \paragraph{Bisection Method}
 
-\Cref{fig:bisection-output-extended} shows the terminal output for the bisection method, which required \textbf{47 iterations}---almost 4 times as many as Ridders' method---to achieve similar accuracy.
+Bisection required \textbf{47 iterations}---almost 4$\times$ more than Ridders---to achieve similar accuracy, as shown in \Cref{fig:bisection-output-extended,fig:bisection-convergence-trajectory}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{figures/p05-4-bisection-method-output-on-ex-x2.png}
-    \caption{Terminal output showing bisection method convergence on $e^x - x^2$ using the extended interval $[\text{-}100,\,100]$. The method required 47 iterations to converge.}
+    \caption{Bisection method terminal output: 47 iterations to convergence.}
     \label{fig:bisection-output-extended}
 \end{figure}
-
-\Cref{fig:bisection-convergence-trajectory} presents the \textbf{convergence trajectory table} for the bisection method (showing the first 15 iterations), illustrating its characteristic linear convergence where the interval size is halved at each step.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/p05-4-bisection-method-convergence-table-on-ex-x2.png}
-    \caption{Convergence trajectory table for bisection method showing iteration number, midpoint $c$, absolute function value $|f(c)|$, interval size, and left endpoint $a$ at each iteration. Only the first 15 of 47 iterations are shown. The interval size decreases by exactly half each iteration, characteristic of linear convergence.}
+    \caption{Bisection convergence trajectory table (first 15 of 47 iterations): standard error analysis doesn't quite capture any particular convergence behavior, which is why typically bisection's convergence is described as linear with $|e_{n+1}| = \frac{1}{2}|e_n|$ based on interval halving.}
     \label{fig:bisection-convergence-trajectory}
 \end{figure}
 
@@ -80,53 +66,23 @@ The Mean Value Theorem condition is satisfied since $f(\text{-}100) = \text{-}10
 
 \subsubsection*{Convergence Order Analysis}
 
-To quantify the convergence rate, I computed the approximate convergence order using the formula:
-$$p \approx \frac{\log(|e_{n+1}|/|e_n|)}{\log(|e_n|/|e_{n-1}|)}$$
-where $e_n = |x_n - x^*|$ is the absolute error at iteration $n$, and $x^*$ is the true root.
+I computed the convergence order using: $p \approx \frac{\log(|e_{n+1}|/|e_n|)}{\log(|e_n|/|e_{n-1}|)}$ where $e_n = |x_n - x^*|$.
 
-\paragraph{Ridders' Method Convergence Order}
+\paragraph{Ridders' Method:} $p \approx 1.717$ (iterations 4--11), close to theoretical $p = 1.839$. This confirms \textbf{superlinear convergence}.
 
-The \textbf{convergence order analysis table} for Ridders' method demonstrates superlinear convergence, as shown in the terminal output from \Cref{fig:ridders-output}.
+\paragraph{Bisection Method:} $p \approx 1.104$ (iterations 4--15), close to theoretical $p = 1.0$. This confirms \textbf{linear convergence}. 
 
-Key observations:
+\textbf{Note:} Bisection's order is typically expressed as $|e_{n+1}| = \frac{1}{2}|e_n|$ (interval halving), but for direct comparison with Ridders, I used the same formula above.
+
+\subsubsection*{Conclusions}
+
 \begin{itemize}
-    \item The estimated convergence order is $p \approx 1.717$ (averaged over iterations 4--11)
-    \item This is close to the theoretical order of $p = 1.839$ for Ridders' method
-    \item The order $p > 1.7$ confirms \textbf{superlinear convergence}
-    \item Early iterations show $p \approx 2.1$--2.2, while later iterations show $p \approx 1.2$--1.4 due to machine precision limits
+    \item \textbf{Efficiency:} Ridders requires 12 iterations vs. bisection's 47 (4$\times$ faster) for tolerance $10^{-12}$
+    \item \textbf{Convergence:} Ridders' $p \approx 1.717$ (superlinear) vs. bisection's $p \approx 1.0$ (linear)
+    \item \textbf{Robustness:} Both converged successfully from the wide interval $[\text{-}100,\,100]$
 \end{itemize}
 
-\paragraph{Bisection Method Convergence Order}
-
-The \textbf{convergence order analysis table} for the bisection method demonstrates linear convergence, as shown in the terminal output from \Cref{fig:bisection-output-extended}.
-
-Key observations:
-\begin{itemize}
-    \item The estimated convergence order is $p \approx 1.104$ (averaged over iterations 4--15)
-    \item This is very close to the theoretical order of $p = 1.0$ for bisection
-    \item The order $p \approx 1.0$ confirms \textbf{linear convergence}
-    \item \textbf{Important note:} The convergence order for bisection is typically not computed using the error ratio formula shown above. Instead, it is commonly expressed as the interval reduction factor: the error decreases by a factor of $\frac{1}{2}$ at each iteration, giving $|e_{n+1}| = \frac{1}{2}|e_n|$ or order $\mathcal{O}(n) = (1/2)^n$. However, for consistency with the Ridders' analysis and to provide a direct comparison, we computed the average convergence order using the same formula, which yields $p \approx 1.104$.
-\end{itemize}
-
-\subsubsection*{Discussion and Conclusions}
-
-The numerical comparison reveals several important insights:
-
-\begin{enumerate}
-    \item \textbf{Efficiency:} Ridders' method is significantly more efficient, requiring only 12 iterations compared to 47 for bisection (a 4$\times$ reduction) to achieve the same tolerance of $10^{-12}$.
-    
-    \item \textbf{Convergence Rate:} The convergence order analysis confirms theoretical predictions:
-    \begin{itemize}
-        \item Ridders' method: $p \approx 1.717$ (superlinear, theoretical $\approx 1.839$)
-        \item Bisection method: $p \approx 1.104$ (linear, theoretical $= 1.0$)
-    \end{itemize}
-    
-    \item \textbf{Robustness:} Both methods successfully converged from the very wide initial interval $[\text{-}100,\,100]$, demonstrating their robustness. However, Ridders' method maintained its superior convergence rate even when starting far from the root.
-    
-    \item \textbf{Practical Implications:} For problems requiring high accuracy, Ridders' method offers a compelling advantage over bisection. The superlinear convergence means that as iterations progress, each new iteration provides exponentially more accuracy than the previous one, whereas bisection improves by a constant factor of 2 per iteration.
-\end{enumerate}
-
-In summary, Ridders' method achieves an approximate convergence order of $p \approx 1.717$, demonstrating superlinear convergence that is substantially faster than the linear convergence of bisection ($p \approx 1.0$). This makes Ridders' method the preferred choice when computational efficiency is important and function evaluations are not prohibitively expensive.
+Ridders' method is substantially more efficient than bisection, making it the preferred choice when function evaluations are not prohibitively expensive.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
