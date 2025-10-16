@@ -399,10 +399,10 @@ function test_all_problems(verbose=false)
             println("  |f(x_ridders)|:   ", @sprintf("%.3e", abs(f_ridders)))
             
             push!(results, (name, desc, bisection_root, ridders_root, abs_diff, rel_diff, 
-                           abs(f_bisection), abs(f_ridders), true, true))
+                        abs(f_bisection), abs(f_ridders), true, true))
         else
             push!(results, (name, desc, bisection_root, ridders_root, nothing, nothing,
-                           nothing, nothing, bisection_root !== nothing, ridders_root !== nothing))
+                        nothing, nothing, bisection_root !== nothing, ridders_root !== nothing))
         end
     end
     
