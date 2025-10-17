@@ -21,7 +21,6 @@ Returns L (lower triangular) and U (upper triangular) such that A = LU.
 - `U::Matrix`: Upper triangular matrix
 """
 function get_LU_factors(A)
-    # TODO: Implement LU factorization
     n = size(A, 1)
     L = zeros(n, n)
     U = zeros(n, n)
@@ -133,11 +132,10 @@ const RUN_TESTS = true
 const TEST_FULL_SOLVER = false
 
 # =============================================================================
-# Main execution
+# Main execution - Runs automatically (works with "Play" button!)
 # =============================================================================
 
-if abspath(PROGRAM_FILE) == @__FILE__
-    if RUN_TESTS
+if RUN_TESTS
         println(INFO, "\n" * "=" ^ 80, RESET)
         println(INFO, "MIDTERM PROBLEM 3: LU FACTORIZATION TESTS", RESET)
         println(INFO, "=" ^ 80, RESET)
@@ -173,21 +171,14 @@ if abspath(PROGRAM_FILE) == @__FILE__
             println("[4.0   3.0]")
             println("[0.0  -1.5]")
             
-            # Test Case 2: Problem from midterm (3×3)
-            println(INFO, "\n\nTEST 2: Midterm Problem 3×3 Matrix", RESET)
-            A2 = [2.0   1.0  1.0;
-                4.0  -6.0  0.0;
-                -2.0   7.0  2.0]
-            test_LU_only(A2, name="Midterm 3×3 system")
+            # Test Case 2: ACTUAL MIDTERM PROBLEM 3 (3×3)
+            println(INFO, "\n\nTEST 2: ACTUAL Midterm Problem 3", RESET)
+            A2 = [6.25  -1.0   0.5;
+                 -1.0   5.0   2.12;
+                  0.5   2.12  3.6]
+            test_LU_only(A2, name="Midterm Problem 3 - Actual Matrix")
             
-            println("\n", INFO, "Expected L:", RESET)
-            println("[1.0   0.0  0.0]")
-            println("[2.0   1.0  0.0]")
-            println("[-1.0 -1.0  1.0]")
-            println(INFO, "Expected U:", RESET)
-            println("[2.0  1.0   1.0]")
-            println("[0.0 -8.0  -2.0]")
-            println("[0.0  0.0   1.0]")
+            println("\n", INFO, "Note: This is the matrix from your midterm problem!", RESET)
             
             # Test Case 3: Identity matrix (should give L=I, U=I)
             println(INFO, "\n\nTEST 3: Identity Matrix", RESET)
@@ -233,5 +224,4 @@ if abspath(PROGRAM_FILE) == @__FILE__
         # L, U = get_LU_factors(A)
         # println("\nL = "); display(L)
         # println("\nU = "); display(U)
-    end
 end

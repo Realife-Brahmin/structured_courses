@@ -183,14 +183,14 @@ end
 Define test problems here
 """
 
-# Simple 3x3 system
+# ACTUAL MIDTERM PROBLEM 3
 function test_problem_1()
-    A = [2.0  1.0  1.0;
-        4.0 -6.0  0.0;
-        -2.0  7.0  2.0]
-    b = [5.0, -2.0, 9.0]
+    A = [6.25  -1.0   0.5;
+        -1.0   5.0   2.12;
+         0.5   2.12  3.6]
+    b = [7.5, -8.68, -0.24]
     
-    test_LU_solver(A, b, name="Problem 1: Simple 3×3 system")
+    test_LU_solver(A, b, name="MIDTERM PROBLEM 3: Actual Matrix from Exam")
 end
 
 # Another test problem
