@@ -40,7 +40,7 @@ function get_LU_factors(A)
 end
 
 """
-    solve_Ly_is_equal_to_b(L, b)
+    solve_Ly_equals_b_for_y(L, b)
 
 Solve Ly = b for y using forward substitution.
 Assumes L is lower triangular with ones on the diagonal.
@@ -52,7 +52,7 @@ Assumes L is lower triangular with ones on the diagonal.
 # Returns
 - `y::Vector`: Solution vector
 """
-function solve_Ly_is_equal_to_b(L, b)
+function solve_Ly_equals_b_for_y(L, b)
     n = length(b)
     y = zeros(n)
     
@@ -69,7 +69,7 @@ function solve_Ly_is_equal_to_b(L, b)
 end
 
 """
-    solve_Ux_is_equal_to_y(U, y)
+    solve_Ux_equals_y_for_x(U, y)
 
 Solve Ux = y for x using backward substitution.
 Assumes U is upper triangular.
@@ -81,7 +81,7 @@ Assumes U is upper triangular.
 # Returns
 - `x::Vector`: Solution vector
 """
-function solve_Ux_is_equal_to_y(U, y)
+function solve_Ux_equals_y_for_x(U, y)
     n = length(y)
     x = zeros(n)
     
@@ -102,7 +102,7 @@ end
 
 Solve Ax = b using LU factorization.
 This is the main driver function that uses get_LU_factors, 
-solve_Ly_is_equal_to_b, and solve_Ux_is_equal_to_y.
+solve_Ly_equals_b_for_y, and solve_Ux_equals_y_for_x.
 
 # Arguments
 - `A::Matrix`: Coefficient matrix
@@ -117,11 +117,11 @@ function solve_linear_system_LU(A, b)
     # Step 1: Get LU factors
     L, U = get_LU_factors(A)
     
-    # Step 2: Solve Ly = b
-    y = solve_Ly_is_equal_to_b(L, b)
+    # Step 2: Solve Ly = b for y
+    y = solve_Ly_equals_b_for_y(L, b)
     
-    # Step 3: Solve Ux = y
-    x = solve_Ux_is_equal_to_y(U, y)
+    # Step 3: Solve Ux = y for x
+    x = solve_Ux_equals_y_for_x(U, y)
     
     return x, L, U
 end
@@ -206,8 +206,8 @@ if RUN_TESTS
             println(INFO, "LU FACTORIZATION TESTING COMPLETE", RESET)
             println(INFO, "=" ^ 80, RESET)
             println(INFO, "\nNext steps:", RESET)
-            println(INFO, "  - If all tests pass, implement solve_Ly_is_equal_to_b", RESET)
-            println(INFO, "  - Then implement solve_Ux_is_equal_to_y", RESET)
+            println(INFO, "  - If all tests pass, implement solve_Ly_equals_b_for_y", RESET)
+            println(INFO, "  - Then implement solve_Ux_equals_y_for_x", RESET)
             println(INFO, "  - Finally set TEST_FULL_SOLVER = true", RESET)
             println(INFO, "=" ^ 80, RESET)
         end
@@ -221,8 +221,8 @@ if RUN_TESTS
         println(INFO, "=" ^ 80, RESET)
         println(INFO, "\nYou can now use functions interactively:", RESET)
         println(INFO, "  - get_LU_factors(A)", RESET)
-        println(INFO, "  - solve_Ly_is_equal_to_b(L, b)", RESET)
-        println(INFO, "  - solve_Ux_is_equal_to_y(U, y)", RESET)
+        println(INFO, "  - solve_Ly_equals_b_for_y(L, b)", RESET)
+        println(INFO, "  - solve_Ux_equals_y_for_x(U, y)", RESET)
         println(INFO, "  - solve_linear_system_LU(A, b)", RESET)
         println(INFO, "\nOr call specific tests:", RESET)
         println(INFO, "  - test_LU_only(A, name=\"My Test\")", RESET)
