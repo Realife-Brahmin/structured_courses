@@ -127,6 +127,89 @@ function solve_linear_system_LU(A, b)
 end
 
 # =============================================================================
+# Cholesky Factorization Functions
+# =============================================================================
+
+"""
+    get_cholesky_factor(A)
+
+Compute Cholesky factorization of a symmetric positive-definite matrix A.
+Returns L such that A = L*L'.
+
+# Arguments
+- `A::Matrix`: Symmetric positive-definite matrix
+
+# Returns
+- `L::Matrix`: Lower triangular matrix
+"""
+function get_cholesky_factor(A)
+    n = size(A, 1)
+    L = zeros(n, n)
+    
+    for i = 1:n
+        # Diagonal elements
+        sum_val = 0.0
+        for k = 1:i-1
+            sum_val += L[i,k]^2
+        end
+        L[i,i] = sqrt(A[i,i] - sum_val)
+        
+        # Off-diagonal elements (below diagonal)
+        for j = i+1:n
+            sum_val = 0.0
+            for k = 1:i-1
+                sum_val += L[j,k] * L[i,k]
+            end
+            L[j,i] = (A[j,i] - sum_val) / L[i,i]
+        end
+    end
+    
+    return L
+end
+
+"""
+    solve_linear_system_cholesky(A, b)
+
+Solve Ax = b using Cholesky factorization.
+Assumes A is symmetric positive-definite.
+
+# Arguments
+- `A::Matrix`: Symmetric positive-definite coefficient matrix
+- `b::Vector`: Right-hand side vector
+
+# Returns
+- `x::Vector`: Solution vector
+- `L::Matrix`: Cholesky factor (lower triangular)
+"""
+function solve_linear_system_cholesky(A, b)
+    # Step 1: Get Cholesky factor L where A = L*L'
+    L = get_cholesky_factor(A)
+    
+    # Step 2: Solve Ly = b for y (forward substitution)
+    n = length(b)
+    y = zeros(n)
+    for i = 1:n
+        sum_val = 0.0
+        for j = 1:i-1
+            sum_val += L[i,j] * y[j]
+        end
+        y[i] = (b[i] - sum_val) / L[i,i]
+    end
+    
+    # Step 3: Solve L'x = y for x (backward substitution with L')
+    x = zeros(n)
+    for i = n:-1:1
+        sum_val = 0.0
+        for j = i+1:n
+            sum_val += L[j,i] * x[j]  # L' means we use L[j,i] instead of L[i,j]
+        end
+        x[i] = (y[i] - sum_val) / L[i,i]
+    end
+    
+    return x, L
+end
+
+# =============================================================================
 # Load testing utilities and test problems
 # =============================================================================
 include("src/test_utils.jl")
@@ -139,99 +222,128 @@ include("src/test_utils.jl")
 const RUN_TESTS = true
 
 # Set to true to test full system solving (forward/backward substitution)
-const TEST_FULL_SOLVER = true  # ← CHANGED: Now ready to test full solver!
+const TEST_FULL_SOLVER = true
+
+# Set to true to also test Cholesky factorization
+const TEST_CHOLESKY = true
 
 # =============================================================================
 # Main execution - Runs automatically (works with "Play" button!)
 # =============================================================================
 
 if RUN_TESTS
+    println(INFO, "\n" * "=" ^ 80, RESET)
+    println(INFO, "MIDTERM PROBLEM 3: LU and Cholesky Factorization", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    
+    # Define the midterm problem matrix and vector
+    A = [6.25  -1.0   0.5;
+        -1.0   5.0   2.12;
+         0.5   2.12  3.6]
+    b = [7.5, -8.68, -0.24]
+    
+    println(INFO, "\nGiven system Ax = b:", RESET)
+    println("A = "); display(A)
+    println("b = "); display(b)
+    
+    # =================================================================
+    # LU Factorization Method
+    # =================================================================
+    println(INFO, "\n" * "=" ^ 80, RESET)
+    println(INFO, "METHOD 1: LU Factorization", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    
+    x_lu, L, U = solve_linear_system_LU(A, b)
+    
+    println("\nL (lower triangular, 1's on diagonal):")
+    display(L)
+    println("\nU (upper triangular):")
+    display(U)
+    
+    # Verify A = LU
+    LU_product = L * U
+    lu_error = maximum(abs.(A - LU_product))
+    println("\nVerification: max|A - LU| = ", @sprintf("%.3e", lu_error))
+    
+    # Solution
+    println(INFO, "\nSolution from LU factorization:", RESET)
+    println("x = "); display(x_lu)
+    
+    # Verify Ax = b
+    residual_lu = maximum(abs.(A * x_lu - b))
+    println("Residual: max|Ax - b| = ", @sprintf("%.3e", residual_lu))
+    
+    # Compare with built-in
+    x_builtin = A \ b
+    diff_lu = maximum(abs.(x_lu - x_builtin))
+    println("Difference from Julia's A\\b: ", @sprintf("%.3e", diff_lu))
+    
+    if diff_lu < 1e-10
+        println(SUCCESS, "✓ LU solution matches built-in solver!", RESET)
+    end
+    
+    # =================================================================
+    # Cholesky Factorization Method
+    # =================================================================
+    if TEST_CHOLESKY
         println(INFO, "\n" * "=" ^ 80, RESET)
-        println(INFO, "MIDTERM PROBLEM 3: LU FACTORIZATION TESTS", RESET)
+        println(INFO, "METHOD 2: Cholesky Factorization", RESET)
         println(INFO, "=" ^ 80, RESET)
         
-        if TEST_FULL_SOLVER
-            # =================================================================
-            # Full System Solving Tests (when forward/backward substitution ready)
-            # =================================================================
-            println(INFO, "\n" * "=" ^ 80, RESET)
-            println(INFO, "FULL SYSTEM SOLVING TESTS", RESET)
-            println(INFO, "=" ^ 80, RESET)
-            
-            test_problem_1()      # 3×3 midterm system
-            test_problem_2()      # 2×2 simple system
-            test_problem_identity()  # Identity matrix
-            test_problem_diagonal()  # Diagonal matrix
-            
-        else
-            # =================================================================
-            # LU Factorization Only Tests
-            # =================================================================
-            
-            # Test Case 1: Simple 2×2
-            println(INFO, "\n\nTEST 1: Simple 2×2 Matrix", RESET)
-            A1 = [4.0  3.0;
-                6.0  3.0]
-            test_LU_only(A1, name="2×2 system")
-            
-            println("\n", INFO, "Expected L:", RESET)
-            println("[1.0   0.0]")
-            println("[1.5   1.0]")
-            println(INFO, "Expected U:", RESET)
-            println("[4.0   3.0]")
-            println("[0.0  -1.5]")
-            
-            # Test Case 2: ACTUAL MIDTERM PROBLEM 3 (3×3)
-            println(INFO, "\n\nTEST 2: ACTUAL Midterm Problem 3", RESET)
-            A2 = [6.25  -1.0   0.5;
-                 -1.0   5.0   2.12;
-                  0.5   2.12  3.6]
-            test_LU_only(A2, name="Midterm Problem 3 - Actual Matrix")
-            
-            println("\n", INFO, "Note: This is the matrix from your midterm problem!", RESET)
-            
-            # Test Case 3: Identity matrix (should give L=I, U=I)
-            println(INFO, "\n\nTEST 3: Identity Matrix", RESET)
-            A3 = Matrix{Float64}(I, 3, 3)
-            test_LU_only(A3, name="Identity 3×3")
-            
-            # Test Case 4: Diagonal matrix
-            println(INFO, "\n\nTEST 4: Diagonal Matrix", RESET)
-            A4 = [2.0  0.0  0.0;
-                0.0  3.0  0.0;
-                0.0  0.0  4.0]
-            test_LU_only(A4, name="Diagonal 3×3")
-            
-            println(INFO, "\n\n" * "=" ^ 80, RESET)
-            println(INFO, "LU FACTORIZATION TESTING COMPLETE", RESET)
-            println(INFO, "=" ^ 80, RESET)
-            println(INFO, "\nNext steps:", RESET)
-            println(INFO, "  - If all tests pass, implement solve_Ly_equals_b_for_y", RESET)
-            println(INFO, "  - Then implement solve_Ux_equals_y_for_x", RESET)
-            println(INFO, "  - Finally set TEST_FULL_SOLVER = true", RESET)
-            println(INFO, "=" ^ 80, RESET)
+        x_chol, L_chol = solve_linear_system_cholesky(A, b)
+        
+        println("\nL (Cholesky factor):")
+        display(L_chol)
+        
+        # Verify A = L*L'
+        chol_product = L_chol * L_chol'
+        chol_error = maximum(abs.(A - chol_product))
+        println("\nVerification: max|A - LL'| = ", @sprintf("%.3e", chol_error))
+        
+        # Solution
+        println(INFO, "\nSolution from Cholesky factorization:", RESET)
+        println("x = "); display(x_chol)
+        
+        # Verify Ax = b
+        residual_chol = maximum(abs.(A * x_chol - b))
+        println("Residual: max|Ax - b| = ", @sprintf("%.3e", residual_chol))
+        
+        # Compare with built-in
+        diff_chol = maximum(abs.(x_chol - x_builtin))
+        println("Difference from Julia's A\\b: ", @sprintf("%.3e", diff_chol))
+        
+        if diff_chol < 1e-10
+            println(SUCCESS, "✓ Cholesky solution matches built-in solver!", RESET)
         end
         
-    else
-        # =================================================================
-        # Manual/Interactive Mode: No automatic tests
-        # =================================================================
-        println(INFO, "\n" * "=" ^ 80, RESET)
-        println(INFO, "MANUAL MODE: Tests disabled (RUN_TESTS = false)", RESET)
-        println(INFO, "=" ^ 80, RESET)
-        println(INFO, "\nYou can now use functions interactively:", RESET)
-        println(INFO, "  - get_LU_factors(A)", RESET)
-        println(INFO, "  - solve_Ly_equals_b_for_y(L, b)", RESET)
-        println(INFO, "  - solve_Ux_equals_y_for_x(U, y)", RESET)
-        println(INFO, "  - solve_linear_system_LU(A, b)", RESET)
-        println(INFO, "\nOr call specific tests:", RESET)
-        println(INFO, "  - test_LU_only(A, name=\"My Test\")", RESET)
-        println(INFO, "  - test_problem_1(), test_problem_2(), etc.", RESET)
-        println(INFO, "=" ^ 80, RESET)
-        
-        # Example: Uncomment to test a specific matrix
-        # A = [2.0 1.0 1.0; 4.0 -6.0 0.0; -2.0 7.0 2.0]
-        # L, U = get_LU_factors(A)
-        # println("\nL = "); display(L)
-        # println("\nU = "); display(U)
+        # Compare LU vs Cholesky
+        diff_methods = maximum(abs.(x_lu - x_chol))
+        println(INFO, "\nComparison: max|x_LU - x_Cholesky| = ", @sprintf("%.3e", diff_methods), RESET)
+        if diff_methods < 1e-10
+            println(SUCCESS, "✓ Both methods agree perfectly!", RESET)
+        end
+    end
+    
+    # =================================================================
+    # Summary
+    # =================================================================
+    println(INFO, "\n" * "=" ^ 80, RESET)
+    println(INFO, "SUMMARY", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    println(@sprintf("%-25s %12.6f", "x₁ =", x_lu[1]))
+    println(@sprintf("%-25s %12.6f", "x₂ =", x_lu[2]))
+    println(@sprintf("%-25s %12.6f", "x₃ =", x_lu[3]))
+    println(INFO, "=" ^ 80, RESET)
+    
+else
+    # =================================================================
+    # Manual/Interactive Mode
+    # =================================================================
+    println(INFO, "\n" * "=" ^ 80, RESET)
+    println(INFO, "MANUAL MODE: Tests disabled", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    println(INFO, "\nAvailable functions:", RESET)
+    println(INFO, "  LU: get_LU_factors(A), solve_linear_system_LU(A, b)", RESET)
+    println(INFO, "  Cholesky: get_cholesky_factor(A), solve_linear_system_cholesky(A, b)", RESET)
+    println(INFO, "=" ^ 80, RESET)
 end
