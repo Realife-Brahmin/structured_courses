@@ -45,3 +45,45 @@ The following figures show the Julia implementation for Problem 3.
     \caption{Complete Cholesky solver: \texttt{solve\_linear\_system\_cholesky(A, b)} combines Cholesky factorization with forward and backward substitution to solve $\mathbf{Ax} = \mathbf{b}$.}
     \label{fig:p03-code-cholesky-solver}
 \end{figure}
+
+
+\subsection{Problem 5-3: Ridders' Method Function}
+\label{appendix:p05-3-code}
+
+The following figures show the implementation of the Ridders' root-finding function, broken into logical parts. The bisection method is not shown here, as it was implemented in Homework 1 and is a subset of Ridders' approach.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p05-3-codebase-1-ridders-search-part1.png}
+    \caption{Ridders' function (part 1): Initial setup and input checks.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p05-3-codebase-2-ridders-search-part2.png}
+    \caption{Ridders' function (part 2): Main loop and interval update.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p05-3-codebase-3-ridders-search-part3.png}
+    \caption{Ridders' function (part 3): Compute midpoint and evaluate function.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p05-3-codebase-4-ridders-search-part4.png}
+    \caption{Ridders' function (part 4): Ridders' formula and root estimate.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p05-3-codebase-5-ridders-search-part5.png}
+    \caption{Ridders' function (part 5): Interval selection and convergence check.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p05-3-codebase-6-ridders-search-part6.png}
+    \caption{Ridders' function (part 6): Return result and exit.}
+\end{figure}
