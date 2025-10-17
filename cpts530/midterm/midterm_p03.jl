@@ -53,12 +53,17 @@ Assumes L is lower triangular with ones on the diagonal.
 - `y::Vector`: Solution vector
 """
 function solve_Ly_is_equal_to_b(L, b)
-    # TODO: Implement forward substitution
     n = length(b)
     y = zeros(n)
     
-    # Your implementation here
-    # Forward substitution: y[i] = (b[i] - sum(L[i,j]*y[j] for j=1:i-1)) / L[i,i]
+    # Forward substitution: solve from top to bottom
+    for i = 1:n
+        sum_val = 0.0
+        for j = 1:i-1
+            sum_val += L[i,j] * y[j]
+        end
+        y[i] = (b[i] - sum_val) / L[i,i]
+    end
     
     return y
 end
@@ -77,12 +82,17 @@ Assumes U is upper triangular.
 - `x::Vector`: Solution vector
 """
 function solve_Ux_is_equal_to_y(U, y)
-    # TODO: Implement backward substitution
     n = length(y)
     x = zeros(n)
     
-    # Your implementation here
-    # Backward substitution: x[i] = (y[i] - sum(U[i,j]*x[j] for j=i+1:n)) / U[i,i]
+    # Backward substitution: solve from bottom to top
+    for i = n:-1:1
+        sum_val = 0.0
+        for j = i+1:n
+            sum_val += U[i,j] * x[j]
+        end
+        x[i] = (y[i] - sum_val) / U[i,i]
+    end
     
     return x
 end
@@ -128,8 +138,8 @@ include("src/test_utils.jl")
 # Set to false to disable automatic testing
 const RUN_TESTS = true
 
-# Set to false if you just want to test LU factorization (not full system solving)
-const TEST_FULL_SOLVER = false
+# Set to true to test full system solving (forward/backward substitution)
+const TEST_FULL_SOLVER = true  # ← CHANGED: Now ready to test full solver!
 
 # =============================================================================
 # Main execution - Runs automatically (works with "Play" button!)
