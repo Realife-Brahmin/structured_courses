@@ -187,7 +187,7 @@ Define test problems here
 function test_problem_1()
     A = [6.25  -1.0   0.5;
         -1.0   5.0   2.12;
-         0.5   2.12  3.6]
+        0.5   2.12  3.6]
     b = [7.5, -8.68, -0.24]
     
     test_LU_solver(A, b, name="MIDTERM PROBLEM 3: Actual Matrix from Exam")
