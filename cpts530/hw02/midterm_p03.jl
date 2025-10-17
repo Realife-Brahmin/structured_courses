@@ -248,7 +248,7 @@ Define test problems here
 # Simple 3x3 system
 function test_problem_1()
     A = [2.0  1.0  1.0;
-         4.0 -6.0  0.0;
+        4.0 -6.0  0.0;
         -2.0  7.0  2.0]
     b = [5.0, -2.0, 9.0]
     
@@ -258,7 +258,7 @@ end
 # Another test problem
 function test_problem_2()
     A = [4.0  3.0;
-         6.0  3.0]
+        6.0  3.0]
     b = [10.0, 12.0]
     
     test_LU_solver(A, b, name="Problem 2: Simple 2×2 system")
@@ -276,8 +276,8 @@ end
 # Test with diagonal matrix
 function test_problem_diagonal()
     A = [2.0  0.0  0.0;
-         0.0  3.0  0.0;
-         0.0  0.0  4.0]
+        0.0  3.0  0.0;
+        0.0  0.0  4.0]
     b = [4.0, 9.0, 16.0]
     
     test_LU_solver(A, b, name="Test: Diagonal matrix")
@@ -367,8 +367,8 @@ if abspath(PROGRAM_FILE) == @__FILE__
     # Test Case 2: Problem from midterm (3×3)
     println(INFO, "\n\nTEST 2: Midterm Problem 3×3 Matrix", RESET)
     A2 = [2.0   1.0  1.0;
-          4.0  -6.0  0.0;
-         -2.0   7.0  2.0]
+        4.0  -6.0  0.0;
+        -2.0   7.0  2.0]
     test_LU_only(A2, name="Midterm 3×3 system")
     
     println("\n", INFO, "Expected L:", RESET)
@@ -388,8 +388,8 @@ if abspath(PROGRAM_FILE) == @__FILE__
     # Test Case 4: Diagonal matrix
     println(INFO, "\n\nTEST 4: Diagonal Matrix", RESET)
     A4 = [2.0  0.0  0.0;
-          0.0  3.0  0.0;
-          0.0  0.0  4.0]
+        0.0  3.0  0.0;
+        0.0  0.0  4.0]
     test_LU_only(A4, name="Diagonal 3×3")
     
     println(INFO, "\n\n" * "=" ^ 80, RESET)
