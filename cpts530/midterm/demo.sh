@@ -1,0 +1,50 @@
+#!/bin/bash
+# Demo script showing all usage modes of midterm_p03.jl
+
+echo "════════════════════════════════════════════════════════════════════════════════"
+echo "DEMONSTRATION: midterm_p03.jl Usage Modes"
+echo "════════════════════════════════════════════════════════════════════════════════"
+echo ""
+
+# Save current directory
+MIDTERM_DIR="/c/Users/aryan/Documents/documents_general/structured_courses/cpts530/midterm"
+
+echo "📋 Current file structure:"
+echo ""
+tree -L 2 "$MIDTERM_DIR" 2>/dev/null || ls -R "$MIDTERM_DIR"
+echo ""
+echo "────────────────────────────────────────────────────────────────────────────────"
+echo ""
+
+echo "🎯 MODE 1: Default - Automatic LU Factorization Tests"
+echo ""
+echo "   Configuration:"
+echo "   const RUN_TESTS = true"
+echo "   const TEST_FULL_SOLVER = false"
+echo ""
+echo "   Running: julia midterm_p03.jl"
+echo ""
+cd "$MIDTERM_DIR"
+julia midterm_p03.jl 2>&1 | head -50
+echo "   ... (output truncated)"
+echo ""
+echo "────────────────────────────────────────────────────────────────────────────────"
+echo ""
+
+echo "✅ KEY FEATURES:"
+echo ""
+echo "1. Toggle testing ON/OFF with one line:"
+echo "   const RUN_TESTS = true   # Run tests automatically"
+echo "   const RUN_TESTS = false  # Manual mode"
+echo ""
+echo "2. Switch between LU-only and full system solving:"
+echo "   const TEST_FULL_SOLVER = false  # Just LU factorization"
+echo "   const TEST_FULL_SOLVER = true   # Full Ax=b solving"
+echo ""
+echo "3. Manual mode lets you write custom tests in the file"
+echo ""
+echo "4. Can include() in other scripts to use functions"
+echo ""
+echo "════════════════════════════════════════════════════════════════════════════════"
+echo "📚 See USAGE.md for complete documentation"
+echo "════════════════════════════════════════════════════════════════════════════════"
