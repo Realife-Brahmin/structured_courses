@@ -284,26 +284,120 @@ function test_problem_diagonal()
 end
 
 # =============================================================================
+# Quick LU Factorization Tests
+# =============================================================================
+
+function test_LU_only(A; name="Test", show_matrices=true)
+    """Quick test for LU factorization only (not solving systems)"""
+    println(INFO, "\n" * "=" ^ 80, RESET)
+    println(INFO, "Testing LU Factorization: $name", RESET)
+    println(INFO, "Matrix size: $(size(A, 1)) × $(size(A, 2))", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    
+    println("\nOriginal matrix A:")
+    display(A)
+    
+    try
+        # Get LU factors
+        L, U = get_LU_factors(A)
+        
+        if show_matrices
+            println("\nL (Lower triangular):")
+            display(L)
+            println("\nU (Upper triangular):")
+            display(U)
+        end
+        
+        # Verify A = L*U
+        println("\nVerifying A = L*U:")
+        LU_product = L * U
+        error_matrix = A - LU_product
+        max_error = maximum(abs.(error_matrix))
+        
+        println("L * U:")
+        display(LU_product)
+        println("\nError matrix (A - L*U):")
+        display(error_matrix)
+        println("\nMax absolute error: ", @sprintf("%.3e", max_error))
+        
+        if max_error < 1e-10
+            println(SUCCESS, "\n✓ LU factorization CORRECT! (max error < 1e-10)", RESET)
+            return true
+        elseif max_error < 1e-6
+            println(WARNING, "\n⚠ LU factorization acceptable (max error < 1e-6)", RESET)
+            return true
+        else
+            println(FAILURE, "\n✗ LU factorization INCORRECT! (max error = ", @sprintf("%.3e", max_error), ")", RESET)
+            return false
+        end
+        
+    catch e
+        println(FAILURE, "\n✗ Error during LU factorization: ", e, RESET)
+        println(FAILURE, "Stacktrace:", RESET)
+        for (exc, bt) in Base.catch_stack()
+            showerror(stdout, exc, bt)
+            println()
+        end
+        return false
+    end
+end
+
+# =============================================================================
 # Main execution
 # =============================================================================
 
 if abspath(PROGRAM_FILE) == @__FILE__
     println(INFO, "\n" * "=" ^ 80, RESET)
-    println(INFO, "MIDTERM PROBLEM 3: LU FACTORIZATION AND LINEAR SYSTEMS", RESET)
+    println(INFO, "MIDTERM PROBLEM 3: LU FACTORIZATION TESTS", RESET)
     println(INFO, "=" ^ 80, RESET)
     
-    # Uncomment tests as you implement the functions
-    # test_problem_1()
-    # test_problem_2()
-    # test_problem_identity()
-    # test_problem_diagonal()
+    # Test Case 1: Simple 2×2
+    println(INFO, "\n\nTEST 1: Simple 2×2 Matrix", RESET)
+    A1 = [4.0  3.0;
+          6.0  3.0]
+    test_LU_only(A1, name="2×2 system")
     
-    println(INFO, "\n" * "=" ^ 80, RESET)
-    println(INFO, "Implementation TODO:", RESET)
-    println(INFO, "  1. Implement get_LU_factors(A)", RESET)
-    println(INFO, "  2. Implement solve_Ly_is_equal_to_b(L, b)", RESET)
-    println(INFO, "  3. Implement solve_Ux_is_equal_to_y(U, y)", RESET)
-    println(INFO, "  4. Uncomment test problems to verify", RESET)
-    println(INFO, "  5. Add more test problems from midterm", RESET)
+    println("\n", INFO, "Expected L:", RESET)
+    println("[1.0   0.0]")
+    println("[1.5   1.0]")
+    println(INFO, "Expected U:", RESET)
+    println("[4.0   3.0]")
+    println("[0.0  -1.5]")
+    
+    # Test Case 2: Problem from midterm (3×3)
+    println(INFO, "\n\nTEST 2: Midterm Problem 3×3 Matrix", RESET)
+    A2 = [2.0   1.0  1.0;
+          4.0  -6.0  0.0;
+         -2.0   7.0  2.0]
+    test_LU_only(A2, name="Midterm 3×3 system")
+    
+    println("\n", INFO, "Expected L:", RESET)
+    println("[1.0   0.0  0.0]")
+    println("[2.0   1.0  0.0]")
+    println("[-1.0 -1.0  1.0]")
+    println(INFO, "Expected U:", RESET)
+    println("[2.0  1.0   1.0]")
+    println("[0.0 -8.0  -2.0]")
+    println("[0.0  0.0   1.0]")
+    
+    # Test Case 3: Identity matrix (should give L=I, U=I)
+    println(INFO, "\n\nTEST 3: Identity Matrix", RESET)
+    A3 = Matrix{Float64}(I, 3, 3)
+    test_LU_only(A3, name="Identity 3×3")
+    
+    # Test Case 4: Diagonal matrix
+    println(INFO, "\n\nTEST 4: Diagonal Matrix", RESET)
+    A4 = [2.0  0.0  0.0;
+          0.0  3.0  0.0;
+          0.0  0.0  4.0]
+    test_LU_only(A4, name="Diagonal 3×3")
+    
+    println(INFO, "\n\n" * "=" ^ 80, RESET)
+    println(INFO, "LU FACTORIZATION TESTING COMPLETE", RESET)
+    println(INFO, "=" ^ 80, RESET)
+    println(INFO, "\nNext steps:", RESET)
+    println(INFO, "  - If all tests pass, implement solve_Ly_is_equal_to_b", RESET)
+    println(INFO, "  - Then implement solve_Ux_is_equal_to_y", RESET)
+    println(INFO, "  - Finally use test_problem_1(), test_problem_2(), etc.", RESET)
     println(INFO, "=" ^ 80, RESET)
 end
