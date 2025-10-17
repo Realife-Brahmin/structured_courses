@@ -1,0 +1,47 @@
+\clearpage
+\appendix
+
+\section{Code Implementations}
+\label{appendix:code}
+
+This appendix contains the complete codebase for the problems solved in this midterm. All implementations are written in Julia and developed from scratch without using built-in numerical solver shortcuts.
+
+\subsection{Problem 3: LU and Cholesky Factorization}
+\label{appendix:p03-code}
+
+The following figures show the Julia implementation for Problem 3.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p03-codebase-1-get-LU-factors.png}
+    \caption{LU Factorization function: \texttt{get\_LU\_factors(A)} implements the Doolittle algorithm with unit lower triangular matrix $\mathbf{L}$.}
+    \label{fig:p03-code-lu}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p03-codebase-2-solve-Ly-equals-b-for-y.png}
+    \caption{Forward substitution function: \texttt{solve\_Ly\_equals\_b\_for\_y(L, b)} solves the lower triangular system $\mathbf{Ly} = \mathbf{b}$ using simple nested loops.}
+    \label{fig:p03-code-forward}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p03-codebase-3-solve-Ux-equals-y-for-x.png}
+    \caption{Backward substitution function: \texttt{solve\_Ux\_equals\_y\_for\_x(U, y)} solves the upper triangular system $\mathbf{Ux} = \mathbf{y}$ using simple nested loops.}
+    \label{fig:p03-code-backward}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p03-codebase-4-get-cholesky-factors.png}
+    \caption{Cholesky factorization function: \texttt{get\_cholesky\_factor(A)} implements the standard Cholesky algorithm for symmetric positive-definite matrices, computing $\mathbf{L}$ such that $\mathbf{A} = \mathbf{LL}^T$.}
+    \label{fig:p03-code-cholesky}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/p03-codebase-5-solve-linear-system-cholesky.png}
+    \caption{Complete Cholesky solver: \texttt{solve\_linear\_system\_cholesky(A, b)} combines Cholesky factorization with forward and backward substitution to solve $\mathbf{Ax} = \mathbf{b}$.}
+    \label{fig:p03-code-cholesky-solver}
+\end{figure}

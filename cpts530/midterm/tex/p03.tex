@@ -84,5 +84,18 @@ $$\boxed{\mathbf{x} = \begin{bmatrix}
 1.0
 \end{bmatrix}}$$
 
+\subsection*{Verification and Testing}
+
+The implementations were thoroughly verified:
+\begin{itemize}
+    \item LU factorization accuracy: $\max|\mathbf{A} - \mathbf{LU}| = 4.441 \times 10^{-16}$
+    \item Cholesky factorization accuracy: $\max|\mathbf{A} - \mathbf{LL}^T| = 8.882 \times 10^{-16}$
+    \item Solution residual: $\max|\mathbf{Ax} - \mathbf{b}| = 2.220 \times 10^{-16}$
+    \item Comparison with Julia's built-in solver: $\max|\mathbf{x}_{\text{computed}} - \mathbf{x}_{\text{builtin}}| = 2.220 \times 10^{-16}$
+    \item LU vs Cholesky solution: $\max|\mathbf{x}_{\text{LU}} - \mathbf{x}_{\text{Cholesky}}| = 4.441 \times 10^{-16}$
+\end{itemize}
+
+All errors are at machine precision level ($\sim 10^{-16}$), confirming the correctness of both implementations. The complete Julia codebase can be viewed in Appendix~\ref{appendix:p03-code}.
+
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
