@@ -23,7 +23,7 @@
     <param name="Warn" value="0" />
     <param name="Check" value="0" />
     <param name="description" value="" />
-    <param name="revisor" value="Aryan Ritwajeet Jha, 1760478170" />
+    <param name="revisor" value="Aryan Ritwajeet Jha, 1760750060" />
     <param name="labels" value="" />
   </paramlist>
   <Layers />
@@ -237,7 +237,7 @@
         </Wire>
       </schematic>
     </Definition>
-    <Definition classid="UserCmpDefn" name="Main" id="1578624236" group="" url="" version="" build="" crc="5735272" view="false" date="1760477155">
+    <Definition classid="UserCmpDefn" name="Main" id="1578624236" group="" url="" version="" build="" crc="14118071" view="false" date="1760749914">
       <paramlist name="">
         <param name="Description" value="" />
       </paramlist>
@@ -505,7 +505,7 @@
           <vertex x="0" y="0" />
           <vertex x="36" y="0" />
         </Wire>
-        <User classid="UserCmp" id="1517275789" name="master:ammeter" x="108" y="108" w="44" h="28" z="10" orient="0" defn="master:ammeter" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="1517275789" name="master:ammeter" x="108" y="108" w="44" h="28" z="20" orient="0" defn="master:ammeter" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="119030036">
             <param name="Name" value="IL" />
           </paramlist>
@@ -514,19 +514,19 @@
           <vertex x="0" y="0" />
           <vertex x="-18" y="0" />
         </Wire>
-        <User classid="UserCmp" id="1141487906" name="master:voltmetergnd" x="108" y="108" w="24" h="36" z="20" orient="0" defn="master:voltmetergnd" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="1141487906" name="master:voltmetergnd" x="108" y="108" w="24" h="36" z="10" orient="0" defn="master:voltmetergnd" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="116145885">
             <param name="Name" value="e_t" />
           </paramlist>
         </User>
-        <User classid="UserCmp" id="636691787" name="master:ground" x="396" y="162" w="26" h="34" z="-1" orient="1" defn="master:ground" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="636691787" name="master:ground" x="378" y="144" w="26" h="34" z="-1" orient="1" defn="master:ground" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="28206164" />
         </User>
         <Wire classid="WireOrthogonal" id="1976407473" name="" x="54" y="108" w="46" h="10" orient="0" disable="false">
           <vertex x="0" y="0" />
           <vertex x="36" y="0" />
         </Wire>
-        <User classid="UserCmp" defn="master:inductor" id="1320232854" x="288" y="108" w="52" h="31" z="1" orient="0" link="-1" q="4" disable="false">
+        <User classid="UserCmp" defn="master:inductor" id="1320232854" x="378" y="144" w="31" h="52" z="1" orient="3" link="-1" q="4" disable="false">
           <paramlist link="-1" name="" crc="666653">
             <param name="L" value="0.02 [H]" />
             <param name="Name" value="" />
@@ -582,41 +582,31 @@
             <param name="CUR" value="" />
           </paramlist>
         </User>
-        <User classid="UserCmp" id="1762828737" name="master:resistor" x="396" y="126" w="33" h="68" z="1" orient="1" defn="master:resistor" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="1762828737" name="master:resistor" x="324" y="108" w="68" h="33" z="1" orient="2" defn="master:resistor" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="10119665">
             <param name="Name" value="" />
             <param name="R" value="10.0 [ohm]" />
           </paramlist>
         </User>
-        <Wire classid="WireOrthogonal" id="672044941" name="" x="360" y="108" w="46" h="28" orient="0" disable="false">
-          <vertex x="0" y="0" />
-          <vertex x="36" y="0" />
-          <vertex x="36" y="18" />
-        </Wire>
-        <User classid="UserCmp" id="591072487" name="master:voltmeter" x="252" y="108" w="20" h="44" z="30" orient="0" defn="master:voltmeter" link="-1" q="4" disable="false">
+        <User classid="UserCmp" id="591072487" name="master:voltmeter" x="342" y="108" w="20" h="44" z="30" orient="0" defn="master:voltmeter" link="-1" q="4" disable="false">
           <paramlist name="" link="-1" crc="26842314">
             <param name="Name" value="vL" />
           </paramlist>
         </User>
-        <Wire classid="WireOrthogonal" id="1779403053" name="" x="252" y="144" w="82" h="10" orient="0" disable="false">
+        <Wire classid="WireOrthogonal" id="1779403053" name="" x="324" y="108" w="64" h="10" orient="0" disable="false">
           <vertex x="0" y="0" />
-          <vertex x="72" y="0" />
+          <vertex x="54" y="0" />
         </Wire>
-        <Wire classid="WireOrthogonal" id="602502174" name="" x="324" y="108" w="46" h="10" orient="0" disable="false">
+        <Wire classid="WireOrthogonal" id="854617473" name="" x="378" y="144" w="46" h="10" orient="0" disable="false">
           <vertex x="0" y="0" />
-          <vertex x="36" y="0" />
-        </Wire>
-        <Wire classid="WireOrthogonal" id="854617473" name="" x="324" y="144" w="28" h="46" orient="0" disable="false">
-          <vertex x="0" y="0" />
-          <vertex x="18" y="0" />
-          <vertex x="18" y="-36" />
+          <vertex x="-36" y="0" />
         </Wire>
       </schematic>
     </Definition>
   </definitions>
   <List classid="Resource" />
   <hierarchy>
-    <call link="256740071" name="hw02_qB:DS" z="-1" view="false" instance="0">
+    <call link="487638107" name="hw02_qB:DS" z="-1" view="false" instance="0">
       <call link="1017728826" name="hw02_qB:Main" z="-1" view="true" instance="0" />
     </call>
   </hierarchy>
