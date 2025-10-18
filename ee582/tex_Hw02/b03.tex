@@ -22,18 +22,11 @@
 
 	\textbf{Discussion:}
 
-The figure above presents a direct comparison of the RL circuit response for all six cases:
-\begin{itemize}
-	\item \textbf{PSCAD:} Simulated with $h=0.1$ ms and $h=0.8$ ms (reference standard).
-	\item \textbf{Trapezoidal:} MATLAB implementation with $h=0.1$ ms and $h=0.8$ ms.
-	\item \textbf{Backward Euler:} MATLAB implementation with $h=0.1$ ms and $h=0.8$ ms.
-\end{itemize}
-
 	\textit{Accuracy:} For $h=0.1$ ms, all methods closely match, with Trapezoidal and PSCAD nearly indistinguishable. For $h=0.8$ ms, the Backward Euler method shows more numerical damping, while Trapezoidal and PSCAD remain close, though some time-step artifacts are visible.
 
 	\textit{Time-step Impact:} Larger $h$ increases numerical error, especially for Backward Euler (overdamping). Trapezoidal is more accurate for both $i(t)$ and $v_L(t)$ at larger $h$.
 
-	\textit{PSCAD vs Trapezoidal:} The MATLAB Trapezoidal method matches PSCAD very closely for both time steps, confirming the correctness of the implementation and the equivalence of the underlying algorithms.
+	\textit{PSCAD vs Trapezoidal:} The MATLAB Trapezoidal method and PSCAD trends are very similar for both time steps, with the only discrepancy probably caused due to the different state variable initialization by PSCAD - technically PSCAD seems to use $t=0^-$ whereas I use $t=0^+$ in my matlab code - causing a significant initial discrepancy which takes a little while to get damped out as it keeps manifesting as a history term in PSCAD solution. But in general I'd consider them to be in very good agreement.
 
 \vspace{1em}
 \noindent\rule{\textwidth}{0.4pt}
