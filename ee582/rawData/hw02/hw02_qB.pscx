@@ -2,8 +2,8 @@
   <paramlist name="Settings">
     <param name="creator" value="aryan,1759819346" />
     <param name="time_duration" value="0.01" />
-    <param name="time_step" value="800" />
-    <param name="sample_step" value="800" />
+    <param name="time_step" value="100" />
+    <param name="sample_step" value="100" />
     <param name="chatter_threshold" value=".001" />
     <param name="branch_threshold" value=".0005" />
     <param name="StartType" value="0" />
@@ -16,14 +16,14 @@
     <param name="MrunType" value="0" />
     <param name="Mruns" value="1" />
     <param name="Scenario" value="" />
-    <param name="Advanced" value="14331" />
+    <param name="Advanced" value="14328" />
     <param name="sparsity_threshold" value="200" />
     <param name="Options" value="16" />
     <param name="Build" value="18" />
     <param name="Warn" value="0" />
     <param name="Check" value="0" />
     <param name="description" value="" />
-    <param name="revisor" value="Aryan Ritwajeet Jha, 1760750060" />
+    <param name="revisor" value="Aryan Ritwajeet Jha, 1760751341" />
     <param name="labels" value="" />
   </paramlist>
   <Layers />
