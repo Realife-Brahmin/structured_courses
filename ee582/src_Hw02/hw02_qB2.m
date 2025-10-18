@@ -1,0 +1,110 @@
+% hw02_qB2.m
+% EE582 HW02 - Section B.2: Inductor SVGT equations (Trapz & BE)
+% Author: Aryan Ritwajeet Jha
+% Date: October 2025
+
+setup_plot_theme(); % Consistent plot style
+
+% Circuit parameters
+V_DC = 10;      % Source voltage [V]
+L = 0.02;       % Inductance [H]
+R = 10;         % Resistance [Ohm]
+h_steps_ms = [0.1, 0.8]; % Time steps [ms]
+T_horizon_ms = 10;
+T_horizon = T_horizon_ms * 1e-3; % Simulation time [s]
+
+results = struct();
+
+for h_idx = 1:length(h_steps_ms)
+    h_ms = h_steps_ms(h_idx);
+    h = h_ms * 1e-3;
+    N = round(T_horizon/h) + 1;
+    t = linspace(0, T_horizon, N);
+    v = V_DC * ones(1, N); v(1) = 0;
+    
+    % --- Trapezoidal ---
+    R_L_trapz = 2*L/h;
+    i_trapz = zeros(1, N);
+    v_trapz = zeros(1, N);
+    e_h_trapz = zeros(1, N);
+    i_h_trapz = zeros(1, N);
+    for n = 2:N
+        e_h_trapz(n) = R_L_trapz * i_trapz(n-1) + v(n-1);
+        i_h_trapz(n) = e_h_trapz(n) / R_L_trapz;
+        i_trapz(n) = v(n)/R_L_trapz + i_h_trapz(n);
+        v_trapz(n) = v(n); % For this circuit, v(t) is just the source
+    end
+    
+    % --- Backward Euler ---
+    R_L_BE = L/h;
+    i_BE = zeros(1, N);
+    v_BE = zeros(1, N);
+    e_h_BE = zeros(1, N);
+    i_h_BE = zeros(1, N);
+    for n = 2:N
+        e_h_BE(n) = R_L_BE * i_BE(n-1);
+        i_h_BE(n) = i_BE(n-1);
+        i_BE(n) = v(n)/R_L_BE + i_h_BE(n);
+        v_BE(n) = v(n); % For this circuit, v(t) is just the source
+    end
+    
+    % Store results
+    results(h_idx).h_ms = h_ms;
+    results(h_idx).t = t;
+    results(h_idx).i_trapz = i_trapz;
+    results(h_idx).v_trapz = v_trapz;
+    results(h_idx).i_BE = i_BE;
+    results(h_idx).v_BE = v_BE;
+end
+
+%% Plot Results
+figure('Name', 'Inductor SVGT: Trapz vs BE (Both h)', 'Color', 'w', 'Position', [100 100 700 900]);
+sgtitle({'\textbf{Inductor Circuit: SVGT Comparison}', ...
+    sprintf('$V_{\mathrm{DC}} = %.0f$ V, $L = %.3f$ H, $T = %.1f$ ms', V_DC, L, T_horizon*1e3)}, ...
+    'Interpreter', 'latex', 'FontSize', 13);
+
+% --- Voltage subplot (top) ---
+subplot(2,1,1); hold on;
+plot(results(1).t*1e3, results(1).v_trapz, '-', 'Color', [0.85, 0.33, 0.10], 'LineWidth', 3.2, 'DisplayName', 'Trapz, $h=0.1$ ms');
+plot(results(1).t*1e3, results(1).v_BE, '--', 'Color', [0.00, 0.45, 0.74], 'LineWidth', 3.2, 'DisplayName', 'BE, $h=0.1$ ms');
+plot(results(2).t*1e3, results(2).v_trapz, '-', 'Color', [1.0, 0.65, 0.30], 'LineWidth', 1.6, 'DisplayName', 'Trapz, $h=0.8$ ms');
+plot(results(2).t*1e3, results(2).v_BE, '--', 'Color', [0.40, 0.70, 1.00], 'LineWidth', 1.6, 'DisplayName', 'BE, $h=0.8$ ms');
+grid on;
+xlabel('Time [ms]', 'Interpreter', 'latex');
+ylabel('Inductor Voltage $v_L(t)$ [V]', 'Interpreter', 'latex');
+title('Inductor Voltage', 'Interpreter', 'latex');
+legend('Location', 'best', 'Interpreter', 'latex');
+
+% --- Current subplot (bottom) ---
+subplot(2,1,2); hold on;
+% Style: Trapz 0.1ms = thick solid, BE 0.1ms = thick dashed, Trapz 0.8ms = thin solid, BE 0.8ms = thin dashed
+plot(results(1).t*1e3, results(1).i_trapz, '-', 'Color', [0.85, 0.33, 0.10], 'LineWidth', 3.2, 'DisplayName', 'Trapz, $h=0.1$ ms');
+plot(results(1).t*1e3, results(1).i_BE, '--', 'Color', [0.00, 0.45, 0.74], 'LineWidth', 3.2, 'DisplayName', 'BE, $h=0.1$ ms');
+plot(results(2).t*1e3, results(2).i_trapz, '-', 'Color', [1.0, 0.65, 0.30], 'LineWidth', 1.6, 'DisplayName', 'Trapz, $h=0.8$ ms');
+plot(results(2).t*1e3, results(2).i_BE, '--', 'Color', [0.40, 0.70, 1.00], 'LineWidth', 1.6, 'DisplayName', 'BE, $h=0.8$ ms');
+grid on;
+xlabel('Time [ms]', 'Interpreter', 'latex');
+ylabel('Inductor Current $i_L(t)$ [A]', 'Interpreter', 'latex');
+title('Inductor Current', 'Interpreter', 'latex');
+legend('Location', 'best', 'Interpreter', 'latex');
+
+% Save figure
+figuresFolder = "../tex_Hw02/figures/";
+if ~exist(figuresFolder, 'dir'), mkdir(figuresFolder); end
+saveas(gcf, fullfile(figuresFolder, 'hw02_qB2_svgt_comparison.png'));
+
+%% Print Tables (first 6 steps for each method/step)
+for h_idx = 1:length(h_steps_ms)
+    fprintf('\n=== Trapezoidal Table (h = %.1f ms) ===\n', h_steps_ms(h_idx));
+    fprintf('%-8s %-12s %-12s\n', 't [ms]', 'v(t) [V]', 'i(t) [A]');
+    fprintf('%s\n', repmat('-',1,36));
+    for n = 1:min(6, length(results(h_idx).t))
+        fprintf('%-8.3f %-12.6f %-12.6f\n', results(h_idx).t(n)*1e3, results(h_idx).v_trapz(n), results(h_idx).i_trapz(n));
+    end
+    fprintf('\n=== Backward Euler Table (h = %.1f ms) ===\n', h_steps_ms(h_idx));
+    fprintf('%-8s %-12s %-12s\n', 't [ms]', 'v(t) [V]', 'i(t) [A]');
+    fprintf('%s\n', repmat('-',1,36));
+    for n = 1:min(6, length(results(h_idx).t))
+        fprintf('%-8.3f %-12.6f %-12.6f\n', results(h_idx).t(n)*1e3, results(h_idx).v_BE(n), results(h_idx).i_BE(n));
+    end
+end
