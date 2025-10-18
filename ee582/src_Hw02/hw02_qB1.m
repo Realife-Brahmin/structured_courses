@@ -105,6 +105,7 @@ end
 
 % Save figure
 saveas(fig1, fullfile(figuresFolder, 'hw02_qB_pscad-comparison.png'));
-fprintf('\nSaved: hw02_qB_pscad-comparison.png\n');
+saveas(fig1, fullfile(figuresFolder, 'hw02_qB-2_pscad-cktB-svtg-comparison-100mus-vs-800mus.png'));
+fprintf('\nSaved: hw02_qB-2_pscad-cktB-svtg-comparison-100mus-vs-800mus.png\n');
 
 fprintf('\n=== Plotting Complete ===\n');
