@@ -50,37 +50,71 @@ for h_idx = 1:length(h_steps_ms)
     results(h_idx).i_BE = i_BE;
     results(h_idx).vL_BE = vL_BE;
     results(h_idx).R_L_trapz = R_L_trapz;
+    results(h_idx).R_L_trapz = R_L_trapz;
+    results(h_idx).R_L_trapz = R_L_trapz;
     results(h_idx).R_L_BE = R_L_BE;
+
+% ...existing code...
+
+% --- End of for-loop ---
+
 end
 
 %% Plot Results
-figure('Name', 'Inductor SVGT: Trapz vs BE (Both h)', 'Color', 'w', 'Position', [100 100 700 900]);
-sgtitle({'\\textbf{Inductor Circuit: SVGT Comparison}', ...
-    sprintf('$V_{\\mathrm{DC}} = %.0f$ V, $L = %.3f$ H, $R = %.1f$~\\Omega, $T = %.1f$ ms', V_DC, L, R, T_horizon*1e3)}, ...
-    'Interpreter', 'latex', 'FontSize', 13);
 
-% --- Current subplot (bottom) ---
-subplot(2,1,2); hold on;
-plot(results(1).t*1e3, results(1).i_trapz, '-', 'Color', [0.85, 0.33, 0.10], 'LineWidth', 3.2, 'DisplayName', 'Trapz, $h=0.1$ ms');
-plot(results(1).t*1e3, results(1).i_BE, '--', 'Color', [0.00, 0.45, 0.74], 'LineWidth', 3.2, 'DisplayName', 'BE, $h=0.1$ ms');
-plot(results(2).t*1e3, results(2).i_trapz, '-', 'Color', [1.0, 0.65, 0.30], 'LineWidth', 1.6, 'DisplayName', 'Trapz, $h=0.8$ ms');
-plot(results(2).t*1e3, results(2).i_BE, '--', 'Color', [0.40, 0.70, 1.00], 'LineWidth', 1.6, 'DisplayName', 'BE, $h=0.8$ ms');
-grid on;
-xlabel('Time [ms]', 'Interpreter', 'latex');
-ylabel('Inductor Current $i_L(t)$ [A]', 'Interpreter', 'latex');
-title('Inductor Current', 'Interpreter', 'latex');
-legend('Location', 'best', 'Interpreter', 'latex');
+
+% Color and marker config
+col_trapz_dark = [0.85, 0.33, 0.10];   % Dark orange
+col_trapz_light = [1.0, 0.65, 0.30];   % Light orange
+col_be_dark = [0.00, 0.45, 0.74];      % Dark blue
+col_be_light = [0.40, 0.70, 1.00];     % Light blue
+marker_trapz = 'o';
+marker_be = 's';
+ms_small = 3.5; ms_large = 7;
+lw_thick = 2.5; lw_thin = 1.5;
+
+figure('Name', 'Inductor SVGT: Trapz vs BE (Both h)', 'Color', 'w', 'Position', [100 100 700 900]);
+sgtitle({'\textbf{MATLAB Simulation: RL Circuit}', ...
+    sprintf('$V_{\\mathrm{DC}} = %.0f$ V, $L = %.3f$ H, $R = %.1f~\\Omega$, $T = %.1f$ ms', V_DC, L, R, T_horizon*1e3)}, ...
+    'Interpreter', 'latex', 'FontSize', 13);
 
 % --- Voltage subplot (top) ---
 subplot(2,1,1); hold on;
-plot(results(1).t*1e3, results(1).vL_trapz, '-', 'Color', [0.85, 0.33, 0.10], 'LineWidth', 3.2, 'DisplayName', 'Trapz, $h=0.1$ ms');
-plot(results(1).t*1e3, results(1).vL_BE, '--', 'Color', [0.00, 0.45, 0.74], 'LineWidth', 3.2, 'DisplayName', 'BE, $h=0.1$ ms');
-plot(results(2).t*1e3, results(2).vL_trapz, '-', 'Color', [1.0, 0.65, 0.30], 'LineWidth', 1.6, 'DisplayName', 'Trapz, $h=0.8$ ms');
-plot(results(2).t*1e3, results(2).vL_BE, '--', 'Color', [0.40, 0.70, 1.00], 'LineWidth', 1.6, 'DisplayName', 'BE, $h=0.8$ ms');
+% Trapz h=0.1 ms
+plot(results(1).t*1e3, results(1).vL_trapz, '-', 'Color', col_trapz_dark, 'LineWidth', lw_thick, ...
+    'Marker', marker_trapz, 'MarkerIndices', 1:length(results(1).t), 'MarkerSize', ms_small, 'DisplayName', 'Trapz, $h=0.1$ ms', 'MarkerFaceColor', col_trapz_dark, 'MarkerEdgeColor', col_trapz_dark);
+% Trapz h=0.8 ms
+plot(results(2).t*1e3, results(2).vL_trapz, '-', 'Color', col_trapz_light, 'LineWidth', lw_thin, ...
+    'Marker', marker_trapz, 'MarkerIndices', 1:length(results(2).t), 'MarkerSize', ms_large, 'DisplayName', 'Trapz, $h=0.8$ ms', 'MarkerFaceColor', col_trapz_light, 'MarkerEdgeColor', col_trapz_light);
+% BE h=0.1 ms
+plot(results(1).t*1e3, results(1).vL_BE, '-', 'Color', col_be_dark, 'LineWidth', lw_thick, ...
+    'Marker', marker_be, 'MarkerIndices', 1:length(results(1).t), 'MarkerSize', ms_small, 'DisplayName', 'BE, $h=0.1$ ms', 'MarkerFaceColor', col_be_dark, 'MarkerEdgeColor', col_be_dark);
+% BE h=0.8 ms
+plot(results(2).t*1e3, results(2).vL_BE, '-', 'Color', col_be_light, 'LineWidth', lw_thin, ...
+    'Marker', marker_be, 'MarkerIndices', 1:length(results(2).t), 'MarkerSize', ms_large, 'DisplayName', 'BE, $h=0.8$ ms', 'MarkerFaceColor', col_be_light, 'MarkerEdgeColor', col_be_light);
 grid on;
 xlabel('Time [ms]', 'Interpreter', 'latex');
 ylabel('Inductor Voltage $v_L(t)$ [V]', 'Interpreter', 'latex');
 title('Inductor Voltage', 'Interpreter', 'latex');
+legend('Location', 'best', 'Interpreter', 'latex');
+% --- Current subplot (bottom) ---
+subplot(2,1,2); hold on;
+% Trapz h=0.1 ms
+plot(results(1).t*1e3, results(1).i_trapz, '-', 'Color', col_trapz_dark, 'LineWidth', lw_thick, ...
+    'Marker', marker_trapz, 'MarkerIndices', 1:length(results(1).t), 'MarkerSize', ms_small, 'DisplayName', 'Trapz, $h=0.1$ ms', 'MarkerFaceColor', col_trapz_dark, 'MarkerEdgeColor', col_trapz_dark);
+% Trapz h=0.8 ms
+plot(results(2).t*1e3, results(2).i_trapz, '-', 'Color', col_trapz_light, 'LineWidth', lw_thin, ...
+    'Marker', marker_trapz, 'MarkerIndices', 1:length(results(2).t), 'MarkerSize', ms_large, 'DisplayName', 'Trapz, $h=0.8$ ms', 'MarkerFaceColor', col_trapz_light, 'MarkerEdgeColor', col_trapz_light);
+% BE h=0.1 ms
+plot(results(1).t*1e3, results(1).i_BE, '-', 'Color', col_be_dark, 'LineWidth', lw_thick, ...
+    'Marker', marker_be, 'MarkerIndices', 1:length(results(1).t), 'MarkerSize', ms_small, 'DisplayName', 'BE, $h=0.1$ ms', 'MarkerFaceColor', col_be_dark, 'MarkerEdgeColor', col_be_dark);
+% BE h=0.8 ms
+plot(results(2).t*1e3, results(2).i_BE, '-', 'Color', col_be_light, 'LineWidth', lw_thin, ...
+    'Marker', marker_be, 'MarkerIndices', 1:length(results(2).t), 'MarkerSize', ms_large, 'DisplayName', 'BE, $h=0.8$ ms', 'MarkerFaceColor', col_be_light, 'MarkerEdgeColor', col_be_light);
+grid on;
+xlabel('Time [ms]', 'Interpreter', 'latex');
+ylabel('Inductor Current $i_L(t)$ [A]', 'Interpreter', 'latex');
+title('Inductor Current', 'Interpreter', 'latex');
 legend('Location', 'best', 'Interpreter', 'latex');
 
 % Save figure
