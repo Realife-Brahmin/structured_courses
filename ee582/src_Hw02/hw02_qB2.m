@@ -120,7 +120,7 @@ legend('Location', 'best', 'Interpreter', 'latex');
 % Save figure
 figuresFolder = "../tex_Hw02/figures/";
 if ~exist(figuresFolder, 'dir'), mkdir(figuresFolder); end
-saveas(gcf, fullfile(figuresFolder, 'hw02_qB2_svgt_comparison.png'));
+saveas(gcf, fullfile(figuresFolder, 'hw02_qB-2_matlab-cktB-svtg-comparison-trapz-vs-be-100mus-vs-800mus.png'));
 
 % --- Print Tables (first 6 steps for each method/step) ---
 for h_idx = 1:length(h_steps_ms)
