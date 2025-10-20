@@ -11,6 +11,14 @@ Do the following.
 \subsection*{Part 4}
 \addcontentsline{toc}{subsection}{Problem 4.4}
 
+Implement the Newton’s method on a computer for the same equation starting with $x_0$ within the interval $[0.45, 0.55]$. Discuss the theoretical difficulty related to non-existence of $f'(x)$ at certain point(s) within the interval. How would you set up Newton’s method to resolve the problem?
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\vspace{1em}
+
+\textbf{Solution:}
+
 Newton's method uses the update formula:
 \[
     x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
@@ -21,15 +29,10 @@ One could consider using the left or right derivative at $x=0.5$, but this is no
 
 In practice, starting from $x_0 = 0.48$ (as in previous parts), the iterates do not encounter $x=0.5$, so Newton's method proceeds normally. The fallback code is included for completeness and robustness, and the actual trajectory of $x_n$ can be seen in the table in Part 5.
 
-\noindent\rule{\textwidth}{0.4pt}
-
-\vspace{1em}
-
-\textbf{Solution:}
-
-% Solution will be added here
+As discussed, starting from $x_0=0.48$ the Newton sequence never reaches $x=0.50$ (see \Cref{fig:p04-4-newton-convergence} in Part 5).
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
 
-As discussed, starting from $x_0=0.48$ the Newton sequence never reaches $x=0.50$ (see \Cref{fig:p04-4-newton-convergence} in Part 5).
+
+
