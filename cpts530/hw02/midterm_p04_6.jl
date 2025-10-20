@@ -1,0 +1,53 @@
+# Activate the cpts530 environment
+import Pkg
+Pkg.activate(joinpath(@__DIR__, ".."))
+
+using Crayons
+using Printf
+
+const SUCCESS = Crayon(foreground=:green, bold=true)
+const FAILURE = Crayon(foreground=:red, bold=true)
+const INFO = Crayon(foreground=:cyan, bold=true)
+const WARNING = Crayon(foreground=:yellow, bold=true)
+const HEADER = Crayon(foreground=:magenta, bold=true)
+const VALUE = Crayon(foreground=:white)
+const RATIO_GOOD = Crayon(foreground=:blue, bold=true)
+const RATIO_BAD = Crayon(foreground=:red, bold=true)
+const RESET = Crayon(reset=true)
+
+# Fixed Point Iteration function T(x)
+T(x) = 0.5 * (cos(x/2) - abs(x - 0.5))
+
+# Parameters
+x0 = 0.48
+max_iter = 25
+# Tolerance for stopping
+const tol = 1e-10
+
+# Store iterates
+xs = [x0]
+
+println(INFO, "Convergence Table:", RESET)
+println(HEADER, "n    x_n           e_n (approx)      e_{n+1}/e_n", RESET)
+println(HEADER, "-----------------------------------------------", RESET)
+
+for n in 1:max_iter
+    x_next = T(xs[end])
+    push!(xs, x_next)
+    # Approximate error: e_n ≈ |x_n - x_{n-1}|
+    e_n = abs(xs[end] - xs[end-1])
+    if n > 1
+        e_prev = abs(xs[end-1] - xs[end-2])
+        ratio = e_n / e_prev
+        ratio_color = ratio < 1 ? RATIO_GOOD : RATIO_BAD
+        @printf("%s%2d%s %s%.10f%s %s%.3e%s %s%.3e%s\n", HEADER, n, RESET, VALUE, x_next, RESET, VALUE, e_n, RESET, ratio_color, ratio, RESET)
+    else
+        @printf("%s%2d%s %s%.10f%s %s%.3e%s      --\n", HEADER, n, RESET, VALUE, x_next, RESET, VALUE, e_n, RESET)
+    end
+    if e_n < tol
+        println(SUCCESS, "\n✓ FPI converged: |x_{n+1} - x_n| < tol = ", tol, RESET)
+        println(INFO, "Final solution: x = ", @sprintf("%.10f", x_next), RESET)
+        println(INFO, "Iterations: ", n, RESET)
+        break
+    end
+end
