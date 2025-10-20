@@ -11,7 +11,7 @@ Do the following.
 \subsection*{Part 2}
 \addcontentsline{toc}{subsection}{Problem 4.2}
 
-Write the computer program implementing the fixed point iteration $x_{n+1} = T(x_n)$. Discuss the choice of an initial guess $x_0$. Calculate the solution to within 10 decimal places. Note the number of iterations needed.
+Write the computer program implementing the fixed point iteration $x_{n+1} = T(x_n)$. Discuss the choice of an initial guess $x_0$. Calculate the solution to within 10 decimal places. Note number of iterations needed.
 
 \noindent\rule{\textwidth}{0.4pt}
 
@@ -19,7 +19,27 @@ Write the computer program implementing the fixed point iteration $x_{n+1} = T(x
 
 \textbf{Solution:}
 
-% Solution will be added here
+The fixed point iteration $x_{n+1} = T(x_n)$ was implemented in Julia. Any initial guess $x_0$ in $[0.45, 0.55]$ works due to contractivity; I chose $x_0 = 0.48$.
+
+The method converged to $x \approx 0.4722515915$ in 23 iterations, accurate to 10 decimal places. The terminating condition was $|x_{n+1} - x_n| < 10^{-10}$, ensuring accuracy to 10 decimal places. The terminal output is shown in Figure~\ref{fig:p04-2-Tx-iterations}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figures/p04-2-Tx-iterations-terminal-output.png}
+    \caption{Fixed point iteration output for $T(x)$, showing convergence.}
+    \label{fig:p04-2-Tx-iterations}
+\end{figure}
+
+The result verifies existence and uniqueness of the solution in the interval as concluded in 4-1, as expected from the contraction mapping theorem.
+
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Part 2 Solution:} \\[0.5em]
+Fixed point iteration converged to $x = 0.4722515915$ in 23 iterations, accurate to 10 decimal places. The initial point chosen was $x=0.48$ and the terminating condition was $|x_{n+1} - x_n| < 10^{-10}$.
+}}
+\end{center}
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
+
