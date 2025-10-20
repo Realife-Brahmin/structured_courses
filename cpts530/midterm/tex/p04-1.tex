@@ -47,5 +47,30 @@ The plot of $f(x)$ in \Cref{fig:p04-fx-plot} suggests the same fixed point which
 	\label{fig:p04-Tx-plot}
 \end{figure}
 
+To prove that \( T(x) \) maps the interval \( [0.45, 0.55] \) into itself, we need to show that for any \( x \in [0.45, 0.55] \), \( T(x) \) also lies within this interval.
+First, we evaluate \( T(x) \) at the endpoints of the interval:
+\[T(0.45) = \frac{1}{2}\left(\cos(0.45/2) - |0.45 - 0.5|\right) \approx 0.4624,\]
+\[T(0.55) = \frac{1}{2}\left(\cos(0.55/2) - |0.55 - 0.5|\right) \approx 0.4562.\]
+
+
+
+\begin{itemize}
+	\item $T'(x) = -\frac{1}{4}\sin(x/2) - \frac{1}{2}\operatorname{sgn}(x-0.5)$.
+    \item $\implies T(x)$ is increasing on $[0.45, 0.50)$ and decreasing on $[0.50, 0.55]$.
+	\item Specifically, for $x \in [0.45, 0.50)$: $\operatorname{sgn}(x-0.5) = -1$, so $T'(x) > 0$ (increasing).
+	\item And for $x \in [0.50, 0.55]$: $\operatorname{sgn}(x-0.5) = 1$, so $T'(x) < 0$ (decreasing).
+	\item Maximum of $T(x)$ in $[0.45, 0.55]$ is at $x=0.50$ valued at $T(0.50) \approx 0.4845$; minimum at $x=0.55$ (from our earlier computation).
+	\item $T(0.50) \approx 0.4845$, so $T(x)$ maps $[0.45, 0.55]$ into $[0.4562, 0.4845]$.
+\end{itemize}
+
+Since $T(0.50) \approx 0.4845$, we have proven that \( T(x) \) maps \( [0.45, 0.55] \) into itself (in fact, into a smaller interval \([0.4562, 0.4845]\)).
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+	\textbf{Part (a) Conclusion:} \\[0.5em]
+$T(x)$ maps $[0.45, 0.55]$ into itself (specifically, into $[0.4562, 0.4845]$ approximately)}
+}
+\end{center}
+
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
