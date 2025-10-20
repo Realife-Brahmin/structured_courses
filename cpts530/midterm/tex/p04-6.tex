@@ -26,7 +26,7 @@ As a recap, my \textbf{proposed alternative error control strategy} in HW 3, Pro
     \item Estimate rate of convergence using Taylor's formula
     \item Implement FPI iterations so as to generate a table of $n$, $x_n$ and (approximated) $e_n$
     \item Use the table to see when the approximated errors are in line with my calculated convergence rate, so as to declare that the current iterate is \textbf{close enough to the exact solution}.
-    \item For stopping, use a simple threshold on the change in iterates: $|x_{n+1} - x_n| < \varepsilon_{tol}$
+    \item \textbf{If my iterates are within proximity of the root}, for stopping, I use a simple threshold on the change in iterates: $|x_{n+1} - x_n| < \varepsilon_{tol}$
 \end{enumerate}
 
 \subsubsection*{Step 1: Algebraically Calculate Rate of Convergence}
@@ -126,5 +126,8 @@ The alternative error control strategy implemented here demonstrates two key adv
 
 This approach ensures both practical efficiency and theoretical rigor, outperforming the standard a priori method and aligning closely with the a posteriori error bounds.
 
+See Appendix (\Cref{fig:p04-6-alternative-error-control-strategy-function,fig:p04-6-aposteriori-vs-true-error-function}) for the FPI code, convergence analysis, and error comparison.
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
+
+
