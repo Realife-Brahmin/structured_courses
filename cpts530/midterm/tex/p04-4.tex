@@ -17,7 +17,7 @@ Newton's method uses the update formula:
 \]
 which requires $f'(x)$ to be defined at each iterate. For this problem, $f'(x)$ is undefined at $x = 0.5$ due to the $|x-0.5|$ term. If an iterate lands at $x = 0.5$, Newton's method cannot proceed.
 
-One could consider using the left or right derivative at $x=0.5$, but this is nonstandard and not recommended for Newton's method. Instead, we implement a fallback: if $x_n$ gets too close to $0.5$, we switch to the fixed point iteration (FPI) method from Part 2, and can switch back to Newton once away from the singularity.
+One could consider using the left or right derivative at $x=0.5$, but this is nonstandard and not recommended for Newton's method. Instead, I've implemented a fallback: if $x_n$ gets too close to $0.5$, I switch to the fixed point iteration (FPI) method from Part 2, and can switch back to Newton once away from the singularity.
 
 In practice, starting from $x_0 = 0.48$ (as in previous parts), the iterates do not encounter $x=0.5$, so Newton's method proceeds normally. The fallback code is included for completeness and robustness, and the actual trajectory of $x_n$ can be seen in the table in Part 5.
 
@@ -31,3 +31,5 @@ In practice, starting from $x_0 = 0.48$ (as in previous parts), the iterates do 
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
+
+As discussed, starting from $x_0=0.48$ the Newton sequence never reaches $x=0.50$ (see \Cref{fig:p04-4-newton-convergence} in Part 5).

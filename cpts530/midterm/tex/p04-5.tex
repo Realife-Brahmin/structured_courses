@@ -19,31 +19,36 @@ Note the number of iterations needed to calculate the solution to within 10 deci
 
 \textbf{Solution:}
 
-% Solution will be added here
-
-\vspace{2em}
-\noindent\rule{\textwidth}{0.4pt}
-
-\textbf{Part 5: Convergence Results}
-
 The table below (see \Cref{tab:p04-5-newton-fpi}) shows the trajectory of $x_n$ and errors for Newton's method and FPI, starting from $x_0 = 0.48$.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{cccc}
         \toprule
-        $n$ & $x_n$ & $|x_n - x^*|$ & $e_{n+1}^2/e_n$ \\
+        $n$ & $x_n$ & $e_n$ & $e_{n+1}/e_n^2$ \\
         \midrule
-        % Fill in with actual values from your Julia output
-        0 & 0.4800000000 & 7.748e-03 & 2.902e-03 \\
-        1 & 0.4769935515 & 4.742e-03 & 1.777e-03 \\
-        2 & 0.4751546977 & 2.903e-03 & 1.089e-03 \\
-        3 & 0.4740293206 & 1.778e-03 & 6.668e-04 \\
-        % ... (add more rows as needed)
+        $0$ & $0.4800000000$ & $7.748\times 10^{-3}$ & $1.086\times 10^{-1}$ \\
+        $1$ & $0.4722581088$ & $6.517\times 10^{-6}$ & $8.519\times 10^{-1}$ \\
+        $2$ & $0.4722515915$ & $3.619\times 10^{-11}$ & $-$ \\
         \bottomrule
     \end{tabular}
-    \caption{Convergence of Newton's method and FPI for $f(x)$, showing rapid quadratic convergence for Newton.}
+    \caption{Convergence of Newton's method for $f(x)$, showing rapid quadratic convergence.}
     \label{tab:p04-5-newton-fpi}
 \end{table}
 
 Newton's method converges to the root in just 3 iterations, while FPI requires 23. This demonstrates the dramatic efficiency advantage of Newton's method for this problem.
+
+\vspace{2em}
+
+% Insert convergence figure
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{figures/p04-4-newtons-method-convergence-terminal-output.png}
+    \caption{Newton's method convergence output for $x_0=0.48$. The trajectory never reaches $x=0.50$.}
+    \label{fig:p04-4-newton-convergence}
+\end{figure}
+
+As shown in \Cref{fig:p04-4-newton-convergence}, the sequence starting from $x_0=0.48$ converges rapidly and does not encounter $x=0.50$.
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}
