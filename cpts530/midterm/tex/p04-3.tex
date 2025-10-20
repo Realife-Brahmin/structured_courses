@@ -11,15 +11,39 @@ Do the following.
 \subsection*{Part 3}
 \addcontentsline{toc}{subsection}{Problem 4.3}
 
-Use a priori and a posteriori error estimates from the notes to estimate the number of iterations needed to obtain the above accuracy. Which estimate is more accurate?
+As shown in \Cref{fig:p04-3-apriori-aposteriori} priori and a posteriori error estimates were used to predict the number of iterations needed for $10^{-10}$ accuracy:
 
-\noindent\rule{\textwidth}{0.4pt}
+\begin{itemize}
+    \item \textbf{A priori estimate:} 33 iterations required (using $\lambda = 0.5679$).
+    \item \textbf{A posteriori (actual):} 23 iterations needed to converge.
+\end{itemize}
 
-\vspace{1em}
+The formulas used for error and iteration estimates are:
 
-\textbf{Solution:}
+\begin{itemize}
+    \item \textbf{A priori:}
+    \[
+        |x_n - r| \leq \frac{\lambda^n}{1-\lambda}|x_1 - x_0| \leq \varepsilon
+    \]
+    Solving for $n$:
+    \[
+        n \geq \frac{\ln(\varepsilon(1-\lambda)/|x_1-x_0|)}{\ln(\lambda)}
+    \]
+    \item \textbf{A posteriori:}
+    \[
+        |x_{n+1} - r| \leq \frac{\lambda}{1-\lambda}|x_{n+1} - x_n|
+    \]
+    Stopping criterion:
+    \[
+        \frac{\lambda}{1-\lambda}|x_{n+1} - x_n| < \varepsilon
+    \]
+\end{itemize}
 
-% Solution will be added here
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figures/p04-3-apriori-aposteriori-iterations-terminal-output.png}
+    \caption{Comparison of a priori and a posteriori error estimates for fixed point iteration.}
+    \label{fig:p04-3-apriori-aposteriori}
+\end{figure}
 
-\vspace{2em}
-\noindent\rule{\textwidth}{0.4pt}
+For $\lambda>0.5$, such as in our case of $\lambda = 0.5679$, the a priori estimate is conservative and overestimates the required steps, while the a posteriori estimate (based on actual step sizes) is more accurate in practice.
