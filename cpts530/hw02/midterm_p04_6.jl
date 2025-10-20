@@ -1,3 +1,12 @@
+# =====================================================================
+# MIDTERM PROBLEM 4.6: Fixed Point Iteration (FPI) Convergence Analysis
+# =====================================================================
+# This script performs FPI for the nonlinear equation:
+#     x = 0.5 * (cos(x/2) - |x - 0.5|)
+# starting from x0 = 0.48, with stopping criterion |x_{n+1} - x_n| < 1e-10.
+# It prints a colored convergence table with n, x_n, approximate error, and error ratio.
+# =====================================================================
+
 # Activate the cpts530 environment
 import Pkg
 Pkg.activate(joinpath(@__DIR__, ".."))
@@ -21,11 +30,18 @@ T(x) = 0.5 * (cos(x/2) - abs(x - 0.5))
 # Parameters
 x0 = 0.48
 max_iter = 25
-# Tolerance for stopping
 const tol = 1e-10
 
 # Store iterates
 xs = [x0]
+
+println(INFO, "\n" * "="^80, RESET)
+println(INFO, "MIDTERM PROBLEM 4.6: Fixed Point Iteration (FPI) Convergence Analysis", RESET)
+println(INFO, "="^80, RESET)
+println(INFO, "Equation: x = 0.5 * (cos(x/2) - |x - 0.5|)", RESET)
+println(INFO, "Initial guess: x0 = $x0", RESET)
+println(INFO, "Tolerance: tol = $tol", RESET)
+println(INFO, "Stopping criterion: |x_{n+1} - x_n| < tol", RESET)
 
 println(INFO, "Convergence Table:", RESET)
 println(HEADER, "n    x_n           e_n (approx)      e_{n+1}/e_n", RESET)
