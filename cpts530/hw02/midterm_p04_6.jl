@@ -67,3 +67,20 @@ for n in 1:max_iter
         break
     end
 end
+
+# True root from previous FPI
+const r = 0.4722515915
+
+println(INFO, "\nA posteriori vs. true error table:", RESET)
+println(HEADER, "n    x_n           |x_n - r|         a posteriori bound", RESET)
+println(HEADER, "------------------------------------------------------", RESET)
+
+# Contraction constant (estimate from T'(r))
+lambda = abs(-0.25 * sin(r/2) - 0.5 * sign(r - 0.5))
+
+for n in 2:length(xs)
+    x_n = xs[n]
+    true_err = abs(x_n - r)
+    apos_err = lambda / (1 - lambda) * abs(x_n - xs[n-1])
+    @printf("%s%2d%s %s%.10f%s %s%16.3e%s %s%16.3e%s\n", HEADER, n-1, RESET, VALUE, x_n, RESET, VALUE, true_err, RESET, VALUE, apos_err, RESET)
+end
