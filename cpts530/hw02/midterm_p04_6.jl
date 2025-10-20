@@ -44,8 +44,8 @@ println(INFO, "Tolerance: tol = $tol", RESET)
 println(INFO, "Stopping criterion: |x_{n+1} - x_n| < tol", RESET)
 
 println(INFO, "Convergence Table:", RESET)
-println(HEADER, "n    x_n           e_n (approx)      e_{n+1}/e_n", RESET)
-println(HEADER, "-----------------------------------------------", RESET)
+println(HEADER, "n    x_n           e_n (approx)           e_{n+1}/e_n", RESET)
+println(HEADER, "------------------------------------------------------", RESET)
 
 for n in 1:max_iter
     x_next = T(xs[end])
@@ -56,9 +56,9 @@ for n in 1:max_iter
         e_prev = abs(xs[end-1] - xs[end-2])
         ratio = e_n / e_prev
         ratio_color = ratio < 1 ? RATIO_GOOD : RATIO_BAD
-        @printf("%s%2d%s %s%.10f%s %s%.3e%s %s%.3e%s\n", HEADER, n, RESET, VALUE, x_next, RESET, VALUE, e_n, RESET, ratio_color, ratio, RESET)
+        @printf("%s%2d%s %s%.10f%s %s%16.3e%s %s%16.3e%s\n", HEADER, n, RESET, VALUE, x_next, RESET, VALUE, e_n, RESET, ratio_color, ratio, RESET)
     else
-        @printf("%s%2d%s %s%.10f%s %s%.3e%s      --\n", HEADER, n, RESET, VALUE, x_next, RESET, VALUE, e_n, RESET)
+        @printf("%s%2d%s %s%.10f%s %s%16.3e%s      --\n", HEADER, n, RESET, VALUE, x_next, RESET, VALUE, e_n, RESET)
     end
     if e_n < tol
         println(SUCCESS, "\n✓ FPI converged: |x_{n+1} - x_n| < tol = ", tol, RESET)

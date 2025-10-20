@@ -91,3 +91,23 @@ Using the above $T(x)$ function, I implemented the Fixed Point Iteration method 
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
+
+% Insert convergence analysis figure
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/p04-6-convergence-analysis-with-alternative-error-control-strategy.png}
+    \caption{FPI convergence analysis with alternative error control strategy.}
+    \label{fig:p04-6-convergence-alternative}
+\end{figure}
+
+\textbf{Discussion of Error Control Strategy}
+
+The alternative error control strategy implemented here uses two criteria:
+\begin{enumerate}
+    \item \textbf{Proximity to the true root:} The error ratios $e_{n+1}/e_n$ are stable and accurate from the very first iteration, indicating that the sequence is already in the neighborhood of the true root. This resolves the first convergence criterion (proximity).
+    \item \textbf{Tolerance-based stopping:} The iteration halts when $|x_{n+1} - x_n| < 10^{-10}$, matching the standard FPI criterion.
+\end{enumerate}
+
+This strategy is a superset of the usual FPI stopping rule, as it also checks for genuine proximity to the root, not just small changes in $x_n$. This helps avoid 'fake stopping'—cases where $x_n$ changes little but is not close to the actual root. In this problem, the method confirms proximity from the start, so only the tolerance criterion remains relevant for stopping.
+
+See \Cref{fig:p04-6-convergence-alternative} for the full convergence table and analysis.
