@@ -107,4 +107,24 @@ The iteration halts when $|x_{n+1} - x_n| < 10^{-10}$, matching the standard FPI
 See \Cref{fig:p04-6-convergence-alternative} for the full convergence table and analysis.
 
 \vspace{2em}
+
+% Insert a posteriori vs true error figure
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/p04-6-aposteriori-vs-true-error-terminal-output.png}
+    \caption{Comparison of a posteriori error bound and true error for each FPI iteration.}
+    \label{fig:p04-6-aposteriori-vs-true-error}
+\end{figure}
+
+\textbf{Summary and Comparison}
+
+The alternative error control strategy implemented here demonstrates two key advantages:
+\begin{enumerate}
+    \item \textbf{Efficiency over a priori estimate:} The actual number of iterations required for convergence is 23, compared to the 33 predicted by the a priori estimate. This is expected, as the a priori bound is conservative for $\lambda > 0.5$.
+    \item \textbf{Agreement with a posteriori estimate:} As shown in \Cref{fig:p04-6-aposteriori-vs-true-error}, the true error at each step is always within the a posteriori error bound, confirming the reliability of the stopping criterion and the robustness of the control strategy.
+\end{enumerate}
+
+This approach ensures both practical efficiency and theoretical rigor, outperforming the standard a priori method and aligning closely with the a posteriori error bounds.
+
+\vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
