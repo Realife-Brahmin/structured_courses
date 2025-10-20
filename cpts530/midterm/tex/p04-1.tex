@@ -55,7 +55,7 @@ First, we evaluate \( T(x) \) at the endpoints of the interval:
 
 
 \begin{itemize}
-	\item $T'(x) = -\frac{1}{4}\sin(x/2) - \frac{1}{2}\operatorname{sgn}(x-0.5)$.
+	\item $T'(x) = -\frac{1}{4}\sin(x/2) - \frac{1}{2}\operatorname{sgn}(x-0.5) \forall x \in [0.45, 0.55]\setminus\{0.50\}$.
     \item $\implies T(x)$ is increasing on $[0.45, 0.50)$ and decreasing on $[0.50, 0.55]$.
 	\item Specifically, for $x \in [0.45, 0.50)$: $\operatorname{sgn}(x-0.5) = -1$, so $T'(x) > 0$ (increasing).
 	\item And for $x \in [0.50, 0.55]$: $\operatorname{sgn}(x-0.5) = 1$, so $T'(x) < 0$ (decreasing).
@@ -69,6 +69,26 @@ Since $T(0.50) \approx 0.4845$, we have proven that \( T(x) \) maps \( [0.45, 0.
 \fbox{\parbox{0.9\textwidth}{
 	\textbf{Part (a) Conclusion:} \\[0.5em]
 $T(x)$ maps $[0.45, 0.55]$ into itself (specifically, into $[0.4562, 0.4845]$ approximately)}
+}
+\end{center}
+
+Proving contractiveness of \( T(x) \) on the interval \( [0.45, 0.55] \) is pretty simple, all we need to do is to show that the absolute value of its derivative is less than 1 throughout the interval. In fact if we can come up with an upper bound \( \lambda \) such that \( |T'(x)| \leq \lambda < 1 \) for all \( x \) in the interval, we can even utilize that value in convergence analysis later on.
+
+We've already computed $T'(x) = -\frac{1}{4}\sin(x/2) - \frac{1}{2}\operatorname{sgn}(x-0.5) \forall x \in [0.45, 0.55]\setminus\{0.50\}$. Except at $x=0.50$, where the derivative is not defined due to the absolute value function, $T''(x) = -\frac{1}{8}\cos(x/2)$ is defined, negative (thus making the $f(x)$ convex) and continuous throughout the interval.
+This means that $T'(x)$ is monotonically decreasing in the interval $[0.45, 0.55]$. We can evaluate $T'(x)$ at the endpoints to find bounds:
+\[T'(0.45) = -\frac{1}{4}\sin(0.45/2) + \frac{1}{2} \approx 0.4442,\]
+\[T'(0.55) = -\frac{1}{4}\sin(0.55/2) - \frac{1}{2} \approx -0.5679.\]
+
+As for the point $x=0.50$, we can consider the left-hand and right-hand limits:
+\[\lim_{x \to 0.50^-} T'(x) = -\frac{1}{4}\sin(0.50/2) + \frac{1}{2} \approx 0.4381,\]
+\[\lim_{x \to 0.50^+} T'(x) = -\frac{1}{4}\sin(0.50/2) - \frac{1}{2} \approx -0.5618.\] just to have a `safe' bound around the discontinuity. Most importantly, we know that $T(0.55)$ still maps within the interval as shown in part (a), and thus we can ignore this undifferentiable point for the purpose of contractiveness.
+
+Therefore, we can say that $T(x)$ is contractive on $[0.45, 0.55]$ with a contraction constant $\lambda = 0.5679$ (the maximum absolute value of the derivative at the endpoints).
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+    \textbf{Part (b) Conclusion:} \\[0.5em]
+    $T(x)$ is contractive on $[0.45, 0.55]$ with contraction constant $\lambda \approx 0.5679$}
 }
 \end{center}
 
