@@ -19,7 +19,70 @@ Implement the alternative error control strategy proposed by you in HW 3, Proble
 
 \textbf{Solution:}
 
-% Solution will be added here
+As a recap, my \textbf{proposed alternative error control strategy} in HW 3, Problem 2 was:
+
+\subsubsection*{Proposed Alternative Error Control Strategy}
+\begin{enumerate}
+    \item Estimate rate of convergence using Taylor's formula
+    \item Implement FPI iterations so as to generate a table of $n$, $x_n$ and (approximated) $e_n$
+    \item Use the table to see when the approximated errors are in line with my calculated convergence rate, so as to declare that the current iterate is \textbf{close enough to the exact solution}.
+    \item For stopping, use a simple threshold on the change in iterates: $|x_{n+1} - x_n| < \varepsilon_{tol}$
+\end{enumerate}
+
+\subsubsection*{Step 1: Algebraically Calculate Rate of Convergence}
+
+We know that $T(x) = \frac{1}{2}\left(\cos(x/2) - |x - 1/2|\right)$. For the sake of easing up on our calculations, we can assume that since the root $r<0.5$, we can conveniently choose to use only the left branch of the absolute value function as its neighbourhood. Note that in reality I cannot claim that $x>0.5$ is NOT in the root's neighbourhood, I kind of hope that this assumption will not cause any loss of generality.
+Thus:
+\begin{align*}
+    T(x) &= \frac{1}{2}cos(x/2) + \frac{x}{2} - \frac{1}{4} \\
+    T'(x) &= -\frac{1}{4}\sin(x/2) + \frac{1}{2} \\
+\end{align*}
+
+We can define $e_n = x_n - r$ and $e_{n+1} = x_{n+1} - r$.
+
+Now expanding $T(r)$ using Taylor's formula around $x_n$:
+\[ 
+    T(r) = T(x_n - e_n)
+\]
+or,
+\[
+    T(r) = T(x_n) - e_n*T'(x_n) + O(x_n^2)
+\]
+or,
+\[
+    r = x_{n+1} - e_n*T'(x_n) + O(x_n^2)
+\]
+or,
+\[
+    -e_{n+1} = -e_n*T'(x_n) + O(x_n^2)
+\]
+
+Substituting $T'(x_n) = -\frac{1}{4}\sin(x_n/2) + \frac{1}{2}$:
+\[
+    e_{n+1} = e_n\left(-\frac{1}{4}\sin(x_n/2) + \frac{1}{2}\right) + O(x_n^2)
+\]
+Expanding $\sin(x_n/2)$ using Taylor's formula around $x_n$:
+\[
+    \sin(x_n/2) = (x_n/2) + O(x_n^3)
+\]
+or,
+\[
+    \sin(x_n/2) = \left(\frac{r}{2} + \frac{e_n}{2}\right) + O(x_n^3)
+\]
+Substituting back:
+\[
+    e_{n+1} = e_n\left(-\frac{1}{4}\left(\frac{r}{2} + \frac{e_n}{2}\right) + \frac{1}{2}\right) + O(x_n^2)
+\]
+Or,
+\[
+    e_{n+1} = \left(\frac{1}{2} - \frac{r}{8}\right)e_n + O(x_n^2)
+\]
+Thus, we can see that the method converges linearly with:
+\[
+    C = \left( \frac{1}{2} - \frac{r}{8} \right), \quad s = 1
+\]
+We can check for $C$ as we've preivously calculated $r \approx 0.4722$:
+$ C \approx 0.441 < 1$, so the method converges.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
