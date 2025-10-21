@@ -19,7 +19,115 @@ Implement the alternative error control strategy proposed by you in HW 3, Proble
 
 \textbf{Solution:}
 
-% Solution will be added here
+As a recap, my \textbf{proposed alternative error control strategy} in HW 3, Problem 2 was:
+
+\subsubsection*{Proposed Alternative Error Control Strategy}
+\begin{enumerate}
+    \item Estimate rate of convergence using Taylor's formula
+    \item Implement FPI iterations so as to generate a table of $n$, $x_n$ and (approximated) $e_n$
+    \item Use the table to see when the approximated errors are in line with my calculated convergence rate, so as to declare that the current iterate is \textbf{close enough to the exact solution}.
+    \item \textbf{If my iterates are within proximity of the root}, for stopping, I use a simple threshold on the change in iterates: $|x_{n+1} - x_n| < \varepsilon_{tol}$
+\end{enumerate}
+
+\subsubsection*{Step 1: Algebraically Calculate Rate of Convergence}
+
+We know that $T(x) = \frac{1}{2}\left(\cos(x/2) - |x - 1/2|\right)$. For the sake of easing up on our calculations, we can assume that since the root $r<0.5$, we can conveniently choose to use only the left branch of the absolute value function as its neighbourhood. Note that in reality I cannot claim that $x>0.5$ is NOT in the root's neighbourhood, I kind of hope that this assumption will not cause any loss of generality.
+Thus:
+\begin{align*}
+    T(x) &= \frac{1}{2}cos(x/2) + \frac{x}{2} - \frac{1}{4} \\
+    T'(x) &= -\frac{1}{4}\sin(x/2) + \frac{1}{2} \\
+\end{align*}
+
+We can define $e_n = x_n - r$ and $e_{n+1} = x_{n+1} - r$.
+
+Now expanding $T(r)$ using Taylor's formula around $x_n$:
+\[ 
+    T(r) = T(x_n - e_n)
+\]
+or,
+\[
+    T(r) = T(x_n) - e_n*T'(x_n) + O(x_n^2)
+\]
+or,
+\[
+    r = x_{n+1} - e_n*T'(x_n) + O(x_n^2)
+\]
+or,
+\[
+    -e_{n+1} = -e_n*T'(x_n) + O(x_n^2)
+\]
+
+Substituting $T'(x_n) = -\frac{1}{4}\sin(x_n/2) + \frac{1}{2}$:
+\[
+    e_{n+1} = e_n\left(-\frac{1}{4}\sin(x_n/2) + \frac{1}{2}\right) + O(x_n^2)
+\]
+Expanding $\sin(x_n/2)$ using Taylor's formula around $x_n$:
+\[
+    \sin(x_n/2) = (x_n/2) + O(x_n^3)
+\]
+or,
+\[
+    \sin(x_n/2) = \left(\frac{r}{2} + \frac{e_n}{2}\right) + O(x_n^3)
+\]
+Substituting back:
+\[
+    e_{n+1} = e_n\left(-\frac{1}{4}\left(\frac{r}{2} + \frac{e_n}{2}\right) + \frac{1}{2}\right) + O(x_n^2)
+\]
+Or,
+\[
+    e_{n+1} = \left(\frac{1}{2} - \frac{r}{8}\right)e_n + O(x_n^2)
+\]
+Thus, we can see that the method converges linearly with:
+\[
+    C = \left( \frac{1}{2} - \frac{r}{8} \right), \quad s = 1
+\]
+We can check for $C$ as we've previously calculated $r \approx 0.4722$:
+$ C \approx 0.441 < 1$, so the method converges.
+
+\subsubsection*{Step 2: Implement FPI Iterations and Generate Table}
+
+Using the above $T(x)$ function, I implemented the Fixed Point Iteration method in Python to generate the following table of $n$, $x_n$, and approximated $e_n \approx x_{n+1}-x_n$ values:
+
+% Insert convergence analysis figure
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/p04-6-convergence-analysis-with-alternative-error-control-strategy.png}
+    \caption{FPI convergence analysis with alternative error control strategy.}
+    \label{fig:p04-6-convergence-alternative}
+\end{figure}
+
+\subsubsection*{Step 3: Proximity to the Root}
+
+The error ratios $e_{n+1}/e_n$ are stable and accurate from the very first iteration, indicating that the sequence is already in the neighborhood of the true root. This resolves the first convergence criterion (proximity). In fact we can see that the ratios are close to $C \approx 0.441$ as calculated above!
+
+\subsubsection*{Step 4: Robust Stopping Criterion}
+
+The iteration halts when $|x_{n+1} - x_n| < 10^{-10}$, matching the standard FPI criterion. However, this strategy is a superset of the usual rule, as it also checks for genuine proximity to the root, not just small changes in $x_n$. This helps avoid 'fake stopping'—cases where $x_n$ changes little but is not close to the actual root. In this problem, the method confirms proximity from the start, so only the tolerance criterion remains relevant for stopping.
+
+See \Cref{fig:p04-6-convergence-alternative} for the full convergence table and analysis.
 
 \vspace{2em}
+
+% Insert a posteriori vs true error figure
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/p04-6-aposteriori-vs-true-error-terminal-output.png}
+    \caption{Comparison of a posteriori error bound and true error for each FPI iteration.}
+    \label{fig:p04-6-aposteriori-vs-true-error}
+\end{figure}
+
+\textbf{Summary and Comparison}
+
+The alternative error control strategy implemented here demonstrates two key advantages:
+\begin{enumerate}
+    \item \textbf{Efficiency over a priori estimate:} The actual number of iterations required for convergence is 23, compared to the 33 predicted by the a priori estimate. This is expected, as the a priori bound is conservative for $\lambda > 0.5$.
+    \item \textbf{Agreement with a posteriori estimate:} As shown in \Cref{fig:p04-6-aposteriori-vs-true-error}, the true error at each step is always within the a posteriori error bound, confirming the reliability of the stopping criterion and the robustness of the control strategy.
+\end{enumerate}
+
+This approach ensures both practical efficiency and theoretical rigor, outperforming the standard a priori method and aligning closely with the a posteriori error bounds.
+
+See Appendix (\Cref{fig:p04-6-alternative-error-control-strategy-function,fig:p04-6-aposteriori-vs-true-error-function}) for the FPI code, convergence analysis, and error comparison.
+\vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
+
+

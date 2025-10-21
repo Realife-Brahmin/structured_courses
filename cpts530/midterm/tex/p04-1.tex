@@ -21,7 +21,85 @@ Rewrite the equation as a fixed point problem for a function $T(x)$ related to $
 
 \textbf{Solution:}
 
-% Solution will be added here
+For determining a suitable fixed point function \( T(x) \), we start with the given equation:
+\[f(x) = 0 \implies x = \frac{1}{2}\left(\cos(x/2) - \left|x - \frac{1}{2}\right|\right).\]
+Thus, we can define the fixed point function as:
+\[
+T(x) = \frac{1}{2}\left(\cos(x/2) - \left|x - \frac{1}{2}\right|\right).
+\]
+
+To get an idea of the behaviours of functions $f(x)$ and $T(x)$, I plotted both in desmos, as shown in \Cref{fig:p04-fx-plot} and \Cref{fig:p04-Tx-plot}. 
+
+In \Cref{fig:p04-Tx-plot}, I can see that $T(x)$ appears to map the interval $[0.45, 0.55]$ into itself. As for locating the fixed point(s), I can see that $T(x)$ intersects the line $y=x$ at a single point in this interval, suggesting a unique fixed point.
+The plot of $f(x)$ in \Cref{fig:p04-fx-plot} suggests the same fixed point which corresponds to the root of the equation \(f(x) = 0\).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/p04-fx-plot-desmos.png}
+	\caption{Plot of $f(x)$ over the relevant interval.}
+	\label{fig:p04-fx-plot}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/p04-Tx-plot-desmos.png}
+	\caption{Plot of $T(x)$ showing its behavior and mapping in $[0.45, 0.55]$.}
+	\label{fig:p04-Tx-plot}
+\end{figure}
+
+To prove that \( T(x) \) maps the interval \( [0.45, 0.55] \) into itself, we need to show that for any \( x \in [0.45, 0.55] \), \( T(x) \) also lies within this interval.
+First, we evaluate \( T(x) \) at the endpoints of the interval:
+\[T(0.45) = \frac{1}{2}\left(\cos(0.45/2) - |0.45 - 0.5|\right) \approx 0.4624,\]
+\[T(0.55) = \frac{1}{2}\left(\cos(0.55/2) - |0.55 - 0.5|\right) \approx 0.4562.\]
+
+
+
+\begin{itemize}
+	\item $T'(x) = -\frac{1}{4}\sin(x/2) - \frac{1}{2}\operatorname{sgn}(x-0.5) \forall x \in [0.45, 0.55]\setminus\{0.50\}$.
+    \item $\implies T(x)$ is increasing on $[0.45, 0.50)$ and decreasing on $[0.50, 0.55]$.
+	\item Specifically, for $x \in [0.45, 0.50)$: $\operatorname{sgn}(x-0.5) = -1$, so $T'(x) > 0$ (increasing).
+	\item And for $x \in [0.50, 0.55]$: $\operatorname{sgn}(x-0.5) = 1$, so $T'(x) < 0$ (decreasing).
+	\item Maximum of $T(x)$ in $[0.45, 0.55]$ is at $x=0.50$ valued at $T(0.50) \approx 0.4845$; minimum at $x=0.55$ (from our earlier computation).
+	\item $T(0.50) \approx 0.4845$, so $T(x)$ maps $[0.45, 0.55]$ into $[0.4562, 0.4845]$.
+\end{itemize}
+
+Since $T(0.50) \approx 0.4845$, we have proven that \( T(x) \) maps \( [0.45, 0.55] \) into itself (in fact, into a smaller interval \([0.4562, 0.4845]\)).
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+	\textbf{Part (a) Conclusion:} \\[0.5em]
+$T(x)$ maps $[0.45, 0.55]$ into itself (specifically, into $[0.4562, 0.4845]$ approximately)}
+}
+\end{center}
+
+Proving contractiveness of \( T(x) \) on the interval \( [0.45, 0.55] \) is pretty simple, all we need to do is to show that the absolute value of its derivative is less than 1 throughout the interval. In fact if we can come up with an upper bound \( \lambda \) such that \( |T'(x)| \leq \lambda < 1 \) for all \( x \) in the interval, we can even utilize that value in convergence analysis later on.
+
+We've already computed $T'(x) = -\frac{1}{4}\sin(x/2) - \frac{1}{2}\operatorname{sgn}(x-0.5) \forall x \in [0.45, 0.55]\setminus\{0.50\}$. Except at $x=0.50$, where the derivative is not defined due to the absolute value function, $T''(x) = -\frac{1}{8}\cos(x/2)$ is defined, negative (thus making the $f(x)$ convex) and continuous throughout the interval.
+This means that $T'(x)$ is monotonically decreasing in the interval $[0.45, 0.55]$. We can evaluate $T'(x)$ at the endpoints to find bounds:
+\[T'(0.45) = -\frac{1}{4}\sin(0.45/2) + \frac{1}{2} \approx 0.4442,\]
+\[T'(0.55) = -\frac{1}{4}\sin(0.55/2) - \frac{1}{2} \approx -0.5679.\]
+
+As for the point $x=0.50$, we can consider the left-hand and right-hand limits:
+\[\lim_{x \to 0.50^-} T'(x) = -\frac{1}{4}\sin(0.50/2) + \frac{1}{2} \approx 0.4381,\]
+\[\lim_{x \to 0.50^+} T'(x) = -\frac{1}{4}\sin(0.50/2) - \frac{1}{2} \approx -0.5618.\] just to have a `safe' bound around the discontinuity. Most importantly, we know that $T(0.55)$ still maps within the interval as shown in part (a), and thus we can ignore this undifferentiable point for the purpose of contractiveness.
+
+Therefore, we can say that $T(x)$ is contractive on $[0.45, 0.55]$ with a contraction constant $\lambda = 0.5679$ (the maximum absolute value of the derivative at the endpoints).
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+    \textbf{Part (b) Conclusion:} \\[0.5em]
+    $T(x)$ is contractive on $[0.45, 0.55]$ with contraction constant $\lambda \approx 0.5679$}
+}
+\end{center}
+
+Proving both (a) and (b) allows us to invoke the Banach Fixed Point Theorem, which guarantees the existence and uniqueness of a fixed point $r$ such that $T(r) = r$ in the interval \( [0.45, 0.55] \). Consequently, this fixed point corresponds to a unique solution of the equation \( f(x) = 0 \) within the same interval.
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+    \textbf{Final Conclusion:} \\[0.5em]
+    Since $T(x)$ has a single (unique) fixed point, $f(x)$ has a single (unique) root as well.}
+}
+\end{center}
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}

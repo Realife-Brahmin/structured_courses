@@ -1,12 +1,17 @@
 \clearpage
 \appendix
+\markright{Appendix}
 
-\section{Code Implementations}
-\label{appendix:code}
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
 
 This appendix contains the complete codebase for the problems solved in this midterm. All implementations are written in Julia and developed from scratch without using built-in numerical solver shortcuts.
 
-\subsection{Problem 3: LU and Cholesky Factorization}
+% =====================
+% Problem 3 Appendix
+% =====================
+\subsection*{Problem 3: LU and Cholesky Factorization}
+\addcontentsline{toc}{subsection}{Problem 3: LU and Cholesky Factorization}
 \label{appendix:p03-code}
 
 The following figures show the Julia implementation for Problem 3.
@@ -47,7 +52,85 @@ The following figures show the Julia implementation for Problem 3.
 \end{figure}
 
 
-\subsection{Problem 5-3: Ridders' Method Function}
+% =====================
+% Problem 4-2 Appendix
+% =====================
+\subsection*{Problem 4-2: FPI Iteration}
+\addcontentsline{toc}{subsection}{Problem 4-2: FPI Iteration}
+
+The following code implements the fixed point iteration (FPI) for Problem 4-2. The accompanying figure shows the FPI trajectory and convergence table as used in the main report (see \Cref{fig:p04-2-fpi-iterations-function}).
+
+% \subsection*{Julia Code}
+% \begin{lstlisting}[language=Julia]
+% % Paste your FPI Julia code for p04-2 here
+% \end{lstlisting}
+
+\subsection*{FPI Iterations and Convergence}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/p04-2-fpi-iterations-function.png}
+    \caption{FPI trajectory and convergence table for Problem 4-2. This illustrates the sequence of iterates and the error behavior discussed in the main text.}
+    \label{fig:p04-2-fpi-iterations-function}
+\end{figure}
+
+% =====================
+% Problem 4-4 Appendix
+% =====================
+\subsection*{Problem 4-4: Newton's Method}
+\addcontentsline{toc}{subsection}{Problem 4-4: Newton's Method}
+
+The following code implements Newton's method with FPI fallback for Problem 4-4. The figures below illustrate the method's logic and the convergence behavior referenced in the main report (see \Cref{fig:p04-4-newtons-method-with-fallback-function-part1,fig:p04-4-newtons-method-with-fallback-function-part2}).
+
+% \subsection*{Julia Code}
+% \begin{lstlisting}[language=Julia]
+% % Paste your Newton/FPI fallback Julia code for p04-4 here
+% \end{lstlisting}
+
+\subsection*{Newton's Method with Fallback: Logic and Convergence}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/p04-4-newtons-method-with-fallback-function-part1.png}
+    \caption{Newton's method with FPI fallback: logic and switching mechanism. This diagram clarifies the robust handling of non-differentiable points.}
+    \label{fig:p04-4-newtons-method-with-fallback-function-part1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/p04-4-newtons-method-with-fallback-function-part2.png}
+    \caption{Newton's method with FPI fallback: convergence output and error table. This figure shows the rapid convergence and fallback behavior as discussed in the main text.}
+    \label{fig:p04-4-newtons-method-with-fallback-function-part2}
+\end{figure}
+
+% =====================
+% Problem 4-6 Appendix
+% =====================
+\subsection*{Problem 4-6: Alternative Error Control Strategy}
+\addcontentsline{toc}{subsection}{Problem 4-6: Alternative Error Control Strategy}
+
+The following code implements the alternative error control strategy for FPI in Problem 4-6. The figures below show the convergence analysis and the comparison of a posteriori and true errors, as referenced in the main report (see \Cref{fig:p04-6-alternative-error-control-strategy-function,fig:p04-6-aposteriori-vs-true-error-function}).
+
+% \subsection*{Julia Code}
+% \begin{lstlisting}[language=Julia]
+% % Paste your FPI alternative error control Julia code for p04-6 here
+% \end{lstlisting}
+
+\subsection*{Alternative Error Control and Error Comparison}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/p04-6-alternative-error-control-strategy-function.png}
+    \caption{Convergence analysis for the alternative error control strategy in Problem 4-6. This figure demonstrates the robust stopping and proximity criteria.}
+    \label{fig:p04-6-alternative-error-control-strategy-function}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/p04-6-aposteriori-vs-true-error-function.png}
+    \caption{Comparison of a posteriori error bound and true error for each FPI iteration in Problem 4-6. This validates the reliability of the a posteriori estimate.}
+    \label{fig:p04-6-aposteriori-vs-true-error-function}
+\end{figure}
+
+\subsection*{Problem 5-3: Ridders' Method Function}
+\addcontentsline{toc}{subsection}{Problem 5-3: Ridders' Method Function}
 \label{appendix:p05-3-code}
 
 The following figures show the implementation of the Ridders' root-finding function, broken into logical parts. The bisection method is not shown here, as it was implemented in Homework 1 and is a subset of Ridders' approach.
