@@ -29,7 +29,147 @@ On the left-hand side of the switch/breaker, we have the source voltage and a re
 
 \noindent\rule{\textwidth}{0.4pt}
 
-% Your solution here
+\subsection{Solution Approach}
+
+To determine an appropriate time-step for the trapezoidal discretization, we need to analyze the resonant frequencies of the circuit in three different states:
+
+\begin{enumerate}
+    \item \textbf{Closed state}: Breaker closed (full circuit)
+    \item \textbf{Open state (Left)}: Left portion of the circuit after breaker opens
+    \item \textbf{Open state (Right)}: Right portion of the circuit after breaker opens
+\end{enumerate}
+
+The circuit configurations are shown in Figures~\ref{fig:c01_closed_handdrawn} and \ref{fig:c01_open_handdrawn}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/figure-C-closed-circuit-handdrawn.png}
+    \caption{Closed circuit configuration (breaker closed)}
+    \label{fig:c01_closed_handdrawn}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/figure-C-open-circuit-handdrawn.png}
+    \caption{Open circuit configuration (breaker open, showing left and right portions)}
+    \label{fig:c01_open_handdrawn}
+\end{figure}
+
+The criterion for time-step selection is based on the maximum frequency component in the circuit to ensure numerical accuracy with the trapezoidal rule.
+
+\subsection{Resonant Frequency Calculations}
+
+For an LC circuit, the resonant frequency is given by:
+\begin{equation}
+    f_{\text{res}} = \frac{1}{2\pi\sqrt{LC}}
+\end{equation}
+
+\subsubsection{Closed State (Breaker Closed)}
+
+When the breaker is closed, the inductances are in parallel and capacitances are in series:
+\begin{align}
+    L_{\text{eq}} &= \frac{L_1 L_2}{L_1 + L_2} = \frac{(0.350)(0.100)}{0.350 + 0.100} = 0.0778\text{ H} \\
+    C_{\text{eq}} &= C_1 + C_2 = 10\times 10^{-9} + 600\times 10^{-9} = 6.10\times 10^{-7}\text{ F}
+\end{align}
+
+The resonant frequency is:
+\begin{equation}
+    f_{\text{res,closed}} = \frac{1}{2\pi\sqrt{(0.0778)(6.10\times 10^{-7})}} = 730.68\text{ Hz}
+\end{equation}
+
+\subsubsection{Open State - Left Portion}
+
+When the breaker is open, the left portion consists of $L_1$ and $C_1$:
+\begin{equation}
+    f_{\text{res,left}} = \frac{1}{2\pi\sqrt{L_1 C_1}} = \frac{1}{2\pi\sqrt{(0.350)(10\times 10^{-9})}} = 2690.21\text{ Hz}
+\end{equation}
+
+\subsubsection{Open State - Right Portion}
+
+The right portion consists of $L_2$ and $C_2$:
+\begin{equation}
+    f_{\text{res,right}} = \frac{1}{2\pi\sqrt{L_2 C_2}} = \frac{1}{2\pi\sqrt{(0.100)(600\times 10^{-9})}} = 649.75\text{ Hz}
+\end{equation}
+
+\subsection{Time-Step Selection Criterion}
+
+For the trapezoidal rule with 3\% error tolerance, the recommended time-step is:
+\begin{equation}
+    h = \frac{1}{10 f_{\max}}
+\end{equation}
+
+where $f_{\max} = f_{\text{res}}$ for each circuit state.
+
+\subsection{Recommended Time-Steps}
+
+Computing the time-step for each state:
+
+\begin{align}
+    h_{\text{closed}} &= \frac{1}{10 \times 730.68} = 1.369\times 10^{-4}\text{ s} = 136.86\,\mu\text{s} \\
+    h_{\text{left}} &= \frac{1}{10 \times 2690.21} = 3.717\times 10^{-5}\text{ s} = 37.17\,\mu\text{s} \\
+    h_{\text{right}} &= \frac{1}{10 \times 649.75} = 1.539\times 10^{-4}\text{ s} = 153.91\,\mu\text{s}
+\end{align}
+
+\subsection{Overall Recommendation}
+
+To ensure accurate simulation throughout all circuit states (before and after breaker operation), we must use the most conservative (minimum) time-step:
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=\textbf{Simulation Time-Step Recommendation}]
+\centering
+\Large
+$\boxed{h = 37.17\,\mu\text{s}}$
+
+\vspace{0.3em}
+\normalsize
+This corresponds to the open state (left portion), which has the highest resonant frequency.
+\end{tcolorbox}
+
+\vspace{0.5em}
+\noindent This time-step ensures:
+\begin{itemize}
+    \item Proper sampling of the highest frequency component (2690.21 Hz)
+    \item Numerical accuracy within 3\% error for the trapezoidal rule
+    \item Stable and accurate transient response capture for all circuit configurations
+\end{itemize}
+
+\subsection{Summary Table}
+
+\begin{table}[H]
+\centering
+\caption{Resonant frequencies and recommended time-steps for different circuit states}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\rowcolor{gray!20}
+\textbf{Circuit State} & \textbf{$L$ [H]} & \textbf{$C$ [F]} & \textbf{$f_{\text{res}}$ [Hz]} \\
+\hline
+Closed (Breaker Closed) & 0.0778 & $6.10\times 10^{-7}$ & 730.68 \\
+\hline
+Open (Left Portion) & 0.350 & $1.0\times 10^{-8}$ & \cellcolor{yellow!30}2690.21 \\
+\hline
+Open (Right Portion) & 0.100 & $6.0\times 10^{-7}$ & 649.75 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\rowcolor{gray!20}
+\textbf{Circuit State} & \textbf{$h$ [$\mu$s]} \\
+\hline
+Closed (Breaker Closed) & 136.86 \\
+\hline
+Open (Left Portion) & \cellcolor{green!30}\textbf{37.17} \\
+\hline
+Open (Right Portion) & 153.91 \\
+\hline
+\hline
+\rowcolor{blue!20}
+\textbf{Overall Minimum} & \textbf{37.17} \\
+\hline
+\end{tabular}
+\end{table}
 
 \vspace{1em}
 \noindent\rule{\textwidth}{0.4pt}
