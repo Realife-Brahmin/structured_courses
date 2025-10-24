@@ -124,52 +124,5 @@ $\boxed{h = 37.17\,\mu\text{s}}$
 This corresponds to the open state (left portion), which has the highest resonant frequency.
 \end{tcolorbox}
 
-\vspace{0.5em}
-\noindent This time-step ensures:
-\begin{itemize}
-    \item Proper sampling of the highest frequency component (2690.21 Hz)
-    \item Numerical accuracy within 3\% error for the trapezoidal rule
-    \item Stable and accurate transient response capture for all circuit configurations
-\end{itemize}
-
-\subsection{Summary Table}
-
-\begin{table}[H]
-\centering
-\caption{Resonant frequencies and recommended time-steps for different circuit states}
-\begin{tabular}{|l|c|c|c|}
-\hline
-\rowcolor{gray!20}
-\textbf{Circuit State} & \textbf{$L$ [H]} & \textbf{$C$ [F]} & \textbf{$f_{\text{res}}$ [Hz]} \\
-\hline
-Closed (Breaker Closed) & 0.0778 & $6.10\times 10^{-7}$ & 730.68 \\
-\hline
-Open (Left Portion) & 0.350 & $1.0\times 10^{-8}$ & \cellcolor{yellow!30}2690.21 \\
-\hline
-Open (Right Portion) & 0.100 & $6.0\times 10^{-7}$ & 649.75 \\
-\hline
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|l|c|}
-\hline
-\rowcolor{gray!20}
-\textbf{Circuit State} & \textbf{$h$ [$\mu$s]} \\
-\hline
-Closed (Breaker Closed) & 136.86 \\
-\hline
-Open (Left Portion) & \cellcolor{green!30}\textbf{37.17} \\
-\hline
-Open (Right Portion) & 153.91 \\
-\hline
-\hline
-\rowcolor{blue!20}
-\textbf{Overall Minimum} & \textbf{37.17} \\
-\hline
-\end{tabular}
-\end{table}
-
 \vspace{1em}
 \noindent\rule{\textwidth}{0.4pt}
