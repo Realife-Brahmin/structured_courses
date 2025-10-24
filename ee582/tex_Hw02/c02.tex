@@ -35,6 +35,26 @@ On the left-hand side of the switch/breaker, we have the source voltage and a re
 
 \textbf{Solution:}
 
+\subsection{Nodal Analysis and Equivalent Circuit Diagrams}
+
+To implement the MATLAB solution, we first need to establish the equivalent circuit diagrams for the nodal analysis method. The circuit behavior changes based on the breaker state.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/qC-nodal-ckt-equiv-diag-swt-closed-handdrawn.png}
+    \caption{Equivalent circuit diagram for nodal analysis when switch is closed (breaker closed state). Note that the nodes highlighted in green are connected to voltage sources or ground, while those in yellow are unknowns. This configuration will be used to construct the conductance matrix $\mathbf{G}$ for $t < t_{\text{open, actual}}$.}
+    \label{fig:c02_nodal_closed}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/qC-nodal-ckt-equiv-diag-swt-opened-handdrawn.png}
+    \caption{Equivalent circuit diagram for nodal analysis when switch is opened (breaker open state). Note that the nodes highlighted in green are connected to voltage sources or ground, while those in yellow are unknowns.This configuration will be used to construct the conductance matrix $\mathbf{G}$ for $t \geq t_{\text{open, actual}}$.}
+    \label{fig:c02_nodal_open}
+\end{figure}
+
+These equivalent circuit diagrams show the companion models for the inductors and capacitors, which will be referenced when building the conductance matrices $\mathbf{G}$ for the nodal analysis formulation.
+
 % Your solution here
 
 \vspace{1em}
