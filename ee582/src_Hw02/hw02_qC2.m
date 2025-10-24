@@ -161,12 +161,24 @@ GAAopen(2,3) = -1/R_off;                    % Node 2 to 3
 GAAopen(3,2) = -1/R_off;                    % Node 3 to 2
 GAAopen(3,3) = 1/R_C2 + 1/R_off + 1/R2;    % Node 3 diagonal
 
+% GAB matrix (connects internal nodes to external nodes)
+% Column 1: Source node
+% Column 2: Ground reference node
+GAB = zeros(4, 2);
+
+% Row 1 (Node A): connected to source through R1
+GAB(1,1) = -1/R1;
+
+% Row 4 (Node B): connected to ground through R_L2
+GAB(4,2) = -1/R_L2;
+
 fprintf('Conductance matrices built.\n');
 fprintf('  GAAclosed: %dx%d\n', size(GAAclosed,1), size(GAAclosed,2));
-fprintf('  GAAopen:   %dx%d\n\n', size(GAAopen,1), size(GAAopen,2));
+fprintf('  GAAopen:   %dx%d\n', size(GAAopen,1), size(GAAopen,2));
+fprintf('  GAB:       %dx%d\n\n', size(GAB,1), size(GAB,2));
 
 %% ========================================================================
-%  SECTION 4: TIME-STEPPING LOOP
+%  SECTION 5: TIME-STEPPING LOOP
 %  ========================================================================
 fprintf('Starting time-stepping simulation...\n');
 fprintf('==================================\n\n');
@@ -178,17 +190,102 @@ for n = 1:N
     % Source voltage at current time
     e_t = V_peak * cos(omega * t_now);
     
-    % TODO: Check if breaker should open
-    % Breaker opens when:
-    %   1. Command has been issued (t >= t_breaker_cmd)
-    %   2. Current through breaker crosses zero
+    % vB vector (known external node voltages)
+    vB = [e_t; 0];  % [source voltage; ground]
     
-    % TODO: Build conductance matrix G and current vector I
-    % based on breaker state (closed or open)
+    % Construct ihA vector (history current sources)
+    if n == 1
+        % Initial condition: all history terms are zero
+        ihA = zeros(4, 1);
+    else
+        % Build ihA from previous time step values
+        ihA = [
+            i_h_L1;                    % Node A
+            -i_h_L1 - i_h_C1;         % Node 2
+            -i_h_C2;                   % Node 3
+            i_h_L2                     % Node B
+        ];
+    end
     
-    % TODO: Solve nodal equations: G * v = I
+    % Check if breaker should open
+    if breaker_closed && t_now >= t_breaker_cmd
+        % Check if breaker current is close to zero
+        if n > 1
+            i_23 = (v_2(n-1) - v_3(n-1)) / R_on;
+            if abs(i_23) < 100  % Current threshold (100 A - more reasonable for high voltage)
+                breaker_closed = false;
+                breaker_open_time = t_now;
+                fprintf('  >>> Breaker OPENED at t = %.4f ms (i_23 = %.6f A)\n', ...
+                    t_now*1e3, i_23);
+            end
+        end
+    end
     
-    % TODO: Update history terms for next time step
+    % Select appropriate GAA matrix based on breaker state
+    if breaker_closed
+        GAA = GAAclosed;
+    else
+        GAA = GAAopen;
+    end
+    
+    % Solve nodal equation: GAA * vA = ihA - GAB * vB
+    RHS = ihA - GAB * vB;
+    vA = GAA \ RHS;
+    
+    % Extract node voltages
+    v_A(n) = vA(1);
+    v_2(n) = vA(2);
+    v_3(n) = vA(3);
+    v_B(n) = vA(4);
+    
+    % Compute component currents
+    % Inductor L1: between node A and node 2
+    v_L1 = v_A(n) - v_2(n);
+    if n == 1
+        i_L1(n) = v_L1 / R_L1;  % No history term initially
+    else
+        i_L1(n) = v_L1 / R_L1 + i_h_L1;
+    end
+    
+    % Capacitor C1: at node 2 to ground
+    v_C1 = v_2(n);
+    if n == 1
+        i_C1(n) = v_C1 / R_C1;  % No history term initially
+    else
+        i_C1(n) = v_C1 / R_C1 - i_h_C1;
+    end
+    
+    % Capacitor C2: at node 3 to ground
+    v_C2 = v_3(n);
+    if n == 1
+        i_C2(n) = v_C2 / R_C2;  % No history term initially
+    else
+        i_C2(n) = v_C2 / R_C2 - i_h_C2;
+    end
+    
+    % Inductor L2: between node B and ground
+    v_L2 = v_B(n);
+    if n == 1
+        i_L2(n) = v_L2 / R_L2;  % No history term initially
+    else
+        i_L2(n) = v_L2 / R_L2 + i_h_L2;
+    end
+    
+    % Breaker current (between nodes 2 and 3)
+    if breaker_closed
+        i_breaker(n) = (v_2(n) - v_3(n)) / R_on;
+    else
+        i_breaker(n) = (v_2(n) - v_3(n)) / R_off;
+    end
+    
+    % Update history terms for next time step
+    % For inductors: i_h(t+h) = v(t)/R_L + i(t)
+    i_h_L1 = v_L1 / R_L1 + i_L1(n);
+    i_h_L2 = v_L2 / R_L2 + i_L2(n);
+    
+    % For capacitors: i_h(t+h) = v(t)/R_C + i(t)
+    i_h_C1 = v_C1 / R_C1 + i_C1(n);
+    i_h_C2 = v_C2 / R_C2 + i_C2(n);
     
     % Progress indicator (every 1000 steps)
     if mod(n, 1000) == 0
@@ -205,21 +302,71 @@ end
 fprintf('\n');
 
 %% ========================================================================
-%  SECTION 5: VISUALIZATION
+%  SECTION 6: VISUALIZATION
 %  ========================================================================
 fprintf('Generating plots...\n');
 
-% TODO: Create plots for:
-%   - Node voltages (v1, v2, v3)
-%   - Component currents
-%   - Breaker current
-%   - Fault current
+% Create figure for node voltages and currents
+figure('Position', [100 100 1200 800]);
 
-% Save figures
+% Plot 1: Node 2 voltage
+subplot(4,1,1);
+plot(t*1e3, v_2/1e3, 'b-', 'LineWidth', 1.5);
+hold on;
+if ~isnan(breaker_open_time)
+    xline(breaker_open_time*1e3, 'r--', 'LineWidth', 2, 'Label', 'Breaker Opens');
+end
+grid on;
+xlabel('Time [ms]');
+ylabel('V2 [kV]');
+title('Node 2 Voltage');
+legend('V2', 'Location', 'best');
+
+% Plot 2: Node 3 voltage
+subplot(4,1,2);
+plot(t*1e3, v_3/1e3, 'r-', 'LineWidth', 1.5);
+hold on;
+if ~isnan(breaker_open_time)
+    xline(breaker_open_time*1e3, 'r--', 'LineWidth', 2, 'Label', 'Breaker Opens');
+end
+grid on;
+xlabel('Time [ms]');
+ylabel('V3 [kV]');
+title('Node 3 Voltage');
+legend('V3', 'Location', 'best');
+
+% Plot 3: Breaker current (i_23)
+subplot(4,1,3);
+plot(t*1e3, i_breaker, 'g-', 'LineWidth', 1.5);
+hold on;
+if ~isnan(breaker_open_time)
+    xline(breaker_open_time*1e3, 'r--', 'LineWidth', 2, 'Label', 'Breaker Opens');
+end
+grid on;
+xlabel('Time [ms]');
+ylabel('I23 [A]');
+title('Breaker Current (between nodes 2 and 3)');
+legend('I23', 'Location', 'best');
+
+% Plot 4: Current through right side (i_4 = current through R2+L2)
+subplot(4,1,4);
+plot(t*1e3, i_L2, 'm-', 'LineWidth', 1.5);
+hold on;
+if ~isnan(breaker_open_time)
+    xline(breaker_open_time*1e3, 'r--', 'LineWidth', 2, 'Label', 'Breaker Opens');
+end
+grid on;
+xlabel('Time [ms]');
+ylabel('I4 [A]');
+title('Current through R2+L2 (right side transmission line)');
+legend('IL2 = I4', 'Location', 'best');
+
+% Save figure
 figuresFolder = "../tex_Hw02/figures/";
 if ~exist(figuresFolder, 'dir'), mkdir(figuresFolder); end
+saveas(gcf, fullfile(figuresFolder, 'hw02_qC2_results.png'));
 
-fprintf('Figures will be saved to: %s\n', figuresFolder);
+fprintf('Figure saved to: %s\n', fullfile(figuresFolder, 'hw02_qC2_results.png'));
 
 fprintf('\n=================================================================\n');
 fprintf('  Analysis Complete!\n');
