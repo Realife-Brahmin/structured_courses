@@ -39,6 +39,10 @@ R2 = 50;                % Resistance [Ohm]
 L2 = 100e-3;            % Inductance [H]
 C2 = 600e-9;            % Capacitance [F]
 
+% Breaker parameters (from PSCAD)
+R_on = 0.005;           % Breaker closed resistance [Ohm]
+R_off = 1e16;           % Breaker open resistance [Ohm]
+
 % Simulation parameters
 h = 35e-6;              % Time-step [s] (35 μs, from C.1 analysis)
 T_start = 0;            % Start time [s]
@@ -54,7 +58,8 @@ fprintf('-------------------\n');
 fprintf('Source: V_peak = %.0f kV, ω = %.0f rad/s (f = %.1f Hz)\n', ...
     V_peak/1e3, omega, omega/(2*pi));
 fprintf('Left:   R1 = %.2f Ω, L1 = %.0f mH, C1 = %.0f nF\n', R1, L1*1e3, C1*1e9);
-fprintf('Right:  R2 = %.2f Ω, L2 = %.0f mH, C2 = %.0f nF\n\n', R2, L2*1e3, C2*1e9);
+fprintf('Right:  R2 = %.2f Ω, L2 = %.0f mH, C2 = %.0f nF\n', R2, L2*1e3, C2*1e9);
+fprintf('Breaker: R_on = %.3f Ω, R_off = %.0e Ω\n\n', R_on, R_off);
 
 fprintf('SIMULATION PARAMETERS:\n');
 fprintf('----------------------\n');
