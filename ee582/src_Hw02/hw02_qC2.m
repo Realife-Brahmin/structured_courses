@@ -95,34 +95,75 @@ fprintf('  C2: R_C2 = %.4e Ω\n\n', R_C2);
 %  ========================================================================
 fprintf('Initializing state variables...\n');
 
-% Node voltages (assuming 4 nodes based on circuit)
-% Node 1: After source/R1
-% Node 2: Left of breaker (after C1)
-% Node 3: Right of breaker (after C2)
-% Node 4: Ground reference (implicit, not stored)
+% Node voltages (4 nodes: A, 2, 3, B)
+% Node A: After source/R1, before L1
+% Node 2: After L1, left of breaker
+% Node 3: Right of breaker
+% Node B: After L2, ground reference (implicit)
 
-% TODO: Define node voltage arrays
-% v1 = zeros(1, N);  % Node 1 voltage
-% v2 = zeros(1, N);  % Node 2 voltage
-% v3 = zeros(1, N);  % Node 3 voltage
+% Node voltage arrays
+v_A = zeros(1, N);  % Node A voltage
+v_2 = zeros(1, N);  % Node 2 voltage
+v_3 = zeros(1, N);  % Node 3 voltage
+v_B = zeros(1, N);  % Node B voltage
 
-% TODO: Define current arrays for components
-% i_L1 = zeros(1, N);  % Inductor L1 current
-% i_L2 = zeros(1, N);  % Inductor L2 current
-% i_C1 = zeros(1, N);  % Capacitor C1 current
-% i_C2 = zeros(1, N);  % Capacitor C2 current
+% Component current arrays
+i_L1 = zeros(1, N);  % Inductor L1 current
+i_L2 = zeros(1, N);  % Inductor L2 current
+i_C1 = zeros(1, N);  % Capacitor C1 current
+i_C2 = zeros(1, N);  % Capacitor C2 current
+i_breaker = zeros(1, N);  % Breaker current
 
-% TODO: Define history terms for companion models
-% e_h_L1 = 0;  % History voltage for L1
-% e_h_L2 = 0;  % History voltage for L2
-% e_h_C1 = 0;  % History voltage for C1
-% e_h_C2 = 0;  % History voltage for C2
+% History terms for companion models (initialize to zero)
+e_h_L1 = 0;  % History voltage for L1
+e_h_L2 = 0;  % History voltage for L2
+i_h_C1 = 0;  % History current for C1
+i_h_C2 = 0;  % History current for C2
 
 % Breaker state
 breaker_closed = true;
 breaker_open_time = NaN;  % Will be set when breaker actually opens
 
 fprintf('State variables initialized.\n\n');
+
+%% ========================================================================
+%  SECTION 4: BUILD CONDUCTANCE MATRICES
+%  ========================================================================
+fprintf('Building conductance matrices...\n');
+
+% GAAclosed matrix for breaker CLOSED (R_breaker = R_on)
+GAAclosed = zeros(4, 4);
+
+% Row 1 (Node A): 1/R1 + 1/R_L1
+GAAclosed(1,1) = 1/R1 + 1/R_L1;
+GAAclosed(1,2) = -1/R_L1;
+
+% Row 2 (Node 2): 1/R_L1 + 1/R_on + 1/R_C1
+GAAclosed(2,1) = -1/R_L1;
+GAAclosed(2,2) = 1/R_L1 + 1/R_on + 1/R_C1;
+GAAclosed(2,3) = -1/R_on;
+
+% Row 3 (Node 3): 1/R_C2 + 1/R_on + 1/R2
+GAAclosed(3,2) = -1/R_on;
+GAAclosed(3,3) = 1/R_C2 + 1/R_on + 1/R2;
+GAAclosed(3,4) = -1/R2;
+
+% Row 4 (Node B): 1/R_L2
+GAAclosed(4,3) = -1/R2;
+GAAclosed(4,4) = 1/R_L2;
+
+% GAAopen matrix for breaker OPEN (R_breaker = R_off)
+GAAopen = GAAclosed;  % Start with closed version
+
+% Update elements that change when breaker opens
+GAAopen(2,2) = 1/R_L1 + 1/R_off + 1/R_C1;  % Node 2 diagonal
+GAAopen(2,3) = -1/R_off;                    % Node 2 to 3
+GAAopen(3,2) = -1/R_off;                    % Node 3 to 2
+GAAopen(3,3) = 1/R_C2 + 1/R_off + 1/R2;    % Node 3 diagonal
+
+fprintf('Conductance matrices built.\n');
+fprintf('  GAAclosed: %dx%d\n', size(GAAclosed,1), size(GAAclosed,2));
+fprintf('  GAAopen:   %dx%d\n\n', size(GAAopen,1), size(GAAopen,2));
 
 %% ========================================================================
 %  SECTION 4: TIME-STEPPING LOOP
