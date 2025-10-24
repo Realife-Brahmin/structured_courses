@@ -16,6 +16,18 @@
 \usepackage{colortbl}
 \usepackage{multirow}
 \usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+
+% Setup page headers
+\setlength{\headheight}{14.49998pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\rightmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
 
 % Custom section numbering: subsections get A.1.1, A.1.2, etc.
 \setcounter{secnumdepth}{3}  % Enable numbering for subsections

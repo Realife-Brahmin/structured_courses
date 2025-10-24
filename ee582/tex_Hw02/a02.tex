@@ -2,11 +2,26 @@
 \renewcommand{\sectionprefix}{A.2}  % Set prefix for this question
 \setcounter{subsection}{0}  % Reset subsection counter
 \section*{Section A: Question 2}
+\markboth{Section A: Question 2}{Section A: Question 2}
 \addcontentsline{toc}{section}{Section A: Question 2}
+\renewcommand{\subsectionmark}[1]{}
 
-Comment on how the simulation time-step size impacts the numerical solution, and which method is preferred in this case.
+\textbf{Problem Statement:} One way to analyze the properties of various discretization methods (e.g., in terms of their numerical oscillations) is to solve a lossless first-order system (e.g., inductance or capacitance) when the state variable of the component is suddenly changed. The circuit on the right considers a case where a dc voltage is suddenly applied to a capacitor. Because the source voltage is applied like a step function, we know that the current of the capacitor should look like an impulse, analytically. Let us assume that in the simulations all the variables are zero at $t=0$ and the voltage source takes its value at $t=\Delta t$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/figure-A-circuit.png}
+    \caption{Simple capacitor circuit with DC voltage source}
+    \label{fig:a02_circuit}
+\end{figure}
+
+2) Comment on how the simulation time-step size impacts the numerical solution, and which method is preferred in this case.
 
 \noindent\rule{\textwidth}{0.4pt}
+
+\vspace{1em}
+
+\textbf{Solution:}
 
 \subsection{Simulation Parameters}
 

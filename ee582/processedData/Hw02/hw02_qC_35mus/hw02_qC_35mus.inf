@@ -1,0 +1,8 @@
+PGB(1)         Output  Desc="e_a"  Group="Main"  Max=11  Min=-2  Units = "kV"
+PGB(2)         Output  Desc="E_2"  Group="Main"  Max=20  Min=-2  Units = "kV"
+PGB(3)         Output  Desc="E_3"  Group="Main"  Max=20  Min=-2  Units = "kV"
+PGB(4)         Output  Desc="I_4"  Group="Main"  Max=2000  Min=-2000  Units = "A"
+PGB(5)         Output  Desc="I_23"  Group="Main"  Max=2000  Min=-2000  Units = "A"
+PGB(6)         Output  Desc="I_a"  Group="Main"  Max=2000  Min=-2000  Units = "A"
+PGB(7)         Output  Desc="BRK:1"  Group="Main"  Max=20  Min=-2  Units = "V"
+PGB(8)         Output  Desc="BRKn"  Group="Graphics"  Max=0  Min=0  Units = ""
