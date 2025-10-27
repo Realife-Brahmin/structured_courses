@@ -184,6 +184,9 @@ end
 %% ===================== Plot: Trapezoidal and BE Comparison =====================
 fig1 = figure('Name', 'Trapezoidal vs Backward Euler', 'Position', [100 100 1200 500], 'Color', 'w');
 
+% Apply explicit light theme to ensure consistency across machines
+apply_light_theme_to_figure(fig1);
+
 % Add main title and subtitle with parameters
 sgtitle({'\textbf{State Variables: Capacitor Circuit}', ...
     sprintf('$V_{\\mathrm{DC}} = %.0f$ V, $V_0 = %.0f$ V, $C = %.0f$ $\\mu$F, $h = %.0f$ $\\mu$s, $T = %.1f$ ms', ...
@@ -234,6 +237,9 @@ ax2.MinorGridColor = [0.5 0.5 0.5];
 
 %% ===================== Plot: Forward Euler (Separate) =====================
 fig2 = figure('Name', 'Forward Euler Method', 'Position', [150 150 1200 500], 'Color', 'w');
+
+% Apply explicit light theme to ensure consistency across machines
+apply_light_theme_to_figure(fig2);
 
 % Add main title for FE plot
 sgtitle({'\textbf{Forward Euler Method: Capacitor Circuit}', ...

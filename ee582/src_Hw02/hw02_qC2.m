@@ -307,59 +307,70 @@ fprintf('\n');
 fprintf('Generating plots...\n');
 
 % Create figure for node voltages and currents
-figure('Position', [100 100 1200 800]);
+fig = figure('Position', [100 100 1200 800], 'Color', 'w');
 
 % Plot 1: Node 2 voltage
 subplot(4,1,1);
+ax1 = gca;
 plot(t*1e3, v_2/1e3, 'b-', 'LineWidth', 1.5);
 hold on;
 if ~isnan(breaker_open_time)
     xline(breaker_open_time*1e3, 'r--', 'LineWidth', 2, 'Label', 'Breaker Opens');
 end
 grid on;
-xlabel('Time [ms]');
-ylabel('V2 [kV]');
-title('Node 2 Voltage');
-legend('V2', 'Location', 'best');
+xlabel('Time [ms]', 'Interpreter', 'latex', 'Color', 'k');
+ylabel('V2 [kV]', 'Interpreter', 'latex', 'Color', 'k');
+title('Node 2 Voltage', 'Interpreter', 'latex', 'Color', 'k');
+legend('V2', 'Location', 'best', 'Interpreter', 'latex', 'TextColor', 'k', 'Color', 'w');
+set(ax1, 'Color', 'w', 'XColor', 'k', 'YColor', 'k', 'GridColor', [.2 .2 .2]);
 
 % Plot 2: Node 3 voltage
 subplot(4,1,2);
+ax2 = gca;
 plot(t*1e3, v_3/1e3, 'r-', 'LineWidth', 1.5);
 hold on;
 if ~isnan(breaker_open_time)
     xline(breaker_open_time*1e3, 'r--', 'LineWidth', 2, 'Label', 'Breaker Opens');
 end
 grid on;
-xlabel('Time [ms]');
-ylabel('V3 [kV]');
-title('Node 3 Voltage');
-legend('V3', 'Location', 'best');
+xlabel('Time [ms]', 'Interpreter', 'latex', 'Color', 'k');
+ylabel('V3 [kV]', 'Interpreter', 'latex', 'Color', 'k');
+title('Node 3 Voltage', 'Interpreter', 'latex', 'Color', 'k');
+legend('V3', 'Location', 'best', 'Interpreter', 'latex', 'TextColor', 'k', 'Color', 'w');
+set(ax2, 'Color', 'w', 'XColor', 'k', 'YColor', 'k', 'GridColor', [.2 .2 .2]);
 
 % Plot 3: Breaker current (i_23)
 subplot(4,1,3);
+ax3 = gca;
 plot(t*1e3, i_breaker, 'g-', 'LineWidth', 1.5);
 hold on;
 if ~isnan(breaker_open_time)
     xline(breaker_open_time*1e3, 'r--', 'LineWidth', 2, 'Label', 'Breaker Opens');
 end
 grid on;
-xlabel('Time [ms]');
-ylabel('I23 [A]');
-title('Breaker Current (between nodes 2 and 3)');
-legend('I23', 'Location', 'best');
+xlabel('Time [ms]', 'Interpreter', 'latex', 'Color', 'k');
+ylabel('I23 [A]', 'Interpreter', 'latex', 'Color', 'k');
+title('Breaker Current (between nodes 2 and 3)', 'Interpreter', 'latex', 'Color', 'k');
+legend('I23', 'Location', 'best', 'Interpreter', 'latex', 'TextColor', 'k', 'Color', 'w');
+set(ax3, 'Color', 'w', 'XColor', 'k', 'YColor', 'k', 'GridColor', [.2 .2 .2]);
 
 % Plot 4: Current through right side (i_4 = current through R2+L2)
 subplot(4,1,4);
+ax4 = gca;
 plot(t*1e3, i_L2, 'm-', 'LineWidth', 1.5);
 hold on;
 if ~isnan(breaker_open_time)
     xline(breaker_open_time*1e3, 'r--', 'LineWidth', 2, 'Label', 'Breaker Opens');
 end
 grid on;
-xlabel('Time [ms]');
-ylabel('I4 [A]');
-title('Current through R2+L2 (right side transmission line)');
-legend('IL2 = I4', 'Location', 'best');
+xlabel('Time [ms]', 'Interpreter', 'latex', 'Color', 'k');
+ylabel('I4 [A]', 'Interpreter', 'latex', 'Color', 'k');
+title('Current through R2+L2 (right side transmission line)', 'Interpreter', 'latex', 'Color', 'k');
+legend('IL2 = I4', 'Location', 'best', 'Interpreter', 'latex', 'TextColor', 'k', 'Color', 'w');
+set(ax4, 'Color', 'w', 'XColor', 'k', 'YColor', 'k', 'GridColor', [.2 .2 .2]);
+
+% Apply theme to entire figure (final pass to catch everything)
+apply_light_theme_to_figure(fig);
 
 % Save figure
 figuresFolder = "../tex_Hw02/figures/";

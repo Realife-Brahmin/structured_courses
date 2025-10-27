@@ -39,6 +39,9 @@ pscad_800us = parse_pscad_output_qB(pscad_folder_800us, 'hw02_qB_800mus');
 %% ===================== Plot Results =====================
 fig1 = figure('Name', 'PSCAD Simulation: RL Circuit', 'Position', [100 100 1200 800], 'Color', 'w');
 
+% Apply explicit light theme to ensure consistency across machines
+apply_light_theme_to_figure(fig1);
+
 % Add main title with circuit parameters
 sgtitle({'\textbf{PSCAD Simulation: RL Circuit}', ...
     sprintf('$R = %.0f$ $\\Omega$, $L = %.0f$ mH, $V_{\\mathrm{DC}} = %.0f$ V, $T = %.0f$ ms', ...
