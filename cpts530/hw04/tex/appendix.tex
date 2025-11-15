@@ -1,6 +1,40 @@
 \clearpage
 \appendix
-\markright{Appendix}
 
-\section*{Appendix}
-\addcontentsline{toc}{section}{Appendix}
+\section{Matrix Geometric Series}
+\label{appendix:matrix-geometric-series}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Lemma]
+For any square matrix $B$ such that $(B - I)$ is nonsingular, and for any $k \geq 1$:
+$$(B^k - I)(B - I)^{-1} = I + B + B^2 + \cdots + B^{k-1}$$
+\end{tcolorbox}
+
+\textbf{Proof:}
+
+Define the partial sum sequence:
+\begin{align*}
+S_0 &= 0 \\
+S_1 &= I \\
+S_2 &= I + B \\
+S_3 &= I + B + B^2 \\
+&\vdots \\
+S_k &= I + B + B^2 + \cdots + B^{k-1}
+\end{align*}
+
+We will show that $(B - I)S_k = B^k - I$ for all $k \geq 1$.
+
+Multiplying $S_k$ by $(B - I)$:
+\begin{align*}
+(B - I)S_k &= (B - I)(I + B + B^2 + \cdots + B^{k-1}) \\
+&= B(I + B + B^2 + \cdots + B^{k-1}) - (I + B + B^2 + \cdots + B^{k-1}) \\
+&= (B + B^2 + B^3 + \cdots + B^k) - (I + B + B^2 + \cdots + B^{k-1}) \\
+&= B^k - I
+\end{align*}
+
+Since $(B - I)$ is nonsingular by assumption, we can multiply both sides by $(B - I)^{-1}$ on the left:
+$$S_k = (B^k - I)(B - I)^{-1}$$
+
+Therefore:
+$$(B^k - I)(B - I)^{-1} = I + B + B^2 + \cdots + B^{k-1}$$
+
+This completes the proof. $\hfill \square$

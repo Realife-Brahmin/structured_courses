@@ -16,7 +16,77 @@ $$A^k = \begin{bmatrix} B^k & (B^k - I)(B - I)^{-1}C \\ 0 & I \end{bmatrix}$$
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+To understand the pattern, let's first compute $A^2$ and $A^3$ directly.
+
+\textbf{Computing $A^2$:}
+
+\begin{align*}
+A^2 &= \begin{bmatrix} B & C \\ 0 & I \end{bmatrix} \begin{bmatrix} B & C \\ 0 & I \end{bmatrix} \\[6pt]
+&= \begin{bmatrix} B^2 & BC + C \\ 0 & I \end{bmatrix}
+\end{align*}
+
+\textbf{Computing $A^3$:}
+
+\begin{align*}
+A^3 &= A^2 \cdot A = \begin{bmatrix} B^2 & BC + C \\ 0 & I \end{bmatrix} \begin{bmatrix} B & C \\ 0 & I \end{bmatrix} \\[6pt]
+&= \begin{bmatrix} B^3 & B^2C + BC + C \\ 0 & I \end{bmatrix}
+\end{align*}
+
+Observing the pattern in the upper-right block:
+\begin{align*}
+k=1: &\quad C \\
+k=2: &\quad BC + C \\
+k=3: &\quad B^2C + BC + C
+\end{align*}
+
+We can factor these as:
+\begin{align*}
+k=1: &\quad (I)C \\
+k=2: &\quad (B + I)C \\
+k=3: &\quad (B^2 + B + I)C
+\end{align*}
+
+This suggests the general formula: the upper-right block is $(I + B + B^2 + \cdots + B^{k-1})C$, which equals $(B^k - I)(B - I)^{-1}C$ (see Appendix~\ref{appendix:matrix-geometric-series}).
+
+\vspace{1em}
+
+Now we prove this result by induction on $k$.
+
+\textbf{Base Case ($k=1$):}
+
+For $k=1$, we need to verify that 
+$$A^1 = \begin{bmatrix} B & C \\ 0 & I \end{bmatrix} = \begin{bmatrix} B^1 & (B^1 - I)(B - I)^{-1}C \\ 0 & I \end{bmatrix}$$
+
+This simplifies to showing that $C = (B - I)(B - I)^{-1}C$, which is trivially true since $(B - I)(B - I)^{-1} = I$.
+
+\textbf{Inductive Step:}
+
+Assume the formula holds for $k = n$:
+$$A^n = \begin{bmatrix} B^n & (B^n - I)(B - I)^{-1}C \\ 0 & I \end{bmatrix}$$
+
+We need to prove it holds for $k = n+1$. Computing $A^{n+1} = A^n \cdot A$:
+
+\begin{align*}
+A^{n+1} &= \begin{bmatrix} B^n & (B^n - I)(B - I)^{-1}C \\ 0 & I \end{bmatrix} \begin{bmatrix} B & C \\ 0 & I \end{bmatrix} \\[8pt]
+&= \begin{bmatrix} B^n \cdot B + (B^n - I)(B - I)^{-1}C \cdot 0 & B^n \cdot C + (B^n - I)(B - I)^{-1}C \cdot I \\ 0 \cdot B + I \cdot 0 & 0 \cdot C + I \cdot I \end{bmatrix} \\[8pt]
+&= \begin{bmatrix} B^{n+1} & B^n C + (B^n - I)(B - I)^{-1}C \\ 0 & I \end{bmatrix}
+\end{align*}
+
+Now we need to show that the upper-right block equals $(B^{n+1} - I)(B - I)^{-1}C$.
+
+\textbf{Key Identity:}
+
+We claim that $(B^{n+1} - I)(B - I)^{-1}C = B^n C + (B^n - I)(B - I)^{-1}C$.
+
+This identity is equivalent to showing that:
+$$(B^k - I)(B - I)^{-1} = I + B + B^2 + \cdots + B^{k-1}$$
+
+The proof of this geometric series identity for matrices is provided in Appendix~\ref{appendix:matrix-geometric-series}.
+
+Thus, we have shown that:
+$$A^{n+1} = \begin{bmatrix} B^{n+1} & (B^{n+1} - I)(B - I)^{-1}C \\ 0 & I \end{bmatrix}$$
+
+By the principle of mathematical induction, the formula holds for all $k \geq 1$.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
