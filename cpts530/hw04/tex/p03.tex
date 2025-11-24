@@ -13,7 +13,19 @@ A square matrix $A$ is said to be \textbf{skew-symmetric} if $A^T = -A$. Prove t
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+Let $A$ be a skew-symmetric matrix, so $A^T = -A$. Consider the scalar quantity $x^T A x$.
+
+Taking the transpose of this scalar (which equals itself):
+\begin{align*}
+(x^T A x)^T &= x^T A^T (x^T)^T \\
+&= x^T A^T x \\
+&= x^T (-A) x \\
+&= -x^T A x
+\end{align*}
+
+Since $x^T A x$ is a scalar and equals its own negative, we have $x^T A x = -x^T A x$, which implies $2x^T A x = 0$.
+
+Therefore, $x^T A x = 0$ for all $x$. $\hfill \square$
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
