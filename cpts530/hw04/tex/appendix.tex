@@ -39,6 +39,8 @@ $$(B^k - I)(B - I)^{-1} = I + B + B^2 + \cdots + B^{k-1}$$
 
 This completes the proof. $\hfill \square$
 
+\clearpage
+
 \section{Determinant Properties}
 \label{appendix:determinant-properties}
 
@@ -49,23 +51,47 @@ This completes the proof. $\hfill \square$
 For any square matrix $A$, $\det(A^T) = \det(A)$.
 \end{tcolorbox}
 
-\textbf{Proof:}
+\textbf{Examples:}
 
-The determinant can be computed using cofactor expansion along any row or column. For a matrix $A$, expanding along row $i$:
-$$\det(A) = \sum_{j=1}^{n} a_{ij} C_{ij}$$
+For a $2 \times 2$ matrix:
+$$A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}, \quad A^T = \begin{bmatrix} a & c \\ b & d \end{bmatrix}$$
 
-where $C_{ij} = (-1)^{i+j} M_{ij}$ is the cofactor and $M_{ij}$ is the minor obtained by deleting row $i$ and column $j$.
+Direct computation:
+$$\det(A) = ad - bc, \quad \det(A^T) = ad - cb = ad - bc$$
 
-For the transpose $A^T$, the element in position $(i,j)$ is $a_{ji}$. Expanding $\det(A^T)$ along column $j$ gives:
-$$\det(A^T) = \sum_{i=1}^{n} a_{ji} C^T_{ji}$$
+For a $3 \times 3$ matrix:
+$$A = \begin{bmatrix} a_{11} & a_{12} & a_{13} \\ a_{21} & a_{22} & a_{23} \\ a_{31} & a_{32} & a_{33} \end{bmatrix}, \quad A^T = \begin{bmatrix} a_{11} & a_{21} & a_{31} \\ a_{12} & a_{22} & a_{32} \\ a_{13} & a_{23} & a_{33} \end{bmatrix}$$
 
-The cofactor $C^T_{ji}$ of $A^T$ equals $C_{ij}$ of $A$ because:
-\begin{itemize}
-\item The sign $(-1)^{j+i} = (-1)^{i+j}$ is the same
-\item The minor $M^T_{ji}$ is the transpose of minor $M_{ij}$, and by induction on matrix size, they have equal determinants
-\end{itemize}
+Expanding $\det(A)$ along the first row:
+$$\det(A) = a_{11}\begin{vmatrix} a_{22} & a_{23} \\ a_{32} & a_{33} \end{vmatrix} - a_{12}\begin{vmatrix} a_{21} & a_{23} \\ a_{31} & a_{33} \end{vmatrix} + a_{13}\begin{vmatrix} a_{21} & a_{22} \\ a_{31} & a_{32} \end{vmatrix}$$
 
-Therefore, $\det(A^T) = \det(A)$. $\hfill \square$
+Expanding $\det(A^T)$ along the first column:
+$$\det(A^T) = a_{11}\begin{vmatrix} a_{22} & a_{32} \\ a_{23} & a_{33} \end{vmatrix} - a_{12}\begin{vmatrix} a_{21} & a_{31} \\ a_{23} & a_{33} \end{vmatrix} + a_{13}\begin{vmatrix} a_{21} & a_{31} \\ a_{22} & a_{32} \end{vmatrix}$$
+
+Each $2 \times 2$ minor in $\det(A^T)$ is the transpose of the corresponding minor in $\det(A)$, and by the $2 \times 2$ case, they have equal determinants. Thus $\det(A^T) = \det(A)$.
+
+\vspace{0.5em}
+
+\textbf{General Proof (by Induction):}
+
+\textbf{Base case:} For $n=1$, $A = [a]$ and $A^T = [a]$, so $\det(A) = \det(A^T) = a$. For $n=2$, verified above.
+
+\textbf{Inductive step:} Assume $\det(B^T) = \det(B)$ for all $(n-1) \times (n-1)$ matrices $B$.
+
+For an $n \times n$ matrix $A$, expand $\det(A)$ along row $i$:
+$$\det(A) = \sum_{j=1}^{n} a_{ij} C_{ij} = \sum_{j=1}^{n} (-1)^{i+j} a_{ij} M_{ij}$$
+
+where $M_{ij}$ is the $(n-1) \times (n-1)$ minor obtained by deleting row $i$ and column $j$.
+
+For $A^T$, the element in position $(j,i)$ is $a_{ij}$. Expanding $\det(A^T)$ along column $i$:
+$$\det(A^T) = \sum_{j=1}^{n} a_{ij} C^T_{ji} = \sum_{j=1}^{n} (-1)^{j+i} a_{ij} M^T_{ji}$$
+
+The minor $M^T_{ji}$ (obtained by deleting row $j$ and column $i$ from $A^T$) is the transpose of $M_{ij}$. By the inductive hypothesis, $\det(M^T_{ji}) = \det(M_{ij})$.
+
+Since $(-1)^{i+j} = (-1)^{j+i}$, we have:
+$$\det(A^T) = \sum_{j=1}^{n} (-1)^{i+j} a_{ij} \det(M_{ij}) = \det(A)$$
+
+Therefore, by induction, $\det(A^T) = \det(A)$ for all $n \times n$ matrices. $\hfill \square$
 
 \subsection{Determinant of Scalar Multiple}
 \label{appendix:det-scalar}
