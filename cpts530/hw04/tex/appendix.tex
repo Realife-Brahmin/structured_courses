@@ -38,3 +38,51 @@ Therefore:
 $$(B^k - I)(B - I)^{-1} = I + B + B^2 + \cdots + B^{k-1}$$
 
 This completes the proof. $\hfill \square$
+
+\section{Determinant Properties}
+\label{appendix:determinant-properties}
+
+\subsection{Determinant of Transpose}
+\label{appendix:det-transpose}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Theorem]
+For any square matrix $A$, $\det(A^T) = \det(A)$.
+\end{tcolorbox}
+
+\textbf{Proof:}
+
+The determinant can be computed using cofactor expansion along any row or column. For a matrix $A$, expanding along row $i$:
+$$\det(A) = \sum_{j=1}^{n} a_{ij} C_{ij}$$
+
+where $C_{ij} = (-1)^{i+j} M_{ij}$ is the cofactor and $M_{ij}$ is the minor obtained by deleting row $i$ and column $j$.
+
+For the transpose $A^T$, the element in position $(i,j)$ is $a_{ji}$. Expanding $\det(A^T)$ along column $j$ gives:
+$$\det(A^T) = \sum_{i=1}^{n} a_{ji} C^T_{ji}$$
+
+The cofactor $C^T_{ji}$ of $A^T$ equals $C_{ij}$ of $A$ because:
+\begin{itemize}
+\item The sign $(-1)^{j+i} = (-1)^{i+j}$ is the same
+\item The minor $M^T_{ji}$ is the transpose of minor $M_{ij}$, and by induction on matrix size, they have equal determinants
+\end{itemize}
+
+Therefore, $\det(A^T) = \det(A)$. $\hfill \square$
+
+\subsection{Determinant of Scalar Multiple}
+\label{appendix:det-scalar}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Theorem]
+For any $n \times n$ matrix $A$ and scalar $\lambda$, $\det(\lambda A) = \lambda^n \det(A)$.
+\end{tcolorbox}
+
+\textbf{Proof:}
+
+When we multiply a matrix $A$ by a scalar $\lambda$, each entry becomes $\lambda a_{ij}$. Using the multilinearity property of determinants, we can factor out $\lambda$ from each of the $n$ rows (or columns):
+$$\det(\lambda A) = \det\begin{bmatrix} \lambda a_{11} & \lambda a_{12} & \cdots & \lambda a_{1n} \\ \lambda a_{21} & \lambda a_{22} & \cdots & \lambda a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ \lambda a_{n1} & \lambda a_{n2} & \cdots & \lambda a_{nn} \end{bmatrix}$$
+
+Factoring $\lambda$ from the first row:
+$$= \lambda \det\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ \lambda a_{21} & \lambda a_{22} & \cdots & \lambda a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ \lambda a_{n1} & \lambda a_{n2} & \cdots & \lambda a_{nn} \end{bmatrix}$$
+
+Repeating this process for all $n$ rows:
+$$= \lambda^n \det\begin{bmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{n1} & a_{n2} & \cdots & a_{nn} \end{bmatrix} = \lambda^n \det(A)$$
+
+Therefore, $\det(\lambda A) = \lambda^n \det(A)$. $\hfill \square$
