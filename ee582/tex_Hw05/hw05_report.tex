@@ -1,0 +1,57 @@
+% EE582 HW05 Report
+% Author: Aryan  
+% Date: November 2025
+
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, graphicx, float, hyperref}
+\usepackage{cleveref}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+
+% Setup page headers
+\setlength{\headheight}{14.49998pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\rightmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
+
+% Custom section numbering: subsections get A.1.1, A.1.2, etc.
+\setcounter{secnumdepth}{3}  % Enable numbering for subsections
+\setcounter{tocdepth}{1}  % Only show sections in TOC, not subsections
+\newcommand{\sectionprefix}{}  % Define command to hold section prefix
+\renewcommand{\thesubsection}{\sectionprefix.\arabic{subsection}}
+
+\title{Fall 2025 EE582 Homework 05 Report \\ \large Synchronous Machine Modeling and Transient Analysis}
+\author{Aryan Ritwajeet Jha}
+\date{Due: TBD}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+% Questions 1-6
+\input{q01.tex}
+\input{q02.tex}
+\input{q03.tex}
+\input{q04.tex}
+\input{q05.tex}
+\input{q06.tex}
+
+% Appendix (if needed)
+% \input{app01.tex}
+\end{document}
