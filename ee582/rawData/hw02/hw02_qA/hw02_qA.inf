@@ -1,4 +1,0 @@
-PGB(1)         Output  Desc="e_t"  Group="Main"  Max=12  Min=8  Units = "V"
-PGB(2)         Output  Desc="vC"  Group="Main"  Max=20  Min=-2  Units = "V"
-PGB(3)         Output  Desc="IC"  Group="Main"  Max=2  Min=-2  Units = "A"
-PGB(4)         Output  Desc="BRK"  Group="Graphics"  Max=0  Min=0  Units = ""
