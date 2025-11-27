@@ -4,6 +4,45 @@
 
 \textbf{Problem Statement:} Develop a qd0 model (in per-unit) of a 325-MVA Hydro-Turbine Generator (book p. 220) in Simulink using basic blocks. The generator is to be connected to an ideal source (infinite bus) that supplies balanced three-phase sinusoidal voltages at rated 1 pu. Assume all variables are in pu, unless otherwise specified. Assume positive direction of $T_m$ is toward increasing the rotor speed $\omega_r$ and angle $\theta_r$. Choose an ode solver with the settings (error tolerances and step-size limits) that you think produces trustable results and is numerically efficient. Comment on your choice.
 
+\begin{table}[H]
+\centering
+\caption{Hydro Turbine Generator Parameters}
+\begin{tabular}{p{4.5cm}l}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+\rowcolor{gray!15}
+Rating & 325 MVA \\
+Line-to-line voltage & 20 kV \\
+\rowcolor{gray!15}
+Power factor & 0.85 \\
+Poles & 64 \\
+\rowcolor{gray!15}
+Speed & 112.5 r/min \\
+Combined inertia of generator and turbine & $J = 35.1 \times 10^6$ J$\cdot$s$^2$, or \newline $WR^2 = 833.1 \times 10^6$ lbm$\cdot$ft$^2$ \\
+\rowcolor{gray!15}
+Inertia constant & $H = 7.5$ s \\
+\midrule
+\multicolumn{2}{l}{\textbf{Parameters in ohms and per unit:}} \\
+\rowcolor{gray!15}
+$r_s$ & $0.00234\,\Omega$, $0.0019$ pu \\
+$X_{ls}$ & $0.1478\,\Omega$, $0.120$ pu \\
+\rowcolor{gray!15}
+$X_q$ & $0.5911\,\Omega$, $0.480$ pu \\
+$X_d$ & $1.0467\,\Omega$, $0.850$ pu \\
+\rowcolor{gray!15}
+$r'_{fd}$ & $0.00050\,\Omega$, $0.00041$ pu \\
+$X'_{fd}$ & $0.2523\,\Omega$, $0.2049$ pu \\
+\rowcolor{gray!15}
+$r'_{kq2}$ & $0.01675\,\Omega$, $0.0136$ pu \\
+$r'_{kd}$ & $0.01736\,\Omega$, $0.0141$ pu \\
+\rowcolor{gray!15}
+$X'_{lkq2}$ & $0.1267\,\Omega$, $0.1029$ pu \\
+$X'_{lkd}$ & $0.1970\,\Omega$, $0.160$ pu \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \vspace{1em}
 \noindent\rule{\textwidth}{0.4pt}
 \vspace{1em}
