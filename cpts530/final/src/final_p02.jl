@@ -2,20 +2,24 @@
 # Author: Aryan Ritwajeet Jha
 # Date: December 2025
 
-# Load environment and utilities
-include("preamble.jl")
-include("test_utils.jl")
+using LinearAlgebra
+using Printf
+# using Plots  # Will add plots later
 
-println(INFO, "="^80, RESET)
-println(INFO, "CPTS530 Final Project - Problem 2: Fourth-Order Runge-Kutta Method", RESET)
-println(INFO, "="^80, RESET)
+# Load environment and utilities
+# include("preamble.jl")
+# include("test_utils.jl")
+
+println("="^80)
+println("CPTS530 Final Project - Problem 2: Fourth-Order Runge-Kutta Method")
+println("="^80)
 
 # =================================================================
 # Problem Setup
 # =================================================================
 
-println(INFO, "\n📋 Problem Statement", RESET)
-println(INFO, "-"^80, RESET)
+println("\n📋 Problem Statement")
+println("-"^80)
 println("""
 Solve the initial-value problem:
     (e^t + 1)x' + xe^t - x = 0
@@ -69,21 +73,21 @@ function exact_solution_given(t)
 end
 
 # Verify which exact solution is correct
-println(INFO, "\n🔍 Verifying Exact Solutions at t=0", RESET)
-println(INFO, "-"^80, RESET)
+println("\n🔍 Verifying Exact Solutions at t=0")
+println("-"^80)
 println("Initial condition: x(0) = 3")
 println("Our derived solution at t=0: ", @sprintf("%.10f", exact_solution(0.0)))
 println("Given solution at t=0:       ", @sprintf("%.10f", exact_solution_given(0.0)))
 
 # Check which one satisfies the initial condition
 if abs(exact_solution(0.0) - 3.0) < 1e-10
-    println(SUCCESS, "✓ Our derived solution satisfies x(0) = 3", RESET)
+    println("✓ Our derived solution satisfies x(0) = 3")
     exact_sol = exact_solution
 elseif abs(exact_solution_given(0.0) - 3.0) < 1e-10
-    println(SUCCESS, "✓ Given solution satisfies x(0) = 3", RESET)
+    println("✓ Given solution satisfies x(0) = 3")
     exact_sol = exact_solution_given
 else
-    println(WARNING, "⚠ Neither solution exactly satisfies x(0) = 3", RESET)
+    println("⚠ Neither solution exactly satisfies x(0) = 3")
     println("Using given solution for comparison...")
     exact_sol = exact_solution_given
 end
@@ -157,8 +161,8 @@ end
 # Solve the Problem
 # =================================================================
 
-println(INFO, "\n\n🎯 Solving using RK4", RESET)
-println(INFO, "-"^80, RESET)
+println("\n\n🎯 Solving using RK4")
+println("-"^80)
 
 # Problem parameters
 t0 = 0.0
@@ -175,14 +179,14 @@ println("Number of steps = ", abs(round(Int, (tf - t0) / h)))
 # Solve using RK4
 t_rk4, x_rk4 = rk4_solve(f, t0, tf, x0, h)
 
-println(SUCCESS, "\n✓ RK4 solution computed successfully!", RESET)
+println("\n✓ RK4 solution computed successfully!")
 
 # =================================================================
 # Compute Exact Solution
 # =================================================================
 
-println(INFO, "\n\n📊 Computing Exact Solution", RESET)
-println(INFO, "-"^80, RESET)
+println("\n\n📊 Computing Exact Solution")
+println("-"^80)
 
 x_exact = [exact_sol(t) for t in t_rk4]
 
@@ -190,8 +194,8 @@ x_exact = [exact_sol(t) for t in t_rk4]
 # Error Analysis
 # =================================================================
 
-println(INFO, "\n\n📈 Error Analysis", RESET)
-println(INFO, "-"^80, RESET)
+println("\n\n📈 Error Analysis")
+println("-"^80)
 
 errors = abs.(x_rk4 .- x_exact)
 max_error = maximum(errors)
@@ -227,66 +231,21 @@ println("="^80)
 # Visualization
 # =================================================================
 
-println(INFO, "\n\n📉 Generating Plots", RESET)
-println(INFO, "-"^80, RESET)
+println("\n\n📉 Generating Plots")
+println("-"^80)
+println("Plots will be generated when Plots.jl is available...")
 
-# Plot 1: Solution comparison
-p1 = plot(t_rk4, x_rk4, 
-         label="RK4 Solution",
-         linewidth=2,
-         xlabel="t",
-         ylabel="x(t)",
-         title="Comparison of RK4 and Exact Solutions",
-         legend=:topright)
-plot!(p1, t_rk4, x_exact,
-      label="Exact Solution",
-      linewidth=2,
-      linestyle=:dash)
-scatter!(p1, [0.0], [3.0],
-         label="Initial Condition",
-         markersize=6,
-         color=:red)
-
-# Plot 2: Error over time
-p2 = plot(t_rk4, errors,
-         label="Absolute Error",
-         linewidth=2,
-         xlabel="t",
-         ylabel="|x_RK4 - x_exact|",
-         title="Absolute Error vs Time",
-         legend=:topright,
-         yaxis=:log)
-
-# Plot 3: Relative error
-rel_errors = errors ./ abs.(x_exact)
-p3 = plot(t_rk4, rel_errors,
-         label="Relative Error",
-         linewidth=2,
-         xlabel="t",
-         ylabel="|x_RK4 - x_exact| / |x_exact|",
-         title="Relative Error vs Time",
-         legend=:topright,
-         yaxis=:log)
-
-# Combine plots
-combined_plot = plot(p1, p2, p3, layout=(3,1), size=(800, 900))
-
-# Save plot
-output_dir = "../tex/figures"
-if !isdir(output_dir)
-    mkpath(output_dir)
-end
-
-savefig(combined_plot, joinpath(output_dir, "p02_rk4_comparison.pdf"))
-println(SUCCESS, "✓ Plot saved to: ", joinpath(output_dir, "p02_rk4_comparison.pdf"), RESET)
+# # Plot code (uncomment when Plots.jl is available)
+# p1 = plot(t_rk4, x_rk4, label="RK4 Solution", linewidth=2)
+# # ... rest of plotting code
 
 # =================================================================
 # Summary
 # =================================================================
 
-println(INFO, "\n\n" * "="^80, RESET)
-println(SUCCESS, "Problem 2 Complete! ✓", RESET)
-println(INFO, "="^80, RESET)
+println("\n\n" * "="^80)
+println("Problem 2 Complete! ✓")
+println("="^80)
 
 println("\n📝 Summary:")
 println("-"^80)
@@ -302,4 +261,4 @@ println("  The RK4 method provides highly accurate numerical solutions")
 println("  for this ODE problem, with errors typically on the order of")
 println("  ", @sprintf("%.0e", max_error), " for the chosen step size.")
 
-println(INFO, "\n" * "="^80, RESET)
+println("\n" * "="^80)
