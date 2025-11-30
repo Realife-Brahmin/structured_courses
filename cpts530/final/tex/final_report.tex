@@ -1,0 +1,52 @@
+% CPTS530 Final Project Report
+% Author: Aryan Ritwajeet Jha
+% Date: December 2025
+
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, graphicx, float, hyperref}
+\usepackage{cleveref}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+
+% Setup page headers
+\setlength{\headheight}{14.49998pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\rightmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
+
+\title{Fall 2025 CPTS530 Final Project \\ MATH 448-548 \\ Numerical Analysis}
+\author{Aryan Ritwajeet Jha}
+\date{11 December 2025}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+% Problem 1 - Orthogonal Matching Pursuit (OMP)
+\input{p01.tex}
+
+% Problem 2 - Fourth-order Runge-Kutta Method
+\input{p02.tex}
+
+% Problem 3 - Adams-Bashforth-Moulton Method
+\input{p03.tex}
+
+\input{appendix.tex}
+
+\end{document}

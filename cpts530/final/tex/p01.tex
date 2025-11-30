@@ -1,0 +1,63 @@
+\clearpage
+\section*{Problem 1: Orthogonal Matching Pursuit (OMP)}
+\addcontentsline{toc}{section}{Problem 1: Orthogonal Matching Pursuit}
+\markboth{Problem 1}{Problem 1}
+
+\textbf{Problem Statement:} 
+
+\subsection*{Part 0: Preliminary Information and Data}
+
+In part 2, use the matrix
+$$A = \begin{bmatrix} 
+1 & -1/2 & -1/2 \\
+0 & \sqrt{3}/2 & -\sqrt{3}/2 \\
+1 & 3 & 3
+\end{bmatrix}$$
+
+In part 3, use the matrix $B$ that is the $2 \times 3$ matrix consisting of the first two rows of $A$.
+
+\subsection*{Singular Value Decomposition (SVD) and Pseudo-Inverse}
+
+Given a matrix $M_{m \times n}$ with $\text{rank}(M) = r$, write
+$$M = U\Sigma V^T$$
+where $U_{m \times m}$ and $V_{n \times n}$ are orthogonal matrices, and $\Sigma_{m \times n}$ is a diagonal matrix with nonzero diagonal entries $\sigma_1 \geq \sigma_2 \geq \ldots \geq \sigma_r > 0$ called singular values of $M$.
+
+\textbf{Definition.} Given $M$ as above, the pseudo-inverse $M^+$ is defined by
+$$M^+ = V\Sigma^+ U^T$$
+where $\Sigma^+_{n \times m}$ is the diagonal matrix whose non-zero entries are $\frac{1}{\sigma_1}, \frac{1}{\sigma_2}, \ldots, \frac{1}{\sigma_r}$.
+
+\subsection*{Thresholding Operator}
+
+The \textbf{hard thresholding operator} $H_s$ is defined as follows:
+$$\mathbf{x} \to H_s(\mathbf{x}) \in \mathbb{R}^n$$
+
+$H_s(\mathbf{x})$ sets all entries of $\mathbf{x}$ to zero except for $s$ largest (in absolute value) entries.
+
+\subsection*{The Matrix $A_\mathcal{S}$}
+
+Given a matrix $A$ and an index set $\mathcal{S}$, denote by $A_\mathcal{S}$ the matrix consisting of columns of $A$ with index in $\mathcal{S}$.
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\vspace{1em}
+
+\subsection*{Assignments and Questions}
+
+\begin{enumerate}
+\item Implement the pseudocode for the Orthogonal Matching Pursuit (OMP). The pseudocode is contained in a separate handwritten note attached to the Final project assignment. You may use the standard Matlab (or other language) commands to compute SVD and pseudo-inverse.
+
+\item Run the code for $\mathbf{b} = A\mathbf{e}_1$ with $\mathbf{e}_1 = (1, 0, 0)^T$. See how well the obtained vector $\mathbf{x}$ matches $\mathbf{e}_1$.
+
+\item Run the code again, this time using the matrix $B$ instead of $A$.
+
+\item Compare the results obtained in parts 2, 3. Explain the connection with compressed sensing and sparse recovery.
+\end{enumerate}
+
+\vspace{1em}
+
+\textbf{Solution:}
+
+% TODO: Add solution here
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}
