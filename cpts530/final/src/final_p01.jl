@@ -129,24 +129,31 @@ function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iteration
     
     # OMP iterations
     for iter in 1:min(s, max_iterations)
-        # Step 1: Find column with largest correlation with residual
-        correlations = abs.(A' * residual)
-        max_idx = argmax(correlations)
+        # Step 1: Compute correlations g_k = A^T * r_k
+        g_k = A' * residual
         
-        # Step 2: Add to support if not already present
-        if !(max_idx in support)
-            push!(support, max_idx)
+        # Step 2: Apply hard thresholding H_s(g_k) and find support
+        g_k_thresholded = hard_threshold(g_k, s)
+        new_indices = findall(x -> abs(x) > 1e-14, g_k_thresholded)
+        
+        # Step 3: Update support S_{k+1} = S_k ∪ {j_{k+1}}
+        for idx in new_indices
+            if !(idx in support)
+                push!(support, idx)
+            end
         end
         
-        # Step 3: Solve least squares problem on support
+        # Step 4: Solve least squares problem on support
+        # (x_{k+1})_{S_{k+1}} = A^+_{S_{k+1}} * b
+        # (x_{k+1})_{S^c_{k+1}} = 0
         A_support = A[:, support]
         x_support = pinv(A_support) * b  # Use pseudo-inverse
         
-        # Step 4: Update solution
+        # Update solution
         x = zeros(n)
         x[support] = x_support
         
-        # Step 5: Update residual
+        # Step 5: Update residual r_{k+1} = b - A * x_{k+1}
         residual = b - A * x
         
         # Record history
@@ -154,12 +161,19 @@ function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iteration
         push!(history["residuals"], norm(residual))
         push!(history["support"], copy(support))
         
-        println(@sprintf("\nIteration %2d: Selected column %d, residual = %.6e", 
-                iter, max_idx, norm(residual)))
+        println(@sprintf("\nIteration %2d: Support size = %d, residual = %.6e", 
+                iter, length(support), norm(residual)))
+        println("  Current support: ", support)
         
         # Check convergence
         if norm(residual) < 1e-10
             println(SUCCESS, "\n✓ Converged! Residual below threshold.", RESET)
+            break
+        end
+        
+        # Stop if we've already selected s indices
+        if length(support) >= s
+            println(INFO, "\n✓ Reached desired sparsity level s = $s", RESET)
             break
         end
     end
