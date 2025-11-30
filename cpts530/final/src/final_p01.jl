@@ -2,15 +2,9 @@
 # Author: Aryan Ritwajeet Jha
 # Date: December 2025
 
-using LinearAlgebra
-using Printf
-
-# Color constants for terminal output
-const SUCCESS = "\e[32m"  # Green
-const FAILURE = "\e[31m"  # Red
-const INFO = "\e[36m"     # Cyan
-const WARNING = "\e[33m"  # Yellow
-const RESET = "\e[0m"     # Reset color
+# Load environment and utilities
+include("preamble.jl")
+include("test_utils.jl")
 
 println(INFO, "="^80, RESET)
 println(INFO, "CPTS530 Final Project - Problem 1: Orthogonal Matching Pursuit", RESET)
