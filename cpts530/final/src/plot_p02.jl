@@ -34,21 +34,21 @@ function rk4_step(f, t, x, h)
 end
 
 function rk4_solve(f, t0, tf, x0, h)
-    n_steps = abs(Int((tf - t0) / h))
-    t_values = zeros(n_steps + 1)
-    x_values = zeros(n_steps + 1)
+    # Determine number of steps
+    n_steps = round(Int, (tf - t0) / h)
     
+    # Initialize arrays
+    t_values = zeros(abs(n_steps) + 1)
+    x_values = zeros(abs(n_steps) + 1)
+    
+    # Initial condition
     t_values[1] = t0
     x_values[1] = x0
     
-    t = t0
-    x = x0
-    
-    for i in 1:n_steps
-        x = rk4_step(f, t, x, h)
-        t += h
-        t_values[i+1] = t
-        x_values[i+1] = x
+    # RK4 iterations
+    for i in 1:abs(n_steps)
+        t_values[i+1] = t_values[i] + h
+        x_values[i+1] = rk4_step(f, t_values[i], x_values[i], h)
     end
     
     return t_values, x_values
@@ -67,6 +67,14 @@ t_rk4, x_rk4 = rk4_solve(f, t0, tf, x0, h)
 x_exact = exact_solution.(t_rk4)
 
 println(@sprintf("Generated %d points from t=%.2f to t=%.2f", length(t_rk4), t0, tf))
+
+# Debug: Check values at key points
+println("\nDebug - Checking key values:")
+for t_check in [-2.0, -1.5, -1.0, -0.5, 0.0]
+    idx = argmin(abs.(t_rk4 .- t_check))
+    println(@sprintf("t=%.1f: RK4=%.6f, Exact=%.6f, Error=%.6f", 
+                     t_rk4[idx], x_rk4[idx], x_exact[idx], abs(x_rk4[idx] - x_exact[idx])))
+end
 
 # Create the Dao-themed plot
 println("\nCreating plot with soft pastel checkered pattern...")
