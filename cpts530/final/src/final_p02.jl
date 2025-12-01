@@ -4,7 +4,7 @@
 
 using LinearAlgebra
 using Printf
-# using Plots  # Will add plots later
+using Plots
 
 # Load environment and utilities
 # include("preamble.jl")
@@ -228,16 +228,103 @@ end
 println("="^80)
 
 # =================================================================
-# Visualization
+# Visualization - Dao Themed Plot
 # =================================================================
 
-println("\n\n📉 Generating Plots")
+println("\n\n📉 Generating Dao-Themed Plot")
 println("-"^80)
-println("Plots will be generated when Plots.jl is available...")
 
-# # Plot code (uncomment when Plots.jl is available)
-# p1 = plot(t_rk4, x_rk4, label="RK4 Solution", linewidth=2)
-# # ... rest of plotting code
+# Dao color scheme inspired by yin-yang philosophy
+# Deep blue for night/yin, warm gold for day/yang, soft grey for balance
+dao_bg = RGB(0.95, 0.95, 0.93)      # Soft off-white (rice paper)
+dao_grid = RGB(0.85, 0.85, 0.82)    # Light grey (mist)
+dao_yin = RGB(0.15, 0.25, 0.35)     # Deep blue-grey (night)
+dao_yang = RGB(0.85, 0.65, 0.25)    # Warm gold (sun)
+dao_balance = RGB(0.45, 0.55, 0.60) # Soft blue-grey (dawn/dusk)
+
+# Create the plot with Dao aesthetics
+gr()  # Use GR backend for better quality
+plot(
+    size=(800, 600),
+    dpi=300,
+    background_color=dao_bg,
+    foreground_color=dao_yin,
+    gridcolor=dao_grid,
+    gridalpha=0.3,
+    gridstyle=:dot,
+    framestyle=:box,
+    legend=:topright,
+    legendfontsize=11,
+    legendfontfamily="serif",
+    fontfamily="serif",
+    margin=5Plots.mm
+)
+
+# Plot exact solution (Yang - the truth, the light)
+plot!(t_rk4, x_exact,
+    label="Analytical Solution",
+    linewidth=3,
+    linestyle=:solid,
+    color=dao_yang,
+    alpha=0.9
+)
+
+# Plot RK4 solution (Yin - the approximation, the shadow)
+plot!(t_rk4, x_rk4,
+    label="RK4 Numerical Solution",
+    linewidth=2,
+    linestyle=:dash,
+    color=dao_yin,
+    alpha=0.8
+)
+
+# Add markers at selected points to show the discrete nature
+selected_indices = [argmin(abs.(t_rk4 .- t)) for t in display_points]
+scatter!(t_rk4[selected_indices], x_rk4[selected_indices],
+    label="RK4 Sample Points",
+    markersize=6,
+    markercolor=dao_balance,
+    markerstrokewidth=2,
+    markerstrokecolor=dao_yin,
+    alpha=0.7
+)
+
+# Labels and title with Dao philosophy
+xlabel!("Time t", fontsize=12)
+ylabel!("Solution x(t)", fontsize=12)
+title!("RK4 vs Analytical: The Dance of Approximation and Truth\n" * 
+       "步履之間，數值與解析共舞 (Between Steps, Numerical and Analytical Dance Together)",
+    fontsize=13,
+    titlefontfamily="serif"
+)
+
+# Add a subtle annotation about the Dao philosophy
+annotate!(
+    -1.0, 1.5,
+    text("陰陽平衡\n(Yin-Yang Balance)", 9, dao_balance, :center, "serif")
+)
+
+println("✓ Dao-themed plot created!")
+
+# Save to processedData folder
+processed_path = "../processedData/p02_rk4_dao_comparison.png"
+savefig(processed_path)
+println("✓ Saved to: ", processed_path)
+
+# Copy to tex/figures folder
+figures_dir = "../tex/figures"
+if !isdir(figures_dir)
+    mkdir(figures_dir)
+    println("✓ Created figures directory: ", figures_dir)
+end
+
+figures_path = joinpath(figures_dir, "p02_rk4_dao_comparison.png")
+cp(processed_path, figures_path, force=true)
+println("✓ Copied to: ", figures_path)
+
+println("\n📊 Plot saved successfully!")
+println("  Location 1 (processed): ", processed_path)
+println("  Location 2 (LaTeX):     ", figures_path)
 
 # =================================================================
 # Summary

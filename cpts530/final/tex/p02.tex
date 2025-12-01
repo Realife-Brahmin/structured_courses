@@ -107,6 +107,17 @@ $0.0$ & $3.000000000000$ & $3.000000000000$ & $0.000 \times 10^{0}$ \\
 \caption{Comparison of RK4 numerical solution with exact analytical solution}
 \end{table}
 
+\textbf{Trajectory Visualization:}
+
+Figure~\ref{fig:p02_trajectory} shows the complete trajectory comparison between the RK4 numerical solution and the analytical solution over the entire integration interval $[-2, 0]$.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/p02_trajectory_comparison.png}
+\caption{Comparison of RK4 numerical solution (red dashed) with analytical solution (blue solid) for the ODE $(e^t + 1)x' + xe^t - x = 0$ with $x(0) = 3$. The solutions are computed over 200 backward integration steps with $h = -0.01$.}
+\label{fig:p02_trajectory}
+\end{figure}
+
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
 
