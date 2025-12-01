@@ -1,0 +1,5 @@
+ERROR: LoadError: UndefVarError: `INFO` not defined
+Stacktrace:
+ [1] top-level scope
+   @ C:\Users\aryan\Documents\documents_general\structured_courses\cpts530\final\src\final_p01.jl:9
+in expression starting at C:\Users\aryan\Documents\documents_general\structured_courses\cpts530\final\src\final_p01.jl:9

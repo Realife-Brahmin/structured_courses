@@ -57,7 +57,97 @@ Given a matrix $A$ and an index set $\mathcal{S}$, denote by $A_\mathcal{S}$ the
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+\subsection*{Part 1: OMP Implementation}
+
+The Orthogonal Matching Pursuit algorithm was implemented from scratch in Julia following the provided pseudocode. Key components include:
+
+\begin{itemize}
+    \item Hard thresholding operator $H_s(\mathbf{x})$ that retains only the $s$ largest entries
+    \item OMP iteration that computes correlations $\mathbf{g}_k = A^T \mathbf{r}_k$, applies hard thresholding, updates the support set, solves least squares using pseudo-inverse $A_\mathcal{S}^+$, and updates the residual
+    \item Convergence detection based on residual norm threshold
+\end{itemize}
+
+See \texttt{final\_p01.jl} for complete implementation.
+
+\subsection*{Matrix Properties}
+
+\textbf{Matrix A} ($3 \times 3$):
+\begin{itemize}
+    \item Rank: 3 (full rank)
+    \item Condition number: 3.8842
+    \item Singular values: $\sigma_1 = 4.3847$, $\sigma_2 = 1.2247$, $\sigma_3 = 1.1289$
+    \item Square matrix providing $m=3$ measurements for $n=3$ unknowns
+\end{itemize}
+
+\textbf{Matrix B} ($2 \times 3$):
+\begin{itemize}
+    \item Rank: 2 (full row rank)
+    \item Condition number: 1.0000
+    \item Singular values: $\sigma_1 = 1.2247$, $\sigma_2 = 1.2247$
+    \item Underdetermined system with $m=2$ measurements for $n=3$ unknowns
+\end{itemize}
+
+\subsection*{Part 2: OMP with Matrix A}
+
+\textbf{Setup:} Target $\mathbf{e}_1 = (1, 0, 0)^T$, observation $\mathbf{b} = A\mathbf{e}_1 = (1, 0, 1)^T$, sparsity $s=1$.
+
+\textbf{Results:}
+\begin{itemize}
+    \item Final support set: $\mathcal{S} = \{2\}$
+    \item Recovered solution: $\mathbf{x} = (0, 0.25, 0)^T$
+    \item Recovery error: $\|\mathbf{e}_1 - \mathbf{x}\| = 1.0308$
+    \item Final residual norm: $1.1726$
+    \item Number of iterations: 1 (stopped at sparsity level)
+\end{itemize}
+
+\textbf{Analysis:} The algorithm failed to recover the correct sparse vector. Despite Matrix A being full rank, OMP selected column 2 instead of column 1. This demonstrates that even with sufficient measurements, the greedy nature of OMP can lead to suboptimal selections when the correlation structure is unfavorable.
+
+\subsection*{Part 3: OMP with Matrix B}
+
+\textbf{Setup:} Target $\mathbf{e}_1 = (1, 0, 0)^T$, observation $\mathbf{b} = B\mathbf{e}_1 = (1, 0)^T$, sparsity $s=1$.
+
+\textbf{Results:}
+\begin{itemize}
+    \item Final support set: $\mathcal{S} = \{1\}$
+    \item Recovered solution: $\mathbf{x} = (1, 0, 0)^T$
+    \item Recovery error: $\|\mathbf{e}_1 - \mathbf{x}\| = 0.0000$
+    \item Final residual norm: $0.0000$ (converged)
+    \item Number of iterations: 1
+\end{itemize}
+
+\textbf{Analysis:} Perfect recovery! Despite being an underdetermined system with fewer measurements than unknowns, OMP successfully recovered the exact 1-sparse signal. The residual converged to machine precision, demonstrating successful sparse recovery from incomplete measurements.
+
+\subsection*{Part 4: Comparison and Connection to Compressed Sensing}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Property & Matrix A & Matrix B \\
+\midrule
+System type & Determined $(m=n)$ & Underdetermined $(m<n)$ \\
+Rank & 3 (full) & 2 (full row rank) \\
+Condition number & 3.8842 & 1.0000 \\
+Recovery error & $1.0308$ & $0.0000$ \\
+Recovery success & Failed & Perfect \\
+\bottomrule
+\end{tabular}
+\caption{Comparison of OMP performance on matrices A and B}
+\end{table}
+
+\textbf{Key Observations:}
+
+\begin{enumerate}
+    \item \textbf{Paradoxical result:} Matrix B (underdetermined, compressed) achieved perfect recovery while Matrix A (fully determined) failed. This highlights that having more measurements does not guarantee better sparse recovery with greedy algorithms.
+    
+    \item \textbf{Matrix structure matters:} Matrix B has equal singular values ($\sigma_1 = \sigma_2$) and perfect conditioning (cond = 1.0), suggesting excellent geometric properties for sparse recovery. Matrix A has varying singular values and worse conditioning.
+    
+    \item \textbf{Compressed sensing connection:} Matrix B demonstrates the core principle of compressed sensing: \textit{a sparse signal can be recovered from fewer measurements than the ambient dimension}, provided the measurement matrix satisfies certain properties (e.g., Restricted Isometry Property, low coherence).
+    
+    \item \textbf{Greedy algorithm limitations:} OMP's greedy selection (choosing the column with maximum correlation at each step) can fail even when exact recovery is theoretically possible. More sophisticated algorithms or better measurement matrices may be needed for reliable recovery.
+\end{enumerate}
+
+\textbf{Conclusion:} This experiment demonstrates that sparse recovery success depends critically on the measurement matrix structure rather than just the number of measurements. Matrix B's superior geometric properties enabled perfect 1-sparse recovery from just 2 measurements, while Matrix A's structure led to incorrect column selection despite having 3 measurements. This underscores the importance of measurement matrix design in compressed sensing applications.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}

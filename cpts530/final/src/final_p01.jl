@@ -2,20 +2,23 @@
 # Author: Aryan Ritwajeet Jha
 # Date: December 2025
 
+using LinearAlgebra
+using Printf
+
 # Load environment and utilities
 # include("preamble.jl")
 # include("test_utils.jl")
 
-println(INFO, "="^80, RESET)
-println(INFO, "CPTS530 Final Project - Problem 1: Orthogonal Matching Pursuit", RESET)
-println(INFO, "="^80, RESET)
+println("="^80)
+println("CPTS530 Final Project - Problem 1: Orthogonal Matching Pursuit")
+println("="^80)
 
 # =================================================================
 # Part 0: Initialize matrices A and B
 # =================================================================
 
-println(INFO, "\n📊 Initializing Matrices", RESET)
-println(INFO, "-"^80, RESET)
+println("\n📊 Initializing Matrices")
+println("-"^80)
 
 # Matrix A (3×3) from problem statement
 A = [
@@ -34,19 +37,19 @@ println("\n\nMatrix B (2×3):")
 display(B)
 
 # Verify dimensions
-println(INFO, "\n✓ Matrix A dimensions: ", size(A), RESET)
-println(INFO, "✓ Matrix B dimensions: ", size(B), RESET)
+println( "\n✓ Matrix A dimensions: ", size(A))
+println( "✓ Matrix B dimensions: ", size(B))
 
 # Compute and display singular value decompositions
-println(INFO, "\n\n🔍 Computing SVD for Matrix A", RESET)
-println(INFO, "-"^80, RESET)
+println( "\n\n🔍 Computing SVD for Matrix A")
+println( "-"^80)
 
 U_A, Σ_A, V_A = svd(A)
 println("\nSingular values of A: ", Σ_A)
 println("Rank of A: ", rank(A))
 
-println(INFO, "\n\n🔍 Computing SVD for Matrix B", RESET)
-println(INFO, "-"^80, RESET)
+println( "\n\n🔍 Computing SVD for Matrix B")
+println( "-"^80)
 
 U_B, Σ_B, V_B = svd(B)
 println("\nSingular values of B: ", Σ_B)
@@ -115,8 +118,8 @@ function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iteration
         "support" => Vector{Int}[]
     )
     
-    println(INFO, "\n\n🎯 Running Orthogonal Matching Pursuit", RESET)
-    println(INFO, "-"^80, RESET)
+    println( "\n\n🎯 Running Orthogonal Matching Pursuit")
+    println( "-"^80)
     println("Sparsity level s = ", s)
     println("Matrix dimensions: ", size(A))
     println("Starting residual norm: ", @sprintf("%.6e", norm(residual)))
@@ -161,19 +164,19 @@ function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iteration
         
         # Check convergence
         if norm(residual) < 1e-10
-            println(SUCCESS, "\n✓ Converged! Residual below threshold.", RESET)
+            println( "\n✓ Converged! Residual below threshold.")
             break
         end
         
         # Stop if we've already selected s indices
         if length(support) >= s
-            println(INFO, "\n✓ Reached desired sparsity level s = $s", RESET)
+            println( "\n✓ Reached desired sparsity level s = $s")
             break
         end
     end
     
-    println(INFO, "\n" * "="^80, RESET)
-    println(SUCCESS, "OMP Complete!", RESET)
+    println( "\n" * "="^80)
+    println( "OMP Complete!")
     println("Final support set: ", support)
     println("Final residual norm: ", @sprintf("%.6e", norm(residual)))
     println("Solution vector x:")
@@ -186,9 +189,9 @@ end
 # Part 2: Test with matrix A and e₁ = (1, 0, 0)ᵀ
 # =================================================================
 
-println(INFO, "\n\n" * "="^80, RESET)
-println(INFO, "PART 2: Testing OMP with Matrix A", RESET)
-println(INFO, "="^80, RESET)
+println( "\n\n" * "="^80)
+println( "PART 2: Testing OMP with Matrix A")
+println( "="^80)
 
 e1 = [1.0, 0.0, 0.0]
 b_A = A * e1
@@ -199,25 +202,25 @@ println("Observation vector b = A*e₁ = ", b_A)
 
 x_recovered_A, history_A = orthogonal_matching_pursuit(A, b_A, s)
 
-println(INFO, "\n\n📊 Comparison Results for Matrix A:", RESET)
-println(INFO, "-"^80, RESET)
+println( "\n\n📊 Comparison Results for Matrix A:")
+println( "-"^80)
 println("Target:    ", e1)
 println("Recovered: ", x_recovered_A)
 println("Error:     ", norm(e1 - x_recovered_A))
 
 if norm(e1 - x_recovered_A) < 1e-6
-    println(SUCCESS, "✓ Excellent recovery! Error < 1e-6", RESET)
+    println( "✓ Excellent recovery! Error < 1e-6")
 else
-    println(WARNING, "⚠ Recovery not perfect. Error = ", norm(e1 - x_recovered_A), RESET)
+    println( "⚠ Recovery not perfect. Error = ", norm(e1 - x_recovered_A))
 end
 
 # =================================================================
 # Part 3: Test with matrix B
 # =================================================================
 
-println(INFO, "\n\n" * "="^80, RESET)
-println(INFO, "PART 3: Testing OMP with Matrix B", RESET)
-println(INFO, "="^80, RESET)
+println( "\n\n" * "="^80)
+println( "PART 3: Testing OMP with Matrix B")
+println( "="^80)
 
 b_B = B * e1
 println("\nTarget vector e₁ = ", e1)
@@ -225,25 +228,25 @@ println("Observation vector b = B*e₁ = ", b_B)
 
 x_recovered_B, history_B = orthogonal_matching_pursuit(B, b_B, s)
 
-println(INFO, "\n\n📊 Comparison Results for Matrix B:", RESET)
-println(INFO, "-"^80, RESET)
+println( "\n\n📊 Comparison Results for Matrix B:")
+println( "-"^80)
 println("Target:    ", e1)
 println("Recovered: ", x_recovered_B)
 println("Error:     ", norm(e1 - x_recovered_B))
 
 if norm(e1 - x_recovered_B) < 1e-6
-    println(SUCCESS, "✓ Excellent recovery! Error < 1e-6", RESET)
+    println( "✓ Excellent recovery! Error < 1e-6")
 else
-    println(WARNING, "⚠ Recovery not perfect. Error = ", norm(e1 - x_recovered_B), RESET)
+    println( "⚠ Recovery not perfect. Error = ", norm(e1 - x_recovered_B))
 end
 
 # =================================================================
 # Part 4: Analysis and Comparison
 # =================================================================
 
-println(INFO, "\n\n" * "="^80, RESET)
-println(INFO, "PART 4: Analysis and Comparison", RESET)
-println(INFO, "="^80, RESET)
+println( "\n\n" * "="^80)
+println( "PART 4: Analysis and Comparison")
+println( "="^80)
 
 println("\n🔍 Matrix Properties:")
 println("-"^80)
@@ -279,6 +282,6 @@ Matrix B (2×3):
 - Success demonstrates sparse recovery from incomplete measurements
 """)
 
-println(INFO, "\n" * "="^80, RESET)
-println(SUCCESS, "Problem 1 Analysis Complete! ✓", RESET)
-println(INFO, "="^80, RESET)
+println( "\n" * "="^80)
+println( "Problem 1 Analysis Complete! ✓")
+println( "="^80)
