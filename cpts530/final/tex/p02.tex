@@ -29,41 +29,49 @@ Determine the \textit{analytic} solution and compare it to the computed solution
 \addcontentsline{toc}{section}{Problem 2 - Part A: Analytical Solution}
 \markboth{Problem 2 - Part A}{Problem 2 - Part A}
 
-The exact analytical solution to the initial value problem
+We derive the exact analytical solution to the initial value problem:
 \begin{align*}
 (e^t + 1)x' + xe^t - x &= 0 \\
 x(0) &= 3
 \end{align*}
-is given as:
-$$\boxed{x(t) = 12\frac{e^t}{(e^t + 1)^2}}$$
 
-\textbf{Verification:}
+\textbf{Derivation:}
 
-Let us verify this solution satisfies both the differential equation and initial condition.
+First, rewrite the ODE in standard form:
+$$\frac{dx}{dt} = \frac{x(1-e^t)}{1+e^t}$$
 
-\textbf{Initial condition:} At $t = 0$:
-$$x(0) = 12\frac{e^0}{(e^0 + 1)^2} = 12\frac{1}{(2)^2} = 12 \cdot \frac{1}{4} = 3 \quad \checkmark$$
+Let $y = e^t$, then $dy = e^t dt$, which gives $dy = y\, dt$ or $dt = \frac{dy}{y}$.
 
-\textbf{Differential equation:} First, compute $x'(t)$ using the quotient rule:
-\begin{align*}
-x(t) &= 12\frac{e^t}{(e^t + 1)^2} = 12 e^t (e^t + 1)^{-2} \\
-x'(t) &= 12\left[e^t \cdot (e^t + 1)^{-2} + e^t \cdot (-2)(e^t + 1)^{-3} \cdot e^t\right] \\
-&= 12\left[\frac{e^t}{(e^t + 1)^2} - \frac{2e^{2t}}{(e^t + 1)^3}\right] \\
-&= 12\left[\frac{e^t(e^t + 1) - 2e^{2t}}{(e^t + 1)^3}\right] \\
-&= 12\left[\frac{e^{2t} + e^t - 2e^{2t}}{(e^t + 1)^3}\right] \\
-&= 12\left[\frac{e^t - e^{2t}}{(e^t + 1)^3}\right] \\
-&= 12\frac{e^t(1 - e^t)}{(e^t + 1)^3}
-\end{align*}
+Substituting into the ODE:
+$$\frac{dx}{dt} = \frac{(1-y)x}{(1+y)}$$
 
-Now substitute into the left-hand side of the ODE:
-\begin{align*}
-(e^t + 1)x' + xe^t - x &= (e^t + 1) \cdot 12\frac{e^t(1 - e^t)}{(e^t + 1)^3} + 12\frac{e^t}{(e^t + 1)^2} \cdot e^t - 12\frac{e^t}{(e^t + 1)^2} \\
-&= 12\frac{e^t(1 - e^t)}{(e^t + 1)^2} + 12\frac{e^{2t}}{(e^t + 1)^2} - 12\frac{e^t}{(e^t + 1)^2} \\
-&= 12\frac{e^t - e^{2t} + e^{2t} - e^t}{(e^t + 1)^2} \\
-&= 12\frac{0}{(e^t + 1)^2} = 0 \quad \checkmark
-\end{align*}
+Converting to the new variable:
+$$\frac{dx}{x} = \frac{(1-y)}{(1+y)} \cdot \frac{dy}{y}$$
 
-Therefore, the given solution is correct.
+Now integrate both sides:
+$$\int \frac{dx}{x} = \int \left(\frac{1-y}{y} - \frac{1-y}{y+1}\right) dy$$
+
+Simplifying the right-hand side:
+$$\int \frac{dx}{x} = \int \left(\frac{1}{y} - 1 - \frac{1}{y+1} + \frac{y}{y+1}\right) dy$$
+
+$$\int \frac{dx}{x} = \int \left(\frac{1}{y} - 1 - \frac{1}{y+1} + 1 - \frac{1}{y+1}\right) dy$$
+
+$$\int \frac{dx}{x} = \int \left(\frac{1}{y} - \frac{2}{y+1}\right) dy$$
+
+Integrating:
+$$\ln x = \ln y - 2\ln(y+1) + C$$
+
+Therefore:
+$$x = \frac{ky}{(y+1)^2}$$
+
+Substituting back $y = e^t$:
+$$x = \frac{ke^t}{(e^t+1)^2}$$
+
+Using the initial condition $x(0) = 3$:
+$$3 = \frac{k \cdot 1}{(1+1)^2} = \frac{k}{4}$$
+
+Thus $k = 12$, and the analytical solution is:
+$$\boxed{x(t) = \frac{12e^t}{(e^t+1)^2}}$$
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
@@ -136,6 +144,8 @@ The fourth-order Runge-Kutta method successfully solves this ODE problem numeric
 \end{itemize}
 
 The error grows as we integrate backwards from $t=0$ to $t=-2$, which is expected for this problem. The RK4 method provides reasonable accuracy for the chosen step size, with the solution converging to the exact initial condition $x(0) = 3$ as required.
+
+\textbf{Verification:} The numerical results were verified against Wolfram Alpha's Runge-Kutta implementation\footnote{\url{https://www.wolframalpha.com/input?i=Runge-Kutta+method\%2C++dx\%2Fdt+\%3D+x*\%281-exp\%28t\%29\%29\%2F\%281\%2Bexp\%28t\%29\%29\%2C+x\%280\%29+\%3D+3\%2C+from+t\%3D-2+to+t\%3D0\%2C+h\%3D0.01}}.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
