@@ -70,12 +70,15 @@ println(@sprintf("Generated %d points from t=%.2f to t=%.2f", length(t_rk4), t0,
 # Create the Dao-themed plot
 println("\nCreating Dao-themed plot...")
 
+# Use Plots' built-in dao theme
+theme(:dao)
+
 plot(
     t_rk4, x_exact,
     label="Analytical Solution",
-    linewidth=3,
+    linewidth=4,
     linestyle=:solid,
-    color=dao_analytical,
+    color=:blue,
     legend=:topright,
     xlabel="Time t",
     ylabel="x(t)",
@@ -84,11 +87,11 @@ plot(
     labelfontsize=11,
     legendfontsize=10,
     grid=true,
-    gridcolor=dao_grid,
-    gridlinewidth=1,
-    gridalpha=0.6,
-    background_color=dao_bg,
-    foreground_color=dao_fg,
+    minorgrid=true,
+    gridlinewidth=1.5,
+    minorgridlinewidth=0.5,
+    gridalpha=0.5,
+    minorgridalpha=0.3,
     size=(800, 600),
     dpi=300,
     margin=5Plots.mm
@@ -97,16 +100,15 @@ plot(
 plot!(
     t_rk4, x_rk4,
     label="RK4 Numerical Solution",
-    linewidth=2,
+    linewidth=4,
     linestyle=:dash,
-    color=dao_numerical,
-    alpha=0.8
+    color=:orange
 )
 
 # Add a subtle annotation
 annotate!(
     -1.0, 1.5,
-    text("Step size h = -0.01\n200 steps", dao_fg, 9, :left)
+    text("Step size h = -0.01\n200 steps", 9, :left)
 )
 
 # Ensure directories exist
