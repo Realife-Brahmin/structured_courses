@@ -4,13 +4,18 @@ using LinearAlgebra
 using Printf
 using Plots
 
-# Dao-themed color palette
-dao_bg = "#FDF6E3"        # Warm cream background (Solarized Light base3)
-dao_fg = "#657B83"        # Soft gray foreground (Solarized Light base00)
-dao_analytical = "#268BD2" # Calm blue (Solarized blue)
-dao_numerical = "#DC322F"  # Deep red (Solarized red)
-dao_grid = "#EEE8D5"      # Very light tan (Solarized Light base2)
-dao_accent = "#859900"     # Olive green (Solarized green)
+# Pine Rose (Rosé Pine) theme - matching your VSCode aesthetic
+rose_base = "#191724"      # Deep purple-black background
+rose_surface = "#1f1d2e"   # Slightly lighter surface
+rose_overlay = "#26233a"   # Overlay/subtle elements
+rose_muted = "#6e6a86"     # Muted/dimmed text
+rose_text = "#e0def4"      # Main text color
+rose_love = "#eb6f92"      # Love/pink-red
+rose_gold = "#f6c177"      # Gold/orange
+rose_rose = "#ebbcba"      # Rose/warm pink
+rose_pine = "#31748f"      # Pine/teal-blue
+rose_foam = "#9ccfd8"      # Foam/cyan
+rose_iris = "#c4a7e7"      # Iris/purple
 
 println("\n" * "="^80)
 println("Problem 2 - Creating Dao-Themed Trajectory Plot")
@@ -68,30 +73,37 @@ x_exact = exact_solution.(t_rk4)
 println(@sprintf("Generated %d points from t=%.2f to t=%.2f", length(t_rk4), t0, tf))
 
 # Create the Dao-themed plot
-println("\nCreating Dao-themed plot...")
+println("\nCreating Pine Rose themed plot...")
 
-# Use Plots' built-in dao theme
-theme(:dao)
-
+# Create plot with Pine Rose aesthetic
 plot(
     t_rk4, x_exact,
     label="Analytical Solution",
     linewidth=4,
     linestyle=:solid,
-    color=:blue,
+    color=rose_foam,  # Cyan/blue for analytical truth
     legend=:topright,
+    legendfontcolor=rose_text,
+    legendfontsize=10,
     xlabel="Time t",
     ylabel="x(t)",
     title="Problem 2: ODE Solution Comparison\n(e^t + 1)x' + xe^t - x = 0, x(0) = 3",
     titlefontsize=12,
+    titlefontcolor=rose_text,
     labelfontsize=11,
-    legendfontsize=10,
+    guidefontcolor=rose_text,
+    tickfontcolor=rose_muted,
+    background_color=rose_base,
+    foreground_color=rose_text,
     grid=true,
     minorgrid=true,
+    gridcolor=rose_overlay,
+    minorgridcolor=rose_surface,
     gridlinewidth=1.5,
     minorgridlinewidth=0.5,
-    gridalpha=0.5,
+    gridalpha=0.6,
     minorgridalpha=0.3,
+    framestyle=:box,
     size=(800, 600),
     dpi=300,
     margin=5Plots.mm
@@ -102,13 +114,13 @@ plot!(
     label="RK4 Numerical Solution",
     linewidth=4,
     linestyle=:dash,
-    color=:orange
+    color=rose_gold  # Warm orange/gold for numerical
 )
 
-# Add a subtle annotation
+# Add a subtle annotation in theme colors
 annotate!(
     -1.0, 1.5,
-    text("Step size h = -0.01\n200 steps", 9, :left)
+    text("Step size h = -0.01\n200 steps", rose_muted, 9, :left)
 )
 
 # Ensure directories exist
