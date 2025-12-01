@@ -3,8 +3,8 @@
 # Date: December 2025
 
 # Load environment and utilities
-include("preamble.jl")
-include("test_utils.jl")
+# include("preamble.jl")
+# include("test_utils.jl")
 
 println(INFO, "="^80, RESET)
 println(INFO, "CPTS530 Final Project - Problem 1: Orthogonal Matching Pursuit", RESET)
