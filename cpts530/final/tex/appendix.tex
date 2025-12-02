@@ -4,10 +4,19 @@
 \section*{Appendix}
 \addcontentsline{toc}{section}{Appendix}
 
-\subsection*{A. Problem 2 Code Implementation Details}
-\addcontentsline{toc}{subsection}{A. Problem 2 Implementation}
+\subsection*{A. Problem 1 Implementation}
+\addcontentsline{toc}{subsection}{A. Problem 1 Implementation}
 
-The following figures show the detailed Julia implementation of the fourth-order Runge-Kutta method for Problem 2.
+Implementation details for the Orthogonal Matching Pursuit algorithm.
+
+\clearpage
+
+This appendix contains implementation details for the three problems.
+
+\subsection*{B. Problem 2 Implementation}
+\addcontentsline{toc}{subsection}{B. Problem 2 Implementation}
+
+The following figures show the key functions for the fourth-order Runge-Kutta method used in Problem 2.
 
 \begin{figure}[H]
 \centering
@@ -30,10 +39,19 @@ The following figures show the detailed Julia implementation of the fourth-order
 \label{fig:p02_rk4_call}
 \end{figure}
 
-The complete implementation can be found in \texttt{final\_p02.jl}. The code demonstrates:
+The implementation includes:
 \begin{itemize}
-    \item Clean function decomposition with \texttt{rk4\_step} and \texttt{rk4\_solve}
-    \item Proper handling of backward integration (negative step size)
-    \item Array management for storing solution trajectory
-    \item Verification against analytical solution
+    \item \texttt{rk4\_step}: Single step of the four-stage RK4 computation
+    \item \texttt{rk4\_solve}: Main solver loop that handles backward integration
+    \item Storage of trajectory values for comparison with analytical solution
 \end{itemize}
+
+% Add figures here when available
+
+\clearpage
+\subsection*{C. Problem 3 Implementation}
+\addcontentsline{toc}{subsection}{C. Problem 3 Implementation}
+
+Implementation details for the Adams-Bashforth-Moulton method.
+
+% Add figures here when available

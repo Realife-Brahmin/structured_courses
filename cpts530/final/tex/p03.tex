@@ -94,12 +94,11 @@ $1.00$ & $0.49822$ & $0.50000$ & $1.782 \times 10^{-3}$ \\
 \begin{itemize}
     \item Maximum absolute error: $1.782 \times 10^{-3}$
     \item Mean absolute error: $3.765 \times 10^{-4}$
-    \item Relative error at $x=1.0$: $0.356\%$
 \end{itemize}
 
-The ABM4 method demonstrates excellent accuracy for this problem. The errors are very small, with the largest error occurring at the final point $x = 1.0$. This is typical for multistep methods as errors can accumulate over integration steps. The predictor-corrector approach effectively reduces errors compared to using Adams-Bashforth alone.
+The errors are quite small, with the largest at $x = 1.0$. The predictor-corrector approach appears to work reasonably well for this problem.
 
-\textbf{Implementation Note:} See \texttt{final\_p03.jl} for the complete implementation.
+\textbf{Implementation Note:} See Appendix C for the key functions used.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
