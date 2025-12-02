@@ -29,9 +29,77 @@ $$x_{n+1} = x_n + \frac{h}{24}[9f_{n+1} + 19f_n - 5f_{n-1} + f_{n-2}]$$
 
 \vspace{1em}
 
-\textbf{Solution:}
+\subsection*{Solution Approach}
 
-% TODO: Add solution here
+The fourth-order Adams-Bashforth-Moulton (ABM4) method is a predictor-corrector scheme that requires multiple previous values. Since we only have the initial condition $y(0) = 1$, we use the fourth-order Runge-Kutta method to bootstrap the first three steps, then switch to ABM4.
+
+\textbf{Method Overview:}
+\begin{enumerate}
+    \item \textbf{Bootstrap (Steps 1-3):} Use RK4 to compute $y_1, y_2, y_3$
+    \item \textbf{Predictor (Adams-Bashforth 4-step):}
+    $$y^*_{n+1} = y_n + \frac{h}{24}[55f_n - 59f_{n-1} + 37f_{n-2} - 9f_{n-3}]$$
+    \item \textbf{Corrector (Adams-Moulton 4-step):}
+    $$y_{n+1} = y_n + \frac{h}{24}[9f_{n+1} + 19f_n - 5f_{n-1} + f_{n-2}]$$
+\end{enumerate}
+
+where $f(x, y) = -2xy^2$ for our problem.
+
+\subsection*{Computational Results}
+
+\textbf{Bootstrap Phase (RK4):}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc}
+\toprule
+$x$ & $y$ (RK4) & Exact Solution \\
+\midrule
+$0.00$ & $1.0000000000$ & $1.0000000000$ \\
+$0.25$ & $0.9411540130$ & $0.9411764706$ \\
+$0.50$ & $0.7999481032$ & $0.8000000000$ \\
+$0.75$ & $0.6399738841$ & $0.6400000000$ \\
+\bottomrule
+\end{tabular}
+\caption{Bootstrap phase using RK4}
+\end{table}
+
+\textbf{ABM4 Phase:}
+
+At $x = 1.0$:
+\begin{itemize}
+    \item Predicted value: $y^* = 0.5105894849$
+    \item Corrected value: $y = 0.4982178726$
+    \item Exact solution: $y = 0.5000000000$
+\end{itemize}
+
+\subsection*{Final Results (5 Significant Digits)}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cccc}
+\toprule
+$x$ & ABM4 Solution & Exact Solution & Absolute Error \\
+\midrule
+$0.25$ & $0.94115$ & $0.94118$ & $2.246 \times 10^{-5}$ \\
+$0.50$ & $0.79995$ & $0.80000$ & $5.190 \times 10^{-5}$ \\
+$0.75$ & $0.63997$ & $0.64000$ & $2.612 \times 10^{-5}$ \\
+$1.00$ & $0.49822$ & $0.50000$ & $1.782 \times 10^{-3}$ \\
+\bottomrule
+\end{tabular}
+\caption{Comparison of ABM4 numerical solution with exact analytical solution $y = 1/(1+x^2)$}
+\end{table}
+
+\subsection*{Error Analysis}
+
+\begin{itemize}
+    \item Maximum absolute error: $1.782 \times 10^{-3}$
+    \item Mean absolute error: $3.765 \times 10^{-4}$
+    \item Relative error at $x=1.0$: $0.356\%$
+\end{itemize}
+
+The ABM4 method demonstrates excellent accuracy for this problem. The errors are very small, with the largest error occurring at the final point $x = 1.0$. This is typical for multistep methods as errors can accumulate over integration steps. The predictor-corrector approach effectively reduces errors compared to using Adams-Bashforth alone.
+
+\textbf{Implementation Note:} See \texttt{final\_p03.jl} for the complete implementation.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
