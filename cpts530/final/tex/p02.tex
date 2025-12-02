@@ -97,7 +97,7 @@ x_{n+1} &= x_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)
 
 \textbf{Implementation and Results:}
 
-See \texttt{final\_p02.jl} for the complete implementation. The numerical solution is compared with the exact analytical solution at selected points:
+The RK4 method was implemented in Julia with careful attention to the four-stage computation and proper backward integration handling. See Appendix A (Figures~\ref{fig:p02_rk4_step}, \ref{fig:p02_rk4_solve}, and \ref{fig:p02_rk4_call}) for detailed code implementation. The numerical solution is compared with the exact analytical solution at selected points:
 
 \begin{table}[h]
 \centering
