@@ -29,7 +29,11 @@ $$x_{n+1} = x_n + \frac{h}{24}[9f_{n+1} + 19f_n - 5f_{n-1} + f_{n-2}]$$
 
 \vspace{1em}
 
-\subsection*{Solution Approach}
+\clearpage
+\subsection*{Results}
+\addcontentsline{toc}{subsection}{Results}
+
+\subsubsection*{Solution Approach}
 
 The fourth-order Adams-Bashforth-Moulton (ABM4) method is a predictor-corrector scheme that requires multiple previous values. Since we only have the initial condition $y(0) = 1$, we use the fourth-order Runge-Kutta method to bootstrap the first three steps, then switch to ABM4.
 
@@ -44,7 +48,7 @@ The fourth-order Adams-Bashforth-Moulton (ABM4) method is a predictor-corrector 
 
 where $f(x, y) = -2xy^2$ for our problem.
 
-\subsection*{Computational Results}
+\subsubsection*{Computational Results}
 
 \textbf{Bootstrap Phase (RK4):}
 
@@ -72,7 +76,7 @@ At $x = 1.0$:
     \item Exact solution: $y = 0.5000000000$
 \end{itemize}
 
-\subsection*{Final Results (5 Significant Digits)}
+\subsubsection*{Final Results (5 Significant Digits)}
 
 \begin{table}[h]
 \centering
@@ -89,7 +93,7 @@ $1.00$ & $0.49822$ & $0.50000$ & $1.782 \times 10^{-3}$ \\
 \caption{Comparison of ABM4 numerical solution with exact analytical solution $y = 1/(1+x^2)$}
 \end{table}
 
-\subsection*{Error Analysis}
+\subsubsection*{Error Analysis}
 
 \begin{itemize}
     \item Maximum absolute error: $1.782 \times 10^{-3}$
