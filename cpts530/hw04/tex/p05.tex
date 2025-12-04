@@ -13,7 +13,48 @@
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+Let $A$ be any $n \times n$ matrix, and define:
+$$A_0 = \frac{1}{2}(A + A^T) \quad \text{and} \quad A_1 = \frac{1}{2}(A - A^T)$$
+
+\textbf{Part 1: $A_0$ is symmetric}
+
+$$A_0^T = \left[\frac{1}{2}(A + A^T)\right]^T = \frac{1}{2}(A^T + (A^T)^T) = \frac{1}{2}(A^T + A) = A_0$$
+
+$$\boxed{A_0^T = A_0 \text{, so } A_0 \text{ is symmetric}}$$
+
+\textbf{Part 2: $A_1$ is skew-symmetric}
+
+$$A_1^T = \left[\frac{1}{2}(A - A^T)\right]^T = \frac{1}{2}(A^T - (A^T)^T) = \frac{1}{2}(A^T - A) = -\frac{1}{2}(A - A^T) = -A_1$$
+
+$$\boxed{A_1^T = -A_1 \text{, so } A_1 \text{ is skew-symmetric}}$$
+
+\textbf{Part 3: $A = A_0 + A_1$}
+
+$$A_0 + A_1 = \frac{1}{2}(A + A^T) + \frac{1}{2}(A - A^T) = \frac{1}{2}(A + A^T + A - A^T) = \frac{1}{2}(2A) = A$$
+
+$$\boxed{A = A_0 + A_1}$$
+
+\textbf{Part 4: $x^T A x = x^T A_0 x$ for all $x$}
+
+Since $A = A_0 + A_1$:
+$$x^T A x = x^T(A_0 + A_1)x = x^T A_0 x + x^T A_1 x$$
+
+We need to show that $x^T A_1 x = 0$ for all $x$.
+
+Note that $x^T A_1 x$ is a scalar (a $1 \times 1$ matrix), so it equals its own transpose:
+$$(x^T A_1 x)^T = x^T A_1^T (x^T)^T = x^T A_1^T x$$
+
+Since $A_1$ is skew-symmetric ($A_1^T = -A_1$):
+$$(x^T A_1 x)^T = x^T (-A_1) x = -x^T A_1 x$$
+
+Thus, $x^T A_1 x = -(x^T A_1 x)$, which implies $2(x^T A_1 x) = 0$, so $x^T A_1 x = 0$.
+
+Therefore:
+$$x^T A x = x^T A_0 x + 0 = x^T A_0 x$$
+
+$$\boxed{x^T A x = x^T A_0 x \text{ for all } x}$$
+
+\textbf{Conclusion:} This shows that any square matrix can be decomposed into symmetric and skew-symmetric parts, and the quadratic form $x^T A x$ depends only on the symmetric part $A_0$. This explains why we can restrict our attention to symmetric matrices when studying quadratic forms.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
