@@ -8,7 +8,7 @@
 		"window.autoDetectColorScheme": false, // required!
 		"extensions.ignoreRecommendations": true,
 		"workbench.preferredLightColorTheme": "Dark Plus Chocolate",
-		"workbench.preferredDarkColorTheme": "Omni",
+		"workbench.preferredDarkColorTheme": "Search Lights",
 	},
 	// "extensions": {
 	// 	"recommendations": [
