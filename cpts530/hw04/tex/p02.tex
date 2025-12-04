@@ -15,11 +15,15 @@ be invertible, and give a formula for the inverse when it exists.
 
 \textbf{Solution:} (Approach followed as per lecture notes \cite{panchenko_448_notes})
 
-Let $\tilde{A} = \begin{bmatrix} A & u \\ v^T & 0 \end{bmatrix}$ where $A$ is $n \times n$ invertible, and $u, v \in \mathbb{R}^n$.
+Let $\tilde{A} = \begin{bmatrix} A & u \\ v^T & 0 \end{bmatrix}$ where $A$ is $n \times n$ invertible, and $u, v \in \mathbb{R}^n$. 
+
+\vspace{0.5em}
 
 \textbf{Part 1: Necessary and Sufficient Condition for Invertibility}
 
-For $\tilde{A}$ to be invertible, we need $\tilde{A}x = 0 \Rightarrow x = 0$.
+\vspace{0.5em}
+
+For $\tilde{A}$ to be invertible, we need $\tilde{A}x = 0 \Rightarrow x = 0$. 
 
 Write $x = \begin{bmatrix} \bar{x} \\ x_n \end{bmatrix}$ where $\bar{x} \in \mathbb{R}^n$ and $x_n \in \mathbb{R}$. Then:
 $$\tilde{A}x = \begin{bmatrix} A & u \\ v^T & 0 \end{bmatrix} \begin{bmatrix} \bar{x} \\ x_n \end{bmatrix} = \begin{bmatrix} A\bar{x} + x_n u \\ v^T\bar{x} \end{bmatrix} = 0$$
