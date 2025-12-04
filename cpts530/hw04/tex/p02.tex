@@ -13,9 +13,69 @@ be invertible, and give a formula for the inverse when it exists.
 
 \vspace{1em}
 
-\textbf{Solution:}
+\textbf{Solution:} (Approach followed as per lecture notes \cite{panchenko_448_notes})
 
-% TODO: Add solution here
+Let $\tilde{A} = \begin{bmatrix} A & u \\ v^T & 0 \end{bmatrix}$ where $A$ is $n \times n$ invertible, and $u, v \in \mathbb{R}^n$.
+
+\textbf{Part 1: Necessary and Sufficient Condition for Invertibility}
+
+For $\tilde{A}$ to be invertible, we need $\tilde{A}x = 0 \Rightarrow x = 0$.
+
+Write $x = \begin{bmatrix} \bar{x} \\ x_n \end{bmatrix}$ where $\bar{x} \in \mathbb{R}^n$ and $x_n \in \mathbb{R}$. Then:
+$$\tilde{A}x = \begin{bmatrix} A & u \\ v^T & 0 \end{bmatrix} \begin{bmatrix} \bar{x} \\ x_n \end{bmatrix} = \begin{bmatrix} A\bar{x} + x_n u \\ v^T\bar{x} \end{bmatrix} = 0$$
+
+This gives us:
+\begin{align}
+A\bar{x} + x_n u &= 0 \tag{1}\\
+v^T\bar{x} &= 0 \tag{2}
+\end{align}
+
+From (1): $\bar{x} = -x_n A^{-1}u$ (since $A$ is invertible).
+
+Substituting into (2): $v^T(-x_n A^{-1}u) = 0$, which gives $-x_n(v^T A^{-1}u) = 0$.
+
+If $s := v^TA^{-1}u \neq 0$, then $x_n = 0$, and from (1), $A\bar{x} = 0 \Rightarrow \bar{x} = 0$ (since $A$ is invertible).
+
+Therefore, $\tilde{A}$ is invertible if and only if:
+$$\boxed{s = v^TA^{-1}u \neq 0}$$
+
+\textbf{Part 2: Formula for the Inverse}
+
+Seek $\tilde{A}^{-1} = \begin{bmatrix} B & \hat{u} \\ \hat{v}^T & k \end{bmatrix}$ where $B \in \mathbb{R}^{n \times n}$, $\hat{u}, \hat{v} \in \mathbb{R}^n$, $k \in \mathbb{R}$.
+
+From $\tilde{A}\tilde{A}^{-1} = I_{n+1}$, block multiplication gives:
+\begin{align}
+AB + u\hat{v}^T &= I_n \tag{3}\\
+A\hat{u} + ku &= 0 \tag{4}\\
+v^TB &= 0^T \tag{5}\\
+v^T\hat{u} &= 1 \tag{6}
+\end{align}
+
+From (4): $\hat{u} = -kA^{-1}u$. Substituting into (6):
+$$v^T(-kA^{-1}u) = 1 \Rightarrow -ks = 1 \Rightarrow k = -\frac{1}{s}$$
+
+Therefore: $\hat{u} = -kA^{-1}u = \frac{1}{s}A^{-1}u$.
+
+From (3): $B = A^{-1}(I_n - u\hat{v}^T)$. Substituting into (5):
+$$v^TA^{-1}(I_n - u\hat{v}^T) = 0^T$$
+$$v^TA^{-1} - (v^TA^{-1}u)\hat{v}^T = 0^T$$
+$$v^TA^{-1} - s\hat{v}^T = 0^T$$
+$$\hat{v}^T = \frac{1}{s}v^TA^{-1}$$
+
+Therefore: $\hat{v} = \frac{1}{s}(A^{-1})^Tv = \frac{1}{s}(A^T)^{-1}v$.
+
+Finally, from $B = A^{-1}(I_n - u\hat{v}^T)$:
+$$B = A^{-1}\left(I_n - u \cdot \frac{1}{s}v^TA^{-1}\right) = A^{-1} - \frac{1}{s}A^{-1}uv^TA^{-1}$$
+
+\textbf{Final Answer:}
+
+When $s = v^TA^{-1}u \neq 0$:
+$$\boxed{\tilde{A}^{-1} = \begin{bmatrix} 
+A^{-1} - \frac{1}{s}A^{-1}uv^TA^{-1} & \frac{1}{s}A^{-1}u \\
+\frac{1}{s}v^TA^{-1} & -\frac{1}{s}
+\end{bmatrix}}$$
+
+where $s = v^TA^{-1}u$.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
