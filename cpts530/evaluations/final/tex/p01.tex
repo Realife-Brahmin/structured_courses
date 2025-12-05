@@ -108,15 +108,15 @@ See Appendix B for implementation details.
 \toprule
 $s$ & Recovered $\mathbf{x}$ & $\|\mathbf{x} - \mathbf{e}_1\|_2$ & $\|A\mathbf{x} - \mathbf{b}\|_2$ & Recovery & Feasible \\
 \midrule
-1 & $(0, 0.25, 0)^T$ & $1.03 \times 10^{0}$ & $1.17 \times 10^{0}$ & $\times$ & $\times$ \\
-2 & $(1, 0, 0)^T$ & $6.68 \times 10^{-16}$ & $8.02 \times 10^{-16}$ & $\checkmark$ & $\checkmark$ \\
-3 & $(1, 0, 0)^T$ & $6.68 \times 10^{-16}$ & $8.02 \times 10^{-16}$ & $\checkmark$ & $\checkmark$ \\
+1 & $(1, 0, 0)^T$ & $3.33 \times 10^{-16}$ & $4.71 \times 10^{-16}$ & $\checkmark$ & $\checkmark$ \\
+2 & $(1, 0, 0)^T$ & $3.33 \times 10^{-16}$ & $4.71 \times 10^{-16}$ & $\checkmark$ & $\checkmark$ \\
+3 & $(1, 0, 0)^T$ & $3.33 \times 10^{-16}$ & $4.71 \times 10^{-16}$ & $\checkmark$ & $\checkmark$ \\
 \bottomrule
 \end{tabular}
 \caption{OMP results for Matrix A with different sparsity levels}
 \end{table}
 
-\textbf{Analysis:} With $s=1$, OMP fails both feasibility and recovery because $\mathbf{b}_A = (1, 0, 1)^T$ has sparsity 2 in the column space—it requires at least 2 columns of $A$ for exact representation. At $s \geq 2$, OMP successfully recovers $\mathbf{e}_1$.
+\textbf{Analysis:} OMP achieves perfect recovery at $s=1$ because $\mathbf{e}_1$ is 1-sparse. The algorithm correctly identifies that column 1 has the highest normalized correlation with the observation vector. Both feasibility ($A\mathbf{x} = \mathbf{b}$) and recovery ($\mathbf{x} = \mathbf{e}_1$) are satisfied for all $s \geq 1$.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
@@ -153,7 +153,7 @@ $s$ & Recovered $\mathbf{x}$ & $\|\mathbf{x} - \mathbf{e}_1\|_2$ & $\|B\mathbf{x
 
 \begin{table}[h]
 \centering
-\begin{tabular}{lcccc}
+\begin{tabular}{lcc}
 \toprule
 Property & Matrix A & Matrix B \\
 \midrule
@@ -161,8 +161,9 @@ System type & Determined $(m=n)$ & Underdetermined $(m<n)$ \\
 Dimensions & $3 \times 3$ & $2 \times 3$ \\
 Rank & 3 (full) & 2 (full row rank) \\
 Condition number & 3.8842 & 1.0000 \\
-$\|\mathbf{b}\|_0$ (sparsity) & 2 & 1 \\
-Min. $s$ for recovery & 2 & 1 \\
+Sparsity of $\mathbf{e}_1$ & 1 & 1 \\
+Min. $s$ for recovery & 1 & 1 \\
+Recovery success & $\checkmark$ & $\checkmark$ \\
 \bottomrule
 \end{tabular}
 \caption{Comparison of OMP performance on matrices A and B}
@@ -172,24 +173,30 @@ Min. $s$ for recovery & 2 & 1 \\
 
 \textbf{Feasibility vs. Recovery:}
 \begin{itemize}
-    \item \textbf{Matrix A:} At $s=1$, neither feasible nor recovers $\mathbf{e}_1$; at $s \geq 2$, both feasible and recovers $\mathbf{e}_1$
-    \item \textbf{Matrix B:} At $s \geq 1$, both feasible and recovers $\mathbf{e}_1$
+    \item \textbf{Matrix A:} Perfect recovery at $s=1$ for the 1-sparse signal $\mathbf{e}_1$
+    \item \textbf{Matrix B:} Perfect recovery at $s=1$ for the 1-sparse signal $\mathbf{e}_1$
+    \item Both matrices achieve feasibility (satisfy $\mathbf{Ax} = \mathbf{b}$) and recovery (recover $\mathbf{x} = \mathbf{e}_1$) when $s \geq$ sparsity$(\mathbf{e}_1)$
 \end{itemize}
 
-\textbf{Critical Insight:}
+\textbf{Critical Insight: Normalized Correlations}
 
-Success depends on the \emph{sparsity of the observation vector $\mathbf{b}$ in the column space} of the measurement matrix, NOT the sparsity of the original signal $\mathbf{x}$.
+The success of OMP critically depends on using \emph{normalized correlations} when selecting columns:
+$$\text{correlation}_j = \frac{|\mathbf{a}_j^T \mathbf{r}|}{\|\mathbf{a}_j\|_2 \cdot \|\mathbf{r}\|_2}$$
+
+Without normalization, the algorithm selects based on dot product magnitude $|\mathbf{a}_j^T \mathbf{r}|$, which can be dominated by columns with large norms rather than those best aligned with the residual. This normalization ensures that OMP selects the column with the highest cosine similarity to the residual.
+
+\textbf{Compressed Sensing Demonstration:}
+
+Matrix B ($2 \times 3$, underdetermined) perfectly recovers the 1-sparse signal $\mathbf{e}_1$ from only $m=2$ measurements for $n=3$ unknowns. This demonstrates the fundamental principle of compressed sensing:
 
 \begin{itemize}
-    \item Matrix A needs $s=2$: $\mathbf{b}_A = (1,0,1)^T$ requires 2 columns for exact representation
-    \item Matrix B needs $s=1$: $\mathbf{b}_B = (1,0)^T$ requires only 1 column for exact representation
+    \item Sparse signals can be recovered from $m < n$ measurements
+    \item Recovery succeeds when $s \geq$ sparsity of the signal
+    \item The measurement matrix must satisfy certain properties (e.g., low coherence, RIP)
+    \item Proper algorithm implementation (normalized correlations) is essential
 \end{itemize}
 
-\textbf{Compressed Sensing Advantage:}
-
-Matrix B ($2 \times 3$, underdetermined) recovers the 1-sparse signal with fewer measurements than Matrix A ($3 \times 3$) because B is inherently better designed to capture 1-sparse signals. By removing redundant measurements (the third row of A), B efficiently represents sparse observations with minimal dimensions. This demonstrates the core principle of compressed sensing: with the \emph{right} measurement matrix, sparse signals can be recovered from fewer measurements than traditional methods require.
-
-\textbf{Conclusion:} The experiment confirms that compressed sensing can achieve perfect sparse recovery with $m < n$ measurements when the measurement matrix is properly designed. Matrix B succeeds where Matrix A fails not because it has fewer measurements, but because its structure better aligns with the sparsity pattern of the observation vector.
+\textbf{Conclusion:} Both matrices successfully recover the 1-sparse signal at $s=1$, validating the OMP algorithm. Matrix B's success with $m < n$ confirms that compressed sensing enables recovery from underdetermined systems when signals are sufficiently sparse. The key requirements are: (1) sparsity budget $s \geq$ true sparsity, (2) well-conditioned measurement matrix, and (3) normalized correlation-based column selection.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
