@@ -7,11 +7,39 @@
 \subsection*{A. Problem 1 Implementation}
 \addcontentsline{toc}{subsection}{A. Problem 1 Implementation}
 
-Implementation details for the Orthogonal Matching Pursuit algorithm.
+The following figures show the key components of the Orthogonal Matching Pursuit (OMP) algorithm implementation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/p01-code-omp-part1.png}
+\caption{OMP Implementation Part 1: Hard thresholding operator $H_s(\mathbf{x})$ and the beginning of the OMP function with initialization and correlation computation.}
+\label{fig:p01_omp_part1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/p01-code-omp-part2.png}
+\caption{OMP Implementation Part 2: Column selection using normalized correlations, support update, and least squares solution via pseudo-inverse.}
+\label{fig:p01_omp_part2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/p01-code-omp-part3.png}
+\caption{OMP Implementation Part 3: Residual update, convergence checking, and main execution loop for testing matrices A and B with varying sparsity levels.}
+\label{fig:p01_omp_part3}
+\end{figure}
+
+The implementation includes:
+\begin{itemize}
+    \item \texttt{hard\_threshold}: Operator that retains only the $s$ largest entries in absolute value
+    \item \texttt{orthogonal\_matching\_pursuit}: Main OMP algorithm with normalized correlation-based column selection
+    \item Normalized correlation computation: $\text{corr}_j = |\mathbf{a}_j^T \mathbf{r}| / (\|\mathbf{a}_j\|_2 \cdot \|\mathbf{r}\|_2)$
+    \item Least squares solution on support set using pseudo-inverse: $\mathbf{x}_{\mathcal{S}} = A_{\mathcal{S}}^+ \mathbf{b}$
+    \item Iterative testing for $s = 1, 2, \ldots, \text{rank}(A)$ to analyze recovery performance
+\end{itemize}
 
 \clearpage
-
-This appendix contains implementation details for the three problems.
 
 \subsection*{B. Problem 2 Implementation}
 \addcontentsline{toc}{subsection}{B. Problem 2 Implementation}

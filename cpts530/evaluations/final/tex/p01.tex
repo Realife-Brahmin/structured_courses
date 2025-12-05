@@ -65,11 +65,12 @@ The Orthogonal Matching Pursuit algorithm was implemented following the provided
 
 \begin{itemize}
     \item Hard thresholding operator $H_s(\mathbf{x})$ that retains only the $s$ largest entries
-    \item OMP iteration that computes correlations $\mathbf{g}_k = A^T \mathbf{r}_k$, applies hard thresholding, updates the support set, solves least squares using pseudo-inverse $A_\mathcal{S}^+$, and updates the residual
+    \item OMP iteration with normalized correlation-based column selection: $\text{corr}_j = |\mathbf{a}_j^T \mathbf{r}| / (\|\mathbf{a}_j\|_2 \cdot \|\mathbf{r}\|_2)$
+    \item Support set updates and least squares solution using pseudo-inverse $A_\mathcal{S}^+$
     \item Convergence detection based on residual norm threshold
 \end{itemize}
 
-See Appendix B for implementation details.
+See Appendix A (Figures \ref{fig:p01_omp_part1}, \ref{fig:p01_omp_part2}, \ref{fig:p01_omp_part3}) for implementation details.
 
 \vspace{1em}
 
