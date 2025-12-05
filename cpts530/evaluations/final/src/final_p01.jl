@@ -129,18 +129,26 @@ function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iteration
         # Step 1: Compute correlations g_k = A^T * r_k
         g_k = A' * residual
         
-        # Step 2: Apply hard thresholding H_s(g_k) and find support
-        g_k_thresholded = hard_threshold(g_k, s)
-        new_indices = findall(x -> abs(x) > 1e-14, g_k_thresholded)
-        
-        # Step 3: Update support S_{k+1} = S_k ∪ {j_{k+1}}
-        for idx in new_indices
-            if !(idx in support)
-                push!(support, idx)
+        # Step 2: Find the index with maximum absolute correlation
+        # (that's not already in the support)
+        max_corr = -Inf
+        best_idx = 0
+        for idx in 1:n
+            if !(idx in support) && abs(g_k[idx]) > max_corr
+                max_corr = abs(g_k[idx])
+                best_idx = idx
             end
         end
         
+        # Step 3: Add the best index to support
+        if best_idx > 0
+            push!(support, best_idx)
+        else
+            break  # No more columns to add
+        end
+        
         # Step 4: Solve least squares problem on support
+        # (x_{k+1})_{S_{k+1}} = A^+_{S_{k+1}} * b
         A_support = A[:, support]
         x_support = pinv(A_support) * b  # Use pseudo-inverse
         
@@ -206,8 +214,12 @@ println(Crayon(foreground=:cyan, bold=true), "\n🎯 Target: e₁ = $e1")
 println(Crayon(reset=true), "   Observation: b = A*e₁ = $b_A")
 println("   Rank of A = $rank_A\n")
 
+# Store solutions for Matrix A
+xA = Vector{Vector{Float64}}()
+
 for s in 1:rank_A
     x_recovered, history = orthogonal_matching_pursuit(A, b_A, s)
+    push!(xA, x_recovered)
     error = norm(e1 - x_recovered)
     
     if error < 1e-6
@@ -234,8 +246,12 @@ println(Crayon(foreground=:cyan, bold=true), "\n🎯 Target: e₁ = $e1")
 println(Crayon(reset=true), "   Observation: b = B*e₁ = $b_B")
 println("   Rank of B = $rank_B\n")
 
+# Store solutions for Matrix B
+xB = Vector{Vector{Float64}}()
+
 for s in 1:rank_B
     x_recovered, history = orthogonal_matching_pursuit(B, b_B, s)
+    push!(xB, x_recovered)
     error = norm(e1 - x_recovered)
     
     if error < 1e-6
@@ -264,3 +280,9 @@ println("  Underdetermined → Compressed sensing scenario")
 println( "\n" * "="^80)
 println(Crayon(foreground=:green, bold=true), "Problem 1 Complete! ✓")
 println(Crayon(reset=true), "="^80)
+
+# Make solutions and observations available in global scope
+println("\n💾 Variables available:")
+println("   Observations: b_A = $b_A, b_B = $b_B")
+println("   Solutions: xA[1], xA[2], xA[3], xB[1], xB[2]")
+println("   Target: e1 = $e1")
