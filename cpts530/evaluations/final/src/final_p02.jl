@@ -2,6 +2,10 @@
 # Author: Aryan Ritwajeet Jha
 # Date: December 2025
 
+# Activate the cpts530 environment
+import Pkg
+Pkg.activate(joinpath(@__DIR__, "..", "..", ".."))
+
 using LinearAlgebra
 using Printf
 using Plots
@@ -302,7 +306,7 @@ annotate!(
 println("✓ Dao-themed plot created!")
 
 # Save to processedData folder
-processed_path = "../processedData/p02_rk4_dao_comparison.png"
+processed_path = "../processedData/p02_trajectory_comparison.png"
 savefig(processed_path)
 println("✓ Saved to: ", processed_path)
 
