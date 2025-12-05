@@ -129,14 +129,20 @@ function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iteration
         # Step 1: Compute correlations g_k = A^T * r_k
         g_k = A' * residual
         
-        # Step 2: Find the index with maximum absolute correlation
+        # Step 2: Find the index with maximum absolute normalized correlation
         # (that's not already in the support)
         max_corr = -Inf
         best_idx = 0
         for idx in 1:n
-            if !(idx in support) && abs(g_k[idx]) > max_corr
-                max_corr = abs(g_k[idx])
-                best_idx = idx
+            if !(idx in support)
+                # Normalize by column norm to get correlation coefficient
+                col_norm = norm(A[:, idx])
+                normalized_corr = abs(g_k[idx]) / (col_norm * norm(residual))
+                
+                if normalized_corr > max_corr
+                    max_corr = normalized_corr
+                    best_idx = idx
+                end
             end
         end
         
@@ -345,22 +351,21 @@ println(Crayon(reset=true), "-"^80)
 println("\n\n💡 Key Observations:")
 println("-"^80)
 println(Crayon(foreground=:cyan, bold=true), "Feasibility vs Recovery:")
-println(Crayon(reset=true), "• Matrix A (s=1): Neither feasible nor recovers e₁")
-println("• Matrix A (s≥2): Both feasible and recovers e₁")
-println("• Matrix B (s≥1): Both feasible and recovers e₁")
+println(Crayon(reset=true), "• Matrix A (s=1): Perfect recovery with normalized correlation")
+println("• Matrix B (s=1): Perfect recovery with normalized correlation")
+println("• Both matrices achieve recovery at s=1 for 1-sparse signals")
 println()
 println(Crayon(foreground=:cyan, bold=true), "Critical Insight:")
-println(Crayon(reset=true), "Success depends on the sparsity of b in the column space of the")
-println("measurement matrix, NOT the sparsity of the original signal x.")
+println(Crayon(reset=true), "Normalizing correlations by column norms is ESSENTIAL for OMP success.")
+println("Without normalization, the algorithm selects based on dot product magnitude,")
+println("which can be dominated by columns with large norms rather than best alignment.")
 println()
-println("• Matrix A needs s=2: b_A = [1,0,1] requires 2 columns for representation")
-println("• Matrix B needs s=1: b_B = [1,0] requires only 1 column for representation")
-println()
-println(Crayon(foreground=:cyan, bold=true), "Compressed Sensing Advantage:")
-println(Crayon(reset=true), "Matrix B (2×3, underdetermined) recovers the 1-sparse signal with fewer")
-println("measurements than Matrix A (3×3) because B is inherently better designed")
-println("to capture 1-sparse signals—by removing redundant measurements, it")
-println("efficiently represents sparse observations with minimal dimensions.")
+println(Crayon(foreground=:cyan, bold=true), "Compressed Sensing Demonstration:")
+println(Crayon(reset=true), "Matrix B (2×3, underdetermined) perfectly recovers the 1-sparse signal e₁")
+println("from only 2 measurements, demonstrating that m < n systems can succeed when:")
+println("• The signal is sufficiently sparse")
+println("• The measurement matrix has good properties (low coherence)")
+println("• The algorithm uses normalized correlations for column selection")
 
 # Make solutions and observations available in global scope
 println("\n\n💾 Variables available:")
