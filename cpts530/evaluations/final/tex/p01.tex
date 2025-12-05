@@ -61,7 +61,7 @@ Given a matrix $A$ and an index set $\mathcal{S}$, denote by $A_\mathcal{S}$ the
 \subsection*{Part 1: OMP Implementation}
 \addcontentsline{toc}{subsection}{Part 1: OMP Implementation}
 
-The Orthogonal Matching Pursuit algorithm was implemented following the provided pseudocode. Key components include:
+The Orthogonal Matching Pursuit algorithm was implemented following the pseudocode provided in the course materials \cite{panchenko_448_notes}. Key components include:
 
 \begin{itemize}
     \item Hard thresholding operator $H_s(\mathbf{x})$ that retains only the $s$ largest entries
@@ -215,7 +215,7 @@ Perfect recovery achieved & $\checkmark$ Both matrices \\
 \caption{Compressed sensing requirements verification}
 \end{table}
 
-\textbf{Conclusion:} Matrix B demonstrates successful compressed sensing with $m=2$ measurements recovering a $n=3$ dimensional 1-sparse signal, confirming that $m < n$ recovery is possible when: (1) signal is sparse, (2) $s \geq$ true sparsity, and (3) normalized correlations are used.
+\textbf{Conclusion:} Matrix B demonstrates successful compressed sensing with $m=2$ measurements recovering a $n=3$ dimensional 1-sparse signal, confirming that $m < n$ recovery is possible when: (1) signal is sparse, (2) $s \geq$ true sparsity, and (3) normalized correlations are used. This aligns with the compressed sensing theory presented in the course \cite{panchenko_448_notes}.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
