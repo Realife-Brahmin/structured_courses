@@ -2,10 +2,6 @@
 # Author: Aryan Ritwajeet Jha
 # Date: December 2025
 
-# Activate the cpts530 environment
-import Pkg
-Pkg.activate(joinpath(@__DIR__, "..", "..", ".."))
-
 using LinearAlgebra
 using Printf
 using Plots
@@ -306,18 +302,16 @@ annotate!(
 println("✓ Dao-themed plot created!")
 
 # Save to processedData folder
-processed_path = "../processedData/p02_trajectory_comparison.png"
+processed_dir = joinpath(@__DIR__, "..", "processedData")
+mkpath(processed_dir)
+processed_path = joinpath(processed_dir, "p02_trajectory_comparison.png")
 savefig(processed_path)
 println("✓ Saved to: ", processed_path)
 
 # Copy to tex/figures folder
-figures_dir = "../tex/figures"
-if !isdir(figures_dir)
-    mkdir(figures_dir)
-    println("✓ Created figures directory: ", figures_dir)
-end
-
-figures_path = joinpath(figures_dir, "p02_rk4_dao_comparison.png")
+figures_dir = joinpath(@__DIR__, "..", "tex", "figures")
+mkpath(figures_dir)
+figures_path = joinpath(figures_dir, "p02_trajectory_comparison.png")
 cp(processed_path, figures_path, force=true)
 println("✓ Copied to: ", figures_path)
 
