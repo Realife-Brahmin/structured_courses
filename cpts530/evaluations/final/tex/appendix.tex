@@ -6,6 +6,7 @@
 
 \subsection*{A. Problem 1 Implementation}
 \addcontentsline{toc}{subsection}{A. Problem 1 Implementation}
+\markboth{Appendix A: Problem 1}{Appendix A: Problem 1}
 
 The following figures show the key components of the Orthogonal Matching Pursuit (OMP) algorithm implementation.
 
@@ -48,6 +49,7 @@ The implementation includes:
 
 \subsection*{B. Problem 2 Implementation}
 \addcontentsline{toc}{subsection}{B. Problem 2 Implementation}
+\markboth{Appendix B: Problem 2}{Appendix B: Problem 2}
 
 The following figures show the key functions for the fourth-order Runge-Kutta method used in Problem 2.
 
@@ -79,12 +81,50 @@ The implementation includes:
     \item Storage of trajectory values for comparison with analytical solution
 \end{itemize}
 
-% Add figures here when available
-
 \clearpage
 \subsection*{C. Problem 3 Implementation}
 \addcontentsline{toc}{subsection}{C. Problem 3 Implementation}
+\markboth{Appendix C: Problem 3}{Appendix C: Problem 3}
 
-Implementation details for the Adams-Bashforth-Moulton method.
+The following figures show the key components of the Adams-Bashforth-Moulton (ABM) predictor-corrector method implementation.
 
-% Add figures here when available
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/p03-code-adams-bashforth.png}
+    \caption{Adams-Bashforth predictor step (4th order).}
+    \label{fig:p03_adams_bashforth}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/p03-code-adams-moulton.png}
+    \caption{Adams-Moulton corrector step (3rd order).}
+    \label{fig:p03_adams_moulton}
+\end{minipage}
+
+\vspace{0.5cm}
+
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/p03-code-abm-solve-part1.png}
+    \caption{ABM solver Part 1: Initialization with RK4.}
+    \label{fig:p03_abm_solve_part1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/p03-code-abm-solve-part2.png}
+    \caption{ABM solver Part 2: Predictor-corrector loop.}
+    \label{fig:p03_abm_solve_part2}
+\end{minipage}
+\end{figure}
+
+The implementation includes:
+\begin{itemize}
+    \item \texttt{adams\_bashforth\_step}: 4th-order explicit predictor using previous 4 function values
+    \item \texttt{adams\_moulton\_step}: 3rd-order implicit corrector 
+    \item \texttt{abm\_solve}: Main solver with RK4 initialization and predictor-corrector iterations
+    \item Adaptive step sizing and error control mechanisms
+\end{itemize}
