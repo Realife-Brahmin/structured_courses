@@ -2,8 +2,13 @@
 # Author: Aryan Ritwajeet Jha
 # Date: December 2025
 
+# Activate the cpts530 environment
+import Pkg
+Pkg.activate(joinpath(@__DIR__, "..", "..", ".."))
+
 using LinearAlgebra
 using Printf
+using Crayons
 
 # Load environment and utilities
 # include("preamble.jl")
@@ -89,7 +94,7 @@ function hard_threshold(x::Vector, s::Int)
 end
 
 """
-    orthogonal_matching_pursuit(A, b, s, max_iterations=100)
+    orthogonal_matching_pursuit(A, b, s, max_iterations=100; verbose=false)
 
 Orthogonal Matching Pursuit algorithm for sparse signal recovery.
 
@@ -98,12 +103,13 @@ Orthogonal Matching Pursuit algorithm for sparse signal recovery.
 - `b::Vector`: Observation vector (m×1)
 - `s::Int`: Sparsity level (number of non-zero entries to recover)
 - `max_iterations::Int`: Maximum number of iterations (default: 100)
+- `verbose::Bool`: Print detailed iteration info (default: false)
 
 # Returns
 - `x::Vector`: Recovered sparse signal
 - `history::Dict`: Dictionary containing iteration history
 """
-function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iterations::Int=100)
+function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iterations::Int=100, verbose::Bool=false)
     m, n = size(A)
     
     # Initialize
@@ -117,12 +123,6 @@ function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iteration
         "residuals" => Float64[],
         "support" => Vector{Int}[]
     )
-    
-    println( "\n\n🎯 Running Orthogonal Matching Pursuit")
-    println( "-"^80)
-    println("Sparsity level s = ", s)
-    println("Matrix dimensions: ", size(A))
-    println("Starting residual norm: ", @sprintf("%.6e", norm(residual)))
     
     # OMP iterations
     for iter in 1:min(s, max_iterations)
@@ -141,8 +141,6 @@ function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iteration
         end
         
         # Step 4: Solve least squares problem on support
-        # (x_{k+1})_{S_{k+1}} = A^+_{S_{k+1}} * b
-        # (x_{k+1})_{S^c_{k+1}} = 0
         A_support = A[:, support]
         x_support = pinv(A_support) * b  # Use pseudo-inverse
         
@@ -158,29 +156,16 @@ function orthogonal_matching_pursuit(A::Matrix, b::Vector, s::Int; max_iteration
         push!(history["residuals"], norm(residual))
         push!(history["support"], copy(support))
         
-        println(@sprintf("\nIteration %2d: Support size = %d, residual = %.6e", 
-                iter, length(support), norm(residual)))
-        println("  Current support: ", support)
-        
         # Check convergence
         if norm(residual) < 1e-10
-            println( "\n✓ Converged! Residual below threshold.")
             break
         end
         
         # Stop if we've already selected s indices
         if length(support) >= s
-            println( "\n✓ Reached desired sparsity level s = $s")
             break
         end
     end
-    
-    println( "\n" * "="^80)
-    println( "OMP Complete!")
-    println("Final support set: ", support)
-    println("Final residual norm: ", @sprintf("%.6e", norm(residual)))
-    println("Solution vector x:")
-    display(x)
     
     return x, history
 end
@@ -195,7 +180,7 @@ println( "="^80)
 
 e1 = [1.0, 0.0, 0.0]
 b_A = A * e1
-s = 1  # Sparsity level
+s = 3  # Sparsity level (increased from 1 to 3)
 
 println("\nTarget vector e₁ = ", e1)
 println("Observation vector b = A*e₁ = ", b_A)
@@ -205,17 +190,37 @@ x_recovered_A, history_A = orthogonal_matching_pursuit(A, b_A, s)
 println( "\n\n📊 Comparison Results for Matrix A:")
 println( "-"^80)
 println("Target:    ", e1)
-println("Recovered: ", x_recovered_A)
-println("Error:     ", norm(e1 - x_recovered_A))
+# =================================================================
+# Part 2: Test with matrix A for s = 1, 2, ..., rank(A)
+# =================================================================
 
-if norm(e1 - x_recovered_A) < 1e-6
-    println( "✓ Excellent recovery! Error < 1e-6")
-else
-    println( "⚠ Recovery not perfect. Error = ", norm(e1 - x_recovered_A))
+println( "\n\n" * "="^80)
+println( "PART 2: Testing OMP with Matrix A")
+println( "="^80)
+
+e1 = [1.0, 0.0, 0.0]
+b_A = A * e1
+rank_A = rank(A)
+
+println(Crayon(foreground=:cyan, bold=true), "\n🎯 Target: e₁ = $e1")
+println(Crayon(reset=true), "   Observation: b = A*e₁ = $b_A")
+println("   Rank of A = $rank_A\n")
+
+for s in 1:rank_A
+    x_recovered, history = orthogonal_matching_pursuit(A, b_A, s)
+    error = norm(e1 - x_recovered)
+    
+    if error < 1e-6
+        println(Crayon(foreground=:green, bold=true), "✓ s=$s: ", Crayon(reset=true), 
+                "x = $x_recovered, error = ", @sprintf("%.2e", error))
+    else
+        println(Crayon(foreground=:yellow, bold=true), "⚠ s=$s: ", Crayon(reset=true),
+                "x = $x_recovered, error = ", @sprintf("%.2e", error))
+    end
 end
 
 # =================================================================
-# Part 3: Test with matrix B
+# Part 3: Test with matrix B for s = 1, 2, ..., rank(B)
 # =================================================================
 
 println( "\n\n" * "="^80)
@@ -223,65 +228,39 @@ println( "PART 3: Testing OMP with Matrix B")
 println( "="^80)
 
 b_B = B * e1
-println("\nTarget vector e₁ = ", e1)
-println("Observation vector b = B*e₁ = ", b_B)
+rank_B = rank(B)
 
-x_recovered_B, history_B = orthogonal_matching_pursuit(B, b_B, s)
+println(Crayon(foreground=:cyan, bold=true), "\n🎯 Target: e₁ = $e1")
+println(Crayon(reset=true), "   Observation: b = B*e₁ = $b_B")
+println("   Rank of B = $rank_B\n")
 
-println( "\n\n📊 Comparison Results for Matrix B:")
-println( "-"^80)
-println("Target:    ", e1)
-println("Recovered: ", x_recovered_B)
-println("Error:     ", norm(e1 - x_recovered_B))
-
-if norm(e1 - x_recovered_B) < 1e-6
-    println( "✓ Excellent recovery! Error < 1e-6")
-else
-    println( "⚠ Recovery not perfect. Error = ", norm(e1 - x_recovered_B))
+for s in 1:rank_B
+    x_recovered, history = orthogonal_matching_pursuit(B, b_B, s)
+    error = norm(e1 - x_recovered)
+    
+    if error < 1e-6
+        println(Crayon(foreground=:green, bold=true), "✓ s=$s: ", Crayon(reset=true),
+                "x = $x_recovered, error = ", @sprintf("%.2e", error))
+    else
+        println(Crayon(foreground=:yellow, bold=true), "⚠ s=$s: ", Crayon(reset=true),
+                "x = $x_recovered, error = ", @sprintf("%.2e", error))
+    end
 end
 
 # =================================================================
-# Part 4: Analysis and Comparison
+# Summary
 # =================================================================
 
 println( "\n\n" * "="^80)
-println( "PART 4: Analysis and Comparison")
-println( "="^80)
+println(Crayon(foreground=:magenta, bold=true), "SUMMARY")
+println(Crayon(reset=true), "="^80)
 
-println("\n🔍 Matrix Properties:")
-println("-"^80)
-println("Matrix A:")
-println("  - Dimensions: ", size(A))
-println("  - Rank: ", rank(A))
-println("  - Condition number: ", @sprintf("%.4f", cond(A)))
+println("\nMatrix A ($(size(A)[1])×$(size(A)[2]), rank=$(rank(A))):")
+println("  Square, full rank → Standard recovery scenario")
 
-println("\nMatrix B:")
-println("  - Dimensions: ", size(B))
-println("  - Rank: ", rank(B))
-println("  - Condition number: ", @sprintf("%.4f", cond(B)))
-
-println("\n\n📈 Recovery Performance:")
-println("-"^80)
-println(@sprintf("Matrix A - Recovery error: %.6e", norm(e1 - x_recovered_A)))
-println(@sprintf("Matrix B - Recovery error: %.6e", norm(e1 - x_recovered_B)))
-
-println("\n\n💡 Connection to Compressed Sensing:")
-println("-"^80)
-println("""
-Matrix A (3×3):
-- Square matrix with full rank
-- Provides m=3 measurements for n=3 unknowns
-- Standard (non-compressed) scenario
-- Perfect recovery expected for 1-sparse signal
-
-Matrix B (2×3):
-- Underdetermined system (fewer measurements than unknowns)
-- Provides m=2 measurements for n=3 unknowns
-- Compressed sensing scenario
-- Recovery depends on sparsity and matrix properties (RIP, coherence)
-- Success demonstrates sparse recovery from incomplete measurements
-""")
+println("\nMatrix B ($(size(B)[1])×$(size(B)[2]), rank=$(rank(B))):")
+println("  Underdetermined → Compressed sensing scenario")
 
 println( "\n" * "="^80)
-println( "Problem 1 Analysis Complete! ✓")
-println( "="^80)
+println(Crayon(foreground=:green, bold=true), "Problem 1 Complete! ✓")
+println(Crayon(reset=true), "="^80)
