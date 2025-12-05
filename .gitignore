@@ -4,6 +4,7 @@
 *_report.out
 *.toc
 *.log
+ee582
 ee582/tex/*.out
 ee582/tex/*.toc
 ee582/slprj/*
