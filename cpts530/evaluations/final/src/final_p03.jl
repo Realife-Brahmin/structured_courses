@@ -2,8 +2,13 @@
 # Author: Aryan Ritwajeet Jha
 # Date: December 2025
 
+# Activate the cpts530 environment
+import Pkg
+Pkg.activate(joinpath(@__DIR__, "..", "..", ".."))
+
 using LinearAlgebra
 using Printf
+using Plots
 
 println("="^80)
 println("CPTS530 Final Project - Problem 3: Adams-Bashforth-Moulton Method")
@@ -272,6 +277,75 @@ for i in 1:length(x_abm)
 end
 println("="^80)
 
+# =================================================================
+# Generate Comparison Plot
+# =================================================================
+
+println("\n\n📉 Generating Comparison Plot")
+println("-"^80)
+
+# Create fine grid for exact solution
+x_fine = range(x0, xf, length=100)
+y_fine = exact_solution.(x_fine)
+
+# Define color scheme (same as p02)
+color_analytical = RGB(1.0, 0.4, 0.6)  # Pink/salmon for analytical
+color_numerical = RGB(0.2, 0.5, 0.7)   # Blue for numerical
+color_markers = RGB(0.3, 0.4, 0.6)     # Blue-grey for markers
+
+# Create the plot
+gr()
+plot(
+    size=(800, 600),
+    dpi=300,
+    legend=:topright,
+    legendfontsize=11,
+    margin=5Plots.mm
+)
+
+# Plot exact solution
+plot!(x_fine, y_fine,
+    label="Analytical Solution",
+    linewidth=3,
+    linestyle=:solid,
+    color=color_analytical
+)
+
+# Plot ABM4 solution
+plot!(x_abm, y_abm,
+    label="ABM4 Numerical Solution",
+    linewidth=2,
+    linestyle=:dash,
+    color=color_numerical
+)
+
+# Add markers at all ABM4 points
+scatter!(x_abm, y_abm,
+    label="ABM4 Sample Points",
+    markersize=6,
+    markercolor=color_markers
+)
+
+# Labels and title
+xlabel!("x", fontsize=12)
+ylabel!("y(x)", fontsize=12)
+title!("ABM4 vs Analytical Solution",
+    fontsize=13
+)
+
+# Save the plot
+output_dir = joinpath(@__DIR__, "..", "processedData")
+mkpath(output_dir)
+output_file = joinpath(output_dir, "p03-solution-comparison.png")
+savefig(output_file)
+println("✓ Plot saved to: ", output_file)
+println("✓ Plot saved to: ", output_file)
+
+# Copy to figures directory
+figures_dir = joinpath(@__DIR__, "..", "tex", "figures")
+mkpath(figures_dir)
+cp(output_file, joinpath(figures_dir, "p03-solution-comparison.png"), force=true)
+println("✓ Plot copied to: ", joinpath(figures_dir, "p03-solution-comparison.png"))
 # =================================================================
 # Summary
 # =================================================================
