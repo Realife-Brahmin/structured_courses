@@ -2,9 +2,14 @@
 # Author: Aryan Ritwajeet Jha
 # Date: December 2025
 
+# Activate the cpts530 environment
+import Pkg
+Pkg.activate(joinpath(@__DIR__, "..", "..", ".."))
+
 using LinearAlgebra
 using Printf
 using Plots
+using LaTeXStrings
 
 # Load environment and utilities
 # include("preamble.jl")
@@ -223,83 +228,72 @@ end
 println("="^80)
 
 # =================================================================
-# Visualization - Dao Themed Plot
+# Visualization
 # =================================================================
 
-println("\n\n📉 Generating Dao-Themed Plot")
+println("\n\n📉 Generating Comparison Plot")
 println("-"^80)
 
-# Dao color scheme inspired by yin-yang philosophy
-# Deep blue for night/yin, warm gold for day/yang, soft grey for balance
-dao_bg = RGB(0.95, 0.95, 0.93)      # Soft off-white (rice paper)
-dao_grid = RGB(0.85, 0.85, 0.82)    # Light grey (mist)
-dao_yin = RGB(0.15, 0.25, 0.35)     # Deep blue-grey (night)
-dao_yang = RGB(0.85, 0.65, 0.25)    # Warm gold (sun)
-dao_balance = RGB(0.45, 0.55, 0.60) # Soft blue-grey (dawn/dusk)
+# Soft pastel checkered theme inspired by gentle cloth patterns
+dao_bg = "#FFFFFF"         # Pure white background
+rose_flower = "#eb6f92"    # Rose flower pink-red
+rose_stem = "#31748f"      # Rose stem teal-blue
+dao_text = "#000000"       # Black for text, ticks, labels
+soft_pink = "#E8C4D4"      # Soft dusty pink for major grid
+soft_lavender = "#D4D4E8"  # Soft lavender for minor grid
 
-# Create the plot with Dao aesthetics
-gr()  # Use GR backend for better quality
+# Create plot with harmonious soft checkered grid pattern
+gr()
 plot(
+    t_rk4, x_exact,
+    label="Analytical Solution",
+    linewidth=4,
+    linestyle=:solid,
+    color=rose_flower,  # Rose flower pink
+    legend=:topleft,
+    legendfontcolor=dao_text,
+    legendfontsize=11,
+    xlabel=L"Time $t$",
+    ylabel=L"$x(t)$",
+    title="Problem 2: ODE Solution Comparison\n" * L"(e^t + 1)x' + xe^t - x = 0, x(0) = 3",
+    titlefontsize=14,
+    titlefontcolor=dao_text,
+    labelfontsize=13,
+    guidefontcolor=dao_text,
+    tickfontcolor=dao_text,
+    tickfontsize=11,
+    background_color=dao_bg,
+    foreground_color=dao_text,
+    grid=true,
+    minorgrid=true,
+    gridcolor=soft_pink,        # Soft dusty pink major grid
+    minorgridcolor=soft_lavender,  # Soft lavender minor grid
+    gridlinewidth=1.5,
+    minorgridlinewidth=0.8,
+    gridalpha=0.5,
+    minorgridalpha=0.3,
+    framestyle=:box,
     size=(800, 600),
     dpi=300,
-    background_color=dao_bg,
-    foreground_color=dao_yin,
-    gridcolor=dao_grid,
-    gridalpha=0.3,
-    gridstyle=:dot,
-    framestyle=:box,
-    legend=:topright,
-    legendfontsize=11,
-    legendfontfamily="serif",
-    fontfamily="serif",
     margin=5Plots.mm
 )
 
-# Plot exact solution (Yang - the truth, the light)
-plot!(t_rk4, x_exact,
-    label="Analytical Solution",
-    linewidth=3,
-    linestyle=:solid,
-    color=dao_yang,
-    alpha=0.9
-)
-
-# Plot RK4 solution (Yin - the approximation, the shadow)
-plot!(t_rk4, x_rk4,
+# Add RK4 numerical solution
+plot!(
+    t_rk4, x_rk4,
     label="RK4 Numerical Solution",
-    linewidth=2,
+    linewidth=4,
     linestyle=:dash,
-    color=dao_yin,
-    alpha=0.8
+    color=rose_stem  # Rose stem teal-blue
 )
 
-# Add markers at selected points to show the discrete nature
-selected_indices = [argmin(abs.(t_rk4 .- t)) for t in display_points]
-scatter!(t_rk4[selected_indices], x_rk4[selected_indices],
-    label="RK4 Sample Points",
-    markersize=6,
-    markercolor=dao_balance,
-    markerstrokewidth=2,
-    markerstrokecolor=dao_yin,
-    alpha=0.7
-)
-
-# Labels and title with Dao philosophy
-xlabel!("Time t", fontsize=12)
-ylabel!("Solution x(t)", fontsize=12)
-title!("RK4 vs Analytical: The Dance of Approximation and Truth\n" * 
-       "步履之間，數值與解析共舞 (Between Steps, Numerical and Analytical Dance Together)",
-    fontsize=13,
-    titlefontfamily="serif"
-)
-
-# Add a subtle annotation about the Dao philosophy
+# Add annotation in harmonious color
 annotate!(
     -1.0, 1.5,
-    text("陰陽平衡\n(Yin-Yang Balance)", 9, dao_balance, :center, "serif")
+    text("Step size h = -0.01\n200 steps", rose_flower, 10, :left)
 )
 
-println("✓ Dao-themed plot created!")
+println("✓ Plot created!")
 
 # Save to processedData folder
 processed_dir = joinpath(@__DIR__, "..", "processedData")
