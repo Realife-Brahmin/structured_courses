@@ -76,21 +76,20 @@ See Appendix A (Figures \ref{fig:p01_omp_part1}, \ref{fig:p01_omp_part2}, \ref{f
 
 \textbf{Matrix Properties:}
 
-\textbf{Matrix A} ($3 \times 3$):
-\begin{itemize}
-    \item Rank: 3 (full rank)
-    \item Condition number: 3.8842
-    \item Singular values: $\sigma_1 = 4.3847$, $\sigma_2 = 1.2247$, $\sigma_3 = 1.1289$
-    \item Square matrix providing $m=3$ measurements for $n=3$ unknowns
-\end{itemize}
-
-\textbf{Matrix B} ($2 \times 3$):
-\begin{itemize}
-    \item Rank: 2 (full row rank)
-    \item Condition number: 1.0000
-    \item Singular values: $\sigma_1 = 1.2247$, $\sigma_2 = 1.2247$
-    \item Underdetermined system with $m=2$ measurements for $n=3$ unknowns
-\end{itemize}
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Property & Matrix A ($3 \times 3$) & Matrix B ($2 \times 3$) \\
+\midrule
+System Type & Determined $(m=n)$ & Underdetermined $(m<n)$ \\
+Rank & 3 (full) & 2 (full row rank) \\
+Condition Number & 3.8842 & 1.0000 \\
+Singular Values & $4.38, 1.22, 1.13$ & $1.22, 1.22$ \\
+\bottomrule
+\end{tabular}
+\caption{Properties of measurement matrices A and B}
+\end{table}
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
@@ -170,34 +169,53 @@ Recovery success & $\checkmark$ & $\checkmark$ \\
 \caption{Comparison of OMP performance on matrices A and B}
 \end{table}
 
-\subsubsection*{Key Observations}
+\subsubsection*{Key Findings}
 
-\textbf{Feasibility vs. Recovery:}
-\begin{itemize}
-    \item \textbf{Matrix A:} Perfect recovery at $s=1$ for the 1-sparse signal $\mathbf{e}_1$
-    \item \textbf{Matrix B:} Perfect recovery at $s=1$ for the 1-sparse signal $\mathbf{e}_1$
-    \item Both matrices achieve feasibility (satisfy $\mathbf{Ax} = \mathbf{b}$) and recovery (recover $\mathbf{x} = \mathbf{e}_1$) when $s \geq$ sparsity$(\mathbf{e}_1)$
-\end{itemize}
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Outcome & Matrix A & Matrix B \\
+\midrule
+Recovery at $s=1$ & $\checkmark$ Perfect & $\checkmark$ Perfect \\
+Feasibility $(\mathbf{Ax}=\mathbf{b})$ & $\checkmark$ & $\checkmark$ \\
+Condition & $s \geq 1$ & $s \geq 1$ \\
+\bottomrule
+\end{tabular}
+\caption{Recovery success summary}
+\end{table}
 
+\vspace{0.5em}
+
+\noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{
 \textbf{Critical Insight: Normalized Correlations}
 
-The success of OMP critically depends on using \emph{normalized correlations} when selecting columns:
 $$\text{correlation}_j = \frac{|\mathbf{a}_j^T \mathbf{r}|}{\|\mathbf{a}_j\|_2 \cdot \|\mathbf{r}\|_2}$$
 
-Without normalization, the algorithm selects based on dot product magnitude $|\mathbf{a}_j^T \mathbf{r}|$, which can be dominated by columns with large norms rather than those best aligned with the residual. This normalization ensures that OMP selects the column with the highest cosine similarity to the residual.
+Normalization ensures column selection based on \emph{alignment} (cosine similarity), not magnitude. Without it, columns with large norms dominate regardless of alignment with the residual.
+}}
 
-\textbf{Compressed Sensing Demonstration:}
+\vspace{1em}
 
-Matrix B ($2 \times 3$, underdetermined) perfectly recovers the 1-sparse signal $\mathbf{e}_1$ from only $m=2$ measurements for $n=3$ unknowns. This demonstrates the fundamental principle of compressed sensing:
+\subsubsection*{Compressed Sensing Validation}
 
-\begin{itemize}
-    \item Sparse signals can be recovered from $m < n$ measurements
-    \item Recovery succeeds when $s \geq$ sparsity of the signal
-    \item The measurement matrix must satisfy certain properties (e.g., low coherence, RIP)
-    \item Proper algorithm implementation (normalized correlations) is essential
-\end{itemize}
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Requirement} & \textbf{Status} \\
+\midrule
+Sparse signal ($\|\mathbf{e}_1\|_0 = 1$) & $\checkmark$ Satisfied \\
+Sparsity budget ($s \geq 1$) & $\checkmark$ Satisfied \\
+Underdetermined system ($m < n$) & $\checkmark$ Matrix B: $2 < 3$ \\
+Normalized correlations & $\checkmark$ Implemented \\
+Perfect recovery achieved & $\checkmark$ Both matrices \\
+\bottomrule
+\end{tabular}
+\caption{Compressed sensing requirements verification}
+\end{table}
 
-\textbf{Conclusion:} Both matrices successfully recover the 1-sparse signal at $s=1$, validating the OMP algorithm. Matrix B's success with $m < n$ confirms that compressed sensing enables recovery from underdetermined systems when signals are sufficiently sparse. The key requirements are: (1) sparsity budget $s \geq$ true sparsity, (2) well-conditioned measurement matrix, and (3) normalized correlation-based column selection.
+\textbf{Conclusion:} Matrix B demonstrates successful compressed sensing with $m=2$ measurements recovering a $n=3$ dimensional 1-sparse signal, confirming that $m < n$ recovery is possible when: (1) signal is sparse, (2) $s \geq$ true sparsity, and (3) normalized correlations are used.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
