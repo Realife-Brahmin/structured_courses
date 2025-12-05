@@ -9,6 +9,7 @@ Pkg.activate(joinpath(@__DIR__, "..", "..", ".."))
 using LinearAlgebra
 using Printf
 using Plots
+using LaTeXStrings
 
 println("="^80)
 println("CPTS530 Final Project - Problem 3: Adams-Bashforth-Moulton Method")
@@ -288,57 +289,77 @@ println("-"^80)
 x_fine = range(x0, xf, length=100)
 y_fine = exact_solution.(x_fine)
 
-# Define color scheme (same as p02)
-color_analytical = RGB(1.0, 0.4, 0.6)  # Pink/salmon for analytical
-color_numerical = RGB(0.2, 0.5, 0.7)   # Blue for numerical
-color_markers = RGB(0.3, 0.4, 0.6)     # Blue-grey for markers
+# Soft pastel checkered theme (same as p02)
+dao_bg = "#FFFFFF"         # Pure white background
+rose_flower = "#eb6f92"    # Rose flower pink-red
+rose_stem = "#31748f"      # Rose stem teal-blue
+dao_text = "#000000"       # Black for text, ticks, labels
+soft_pink = "#E8C4D4"      # Soft dusty pink for major grid
+soft_lavender = "#D4D4E8"  # Soft lavender for minor grid
 
-# Create the plot
+# Create plot with harmonious soft checkered grid pattern
 gr()
 plot(
+    x_fine, y_fine,
+    label="Analytical Solution",
+    linewidth=4,
+    linestyle=:solid,
+    color=rose_flower,
+    legend=:topright,
+    legendfontcolor=dao_text,
+    legendfontsize=11,
+    xlabel=L"$x$",
+    ylabel=L"$y(x)$",
+    title="Problem 3: ODE Solution Comparison\n" * L"y' = -2xy^2, y(0) = 1",
+    titlefontsize=14,
+    titlefontcolor=dao_text,
+    labelfontsize=13,
+    guidefontcolor=dao_text,
+    tickfontcolor=dao_text,
+    tickfontsize=11,
+    background_color=dao_bg,
+    foreground_color=dao_text,
+    grid=true,
+    minorgrid=true,
+    gridcolor=soft_pink,
+    minorgridcolor=soft_lavender,
+    gridlinewidth=1.5,
+    minorgridlinewidth=0.8,
+    gridalpha=0.5,
+    minorgridalpha=0.3,
+    framestyle=:box,
     size=(800, 600),
     dpi=300,
-    legend=:topright,
-    legendfontsize=11,
     margin=5Plots.mm
 )
 
-# Plot exact solution
-plot!(x_fine, y_fine,
-    label="Analytical Solution",
-    linewidth=3,
-    linestyle=:solid,
-    color=color_analytical
-)
-
-# Plot ABM4 solution
-plot!(x_abm, y_abm,
+# Add ABM4 numerical solution
+plot!(
+    x_abm, y_abm,
     label="ABM4 Numerical Solution",
-    linewidth=2,
+    linewidth=4,
     linestyle=:dash,
-    color=color_numerical
+    color=rose_stem
 )
 
 # Add markers at all ABM4 points
-scatter!(x_abm, y_abm,
+scatter!(
+    x_abm, y_abm,
     label="ABM4 Sample Points",
     markersize=6,
-    markercolor=color_markers
+    markercolor=rose_stem,
+    markerstrokewidth=1,
+    markerstrokecolor=dao_text,
+    alpha=0.7
 )
 
-# Labels and title
-xlabel!("x", fontsize=12)
-ylabel!("y(x)", fontsize=12)
-title!("ABM4 vs Analytical Solution",
-    fontsize=13
-)
+println("✓ Plot created!")
 
 # Save the plot
 output_dir = joinpath(@__DIR__, "..", "processedData")
 mkpath(output_dir)
 output_file = joinpath(output_dir, "p03-solution-comparison.png")
 savefig(output_file)
-println("✓ Plot saved to: ", output_file)
 println("✓ Plot saved to: ", output_file)
 
 # Copy to figures directory
