@@ -281,8 +281,89 @@ println( "\n" * "="^80)
 println(Crayon(foreground=:green, bold=true), "Problem 1 Complete! ✓")
 println(Crayon(reset=true), "="^80)
 
+# =================================================================
+# Part 4: Automated Analysis and Results Table
+# =================================================================
+
+println("\n\n" * "="^80)
+println(Crayon(foreground=:magenta, bold=true), "DETAILED ANALYSIS")
+println(Crayon(reset=true), "="^80)
+
+# Compute residuals for all solutions
+println("\n📊 Observation Vector Analysis:")
+println("-"^80)
+println("Matrix A:")
+println("  b_A = $b_A")
+println("  ‖b_A‖₀ (sparsity) = ", count(x -> abs(x) > 1e-10, b_A))
+println("  ‖b_A‖₂ (norm) = ", @sprintf("%.4f", norm(b_A)))
+
+println("\nMatrix B:")
+println("  b_B = $b_B")
+println("  ‖b_B‖₀ (sparsity) = ", count(x -> abs(x) > 1e-10, b_B))
+println("  ‖b_B‖₂ (norm) = ", @sprintf("%.4f", norm(b_B)))
+
+# Create results table
+println("\n\n📋 Results Table:")
+println("-"^80)
+println(Crayon(bold=true), @sprintf("%-10s %-4s %-15s %-15s %-12s %-12s", 
+        "Matrix", "s", "‖x - e₁‖₂", "‖Ax - b‖₂", "Recovery", "Feasible"))
+println(Crayon(reset=true), "-"^80)
+
+# Matrix A results
+for (i, s) in enumerate(1:rank_A)
+    error_target = norm(e1 - xA[i])
+    error_obs = norm(A * xA[i] - b_A)
+    recovery = error_target < 1e-6 ? "✓" : "✗"
+    feasible = error_obs < 1e-6 ? "✓" : "✗"
+    
+    color = error_target < 1e-6 ? Crayon(foreground=:green) : Crayon(foreground=:yellow)
+    println(color, @sprintf("%-10s %-4d %-15s %-15s %-12s %-12s",
+            "A (3×3)", s, 
+            @sprintf("%.2e", error_target),
+            @sprintf("%.2e", error_obs),
+            recovery, feasible))
+end
+
+# Matrix B results
+for (i, s) in enumerate(1:rank_B)
+    error_target = norm(e1 - xB[i])
+    error_obs = norm(B * xB[i] - b_B)
+    recovery = error_target < 1e-6 ? "✓" : "✗"
+    feasible = error_obs < 1e-6 ? "✓" : "✗"
+    
+    color = error_target < 1e-6 ? Crayon(foreground=:green) : Crayon(foreground=:yellow)
+    println(color, @sprintf("%-10s %-4d %-15s %-15s %-12s %-12s",
+            "B (2×3)", s,
+            @sprintf("%.2e", error_target),
+            @sprintf("%.2e", error_obs),
+            recovery, feasible))
+end
+
+println(Crayon(reset=true), "-"^80)
+
+# Key observations
+println("\n\n💡 Key Observations:")
+println("-"^80)
+println(Crayon(foreground=:cyan, bold=true), "Feasibility vs Recovery:")
+println(Crayon(reset=true), "• Matrix A (s=1): Neither feasible nor recovers e₁")
+println("• Matrix A (s≥2): Both feasible and recovers e₁")
+println("• Matrix B (s≥1): Both feasible and recovers e₁")
+println()
+println(Crayon(foreground=:cyan, bold=true), "Critical Insight:")
+println(Crayon(reset=true), "Success depends on the sparsity of b in the column space of the")
+println("measurement matrix, NOT the sparsity of the original signal x.")
+println()
+println("• Matrix A needs s=2: b_A = [1,0,1] requires 2 columns for representation")
+println("• Matrix B needs s=1: b_B = [1,0] requires only 1 column for representation")
+println()
+println(Crayon(foreground=:cyan, bold=true), "Compressed Sensing Advantage:")
+println(Crayon(reset=true), "Matrix B (2×3, underdetermined) recovers the 1-sparse signal with fewer")
+println("measurements than Matrix A (3×3) because B is inherently better designed")
+println("to capture 1-sparse signals—by removing redundant measurements, it")
+println("efficiently represents sparse observations with minimal dimensions.")
+
 # Make solutions and observations available in global scope
-println("\n💾 Variables available:")
+println("\n\n💾 Variables available:")
 println("   Observations: b_A = $b_A, b_B = $b_B")
 println("   Solutions: xA[1], xA[2], xA[3], xB[1], xB[2]")
 println("   Target: e1 = $e1")

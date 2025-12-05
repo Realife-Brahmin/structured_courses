@@ -98,18 +98,25 @@ See Appendix B for implementation details.
 \subsection*{Part 2: OMP with Matrix A}
 \addcontentsline{toc}{subsection}{Part 2: OMP with Matrix A}
 
-\textbf{Setup:} Target $\mathbf{e}_1 = (1, 0, 0)^T$, observation $\mathbf{b} = A\mathbf{e}_1 = (1, 0, 1)^T$, sparsity $s=1$.
+\textbf{Setup:} Target $\mathbf{e}_1 = (1, 0, 0)^T$, observation $\mathbf{b} = A\mathbf{e}_1 = (1, 0, 1)^T$
 
-\textbf{Results:}
-\begin{itemize}
-    \item Final support set: $\mathcal{S} = \{2\}$
-    \item Recovered solution: $\mathbf{x} = (0, 0.25, 0)^T$
-    \item Recovery error: $\|\mathbf{e}_1 - \mathbf{x}\| = 1.0308$
-    \item Final residual norm: $1.1726$
-    \item Number of iterations: 1 (stopped at sparsity level)
-\end{itemize}
+\textbf{Results for varying sparsity levels:}
 
-\textbf{Analysis:} The algorithm did not recover the correct sparse vector. OMP selected column 2 instead of column 1, which might be related to how the correlations aligned during the first iteration, though the exact reason is not entirely clear.
+\begin{table}[h]
+\centering
+\begin{tabular}{cccccc}
+\toprule
+$s$ & Recovered $\mathbf{x}$ & $\|\mathbf{x} - \mathbf{e}_1\|_2$ & $\|A\mathbf{x} - \mathbf{b}\|_2$ & Recovery & Feasible \\
+\midrule
+1 & $(0, 0.25, 0)^T$ & $1.03 \times 10^{0}$ & $1.17 \times 10^{0}$ & $\times$ & $\times$ \\
+2 & $(1, 0, 0)^T$ & $6.68 \times 10^{-16}$ & $8.02 \times 10^{-16}$ & $\checkmark$ & $\checkmark$ \\
+3 & $(1, 0, 0)^T$ & $6.68 \times 10^{-16}$ & $8.02 \times 10^{-16}$ & $\checkmark$ & $\checkmark$ \\
+\bottomrule
+\end{tabular}
+\caption{OMP results for Matrix A with different sparsity levels}
+\end{table}
+
+\textbf{Analysis:} With $s=1$, OMP fails both feasibility and recovery because $\mathbf{b}_A = (1, 0, 1)^T$ has sparsity 2 in the column space—it requires at least 2 columns of $A$ for exact representation. At $s \geq 2$, OMP successfully recovers $\mathbf{e}_1$.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
@@ -118,18 +125,24 @@ See Appendix B for implementation details.
 \subsection*{Part 3: OMP with Matrix B}
 \addcontentsline{toc}{subsection}{Part 3: OMP with Matrix B}
 
-\textbf{Setup:} Target $\mathbf{e}_1 = (1, 0, 0)^T$, observation $\mathbf{b} = B\mathbf{e}_1 = (1, 0)^T$, sparsity $s=1$.
+\textbf{Setup:} Target $\mathbf{e}_1 = (1, 0, 0)^T$, observation $\mathbf{b} = B\mathbf{e}_1 = (1, 0)^T$
 
-\textbf{Results:}
-\begin{itemize}
-    \item Final support set: $\mathcal{S} = \{1\}$
-    \item Recovered solution: $\mathbf{x} = (1, 0, 0)^T$
-    \item Recovery error: $\|\mathbf{e}_1 - \mathbf{x}\| = 0.0000$
-    \item Final residual norm: $0.0000$ (converged)
-    \item Number of iterations: 1
-\end{itemize}
+\textbf{Results for varying sparsity levels:}
 
-\textbf{Analysis:} OMP recovered the exact sparse signal despite having fewer measurements than unknowns. The residual converged to machine precision.
+\begin{table}[h]
+\centering
+\begin{tabular}{cccccc}
+\toprule
+$s$ & Recovered $\mathbf{x}$ & $\|\mathbf{x} - \mathbf{e}_1\|_2$ & $\|B\mathbf{x} - \mathbf{b}\|_2$ & Recovery & Feasible \\
+\midrule
+1 & $(1, 0, 0)^T$ & $0.00 \times 10^{0}$ & $0.00 \times 10^{0}$ & $\checkmark$ & $\checkmark$ \\
+2 & $(1, 0, 0)^T$ & $0.00 \times 10^{0}$ & $0.00 \times 10^{0}$ & $\checkmark$ & $\checkmark$ \\
+\bottomrule
+\end{tabular}
+\caption{OMP results for Matrix B with different sparsity levels}
+\end{table}
+
+\textbf{Analysis:} OMP achieves perfect recovery at $s=1$ because $\mathbf{b}_B = (1, 0)^T$ has sparsity 1 in the column space—it requires only 1 column of $B$ for exact representation.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
@@ -140,31 +153,43 @@ See Appendix B for implementation details.
 
 \begin{table}[h]
 \centering
-\begin{tabular}{lcc}
+\begin{tabular}{lcccc}
 \toprule
 Property & Matrix A & Matrix B \\
 \midrule
 System type & Determined $(m=n)$ & Underdetermined $(m<n)$ \\
+Dimensions & $3 \times 3$ & $2 \times 3$ \\
 Rank & 3 (full) & 2 (full row rank) \\
 Condition number & 3.8842 & 1.0000 \\
-Recovery error & $1.0308$ & $0.0000$ \\
-Recovery success & Failed & Perfect \\
+$\|\mathbf{b}\|_0$ (sparsity) & 2 & 1 \\
+Min. $s$ for recovery & 2 & 1 \\
 \bottomrule
 \end{tabular}
 \caption{Comparison of OMP performance on matrices A and B}
 \end{table}
 
-\textbf{Observations:}
+\subsubsection*{Key Observations}
 
+\textbf{Feasibility vs. Recovery:}
 \begin{itemize}
-    \item Matrix B (underdetermined) achieved perfect recovery while Matrix A (fully determined) did not, suggesting that more measurements don't necessarily guarantee better recovery.
-    
-    \item Matrix B has equal singular values and better conditioning than Matrix A, which might explain the different outcomes, though other factors could be involved.
-    
-    \item The results suggest that matrix structure affects sparse recovery, though the relationship between matrix properties and OMP performance isn't fully clear from this experiment alone.
+    \item \textbf{Matrix A:} At $s=1$, neither feasible nor recovers $\mathbf{e}_1$; at $s \geq 2$, both feasible and recovers $\mathbf{e}_1$
+    \item \textbf{Matrix B:} At $s \geq 1$, both feasible and recovers $\mathbf{e}_1$
 \end{itemize}
 
-\textbf{Conclusion:} Matrix B recovered the sparse signal perfectly from 2 measurements, while Matrix A with 3 measurements did not. The matrix conditioning appears to play a role, though the complete picture likely involves other properties as well.
+\textbf{Critical Insight:}
+
+Success depends on the \emph{sparsity of the observation vector $\mathbf{b}$ in the column space} of the measurement matrix, NOT the sparsity of the original signal $\mathbf{x}$.
+
+\begin{itemize}
+    \item Matrix A needs $s=2$: $\mathbf{b}_A = (1,0,1)^T$ requires 2 columns for exact representation
+    \item Matrix B needs $s=1$: $\mathbf{b}_B = (1,0)^T$ requires only 1 column for exact representation
+\end{itemize}
+
+\textbf{Compressed Sensing Advantage:}
+
+Matrix B ($2 \times 3$, underdetermined) recovers the 1-sparse signal with fewer measurements than Matrix A ($3 \times 3$) because B is inherently better designed to capture 1-sparse signals. By removing redundant measurements (the third row of A), B efficiently represents sparse observations with minimal dimensions. This demonstrates the core principle of compressed sensing: with the \emph{right} measurement matrix, sparse signals can be recovered from fewer measurements than traditional methods require.
+
+\textbf{Conclusion:} The experiment confirms that compressed sensing can achieve perfect sparse recovery with $m < n$ measurements when the measurement matrix is properly designed. Matrix B succeeds where Matrix A fails not because it has fewer measurements, but because its structure better aligns with the sparsity pattern of the observation vector.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
