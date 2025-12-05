@@ -9,25 +9,30 @@
 
 The following figures show the key components of the Orthogonal Matching Pursuit (OMP) algorithm implementation.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/p01-code-omp-part1.png}
-\caption{OMP Implementation Part 1: Hard thresholding operator $H_s(\mathbf{x})$ and the beginning of the OMP function with initialization and correlation computation.}
-\label{fig:p01_omp_part1}
-\end{figure}
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/p01-code-omp-part1.png}
+    \caption{OMP Part 1: Hard thresholding operator and initialization.}
+    \label{fig:p01_omp_part1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/p01-code-omp-part2.png}
+    \caption{OMP Part 2: Normalized correlation column selection.}
+    \label{fig:p01_omp_part2}
+\end{minipage}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.7\textwidth]{figures/p01-code-omp-part2.png}
-\caption{OMP Implementation Part 2: Column selection using normalized correlations, support update, and least squares solution via pseudo-inverse.}
-\label{fig:p01_omp_part2}
-\end{figure}
+\vspace{0.5cm}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.7\textwidth]{figures/p01-code-omp-part3.png}
-\caption{OMP Implementation Part 3: Residual update, convergence checking, and main execution loop for testing matrices A and B with varying sparsity levels.}
-\label{fig:p01_omp_part3}
+\begin{minipage}{\textwidth}
+    \centering
+    \includegraphics[width=0.48\textwidth]{figures/p01-code-omp-part3.png}
+    \caption{OMP Part 3: Residual update and main execution loop.}
+    \label{fig:p01_omp_part3}
+\end{minipage}
 \end{figure}
 
 The implementation includes:
