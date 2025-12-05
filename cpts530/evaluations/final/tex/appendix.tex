@@ -53,25 +53,30 @@ The implementation includes:
 
 The following figures show the key functions for the fourth-order Runge-Kutta method used in Problem 2.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=0.9\textwidth]{figures/p02-code-rk4-step-function.png}
-\caption{RK4 Step Function: Implements a single step of the fourth-order Runge-Kutta method with the four-stage computation ($k_1, k_2, k_3, k_4$).}
-\label{fig:p02_rk4_step}
-\end{figure}
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/p02-code-rk4-step-function.png}
+    \caption{RK4 step: Four-stage computation ($k_1, k_2, k_3, k_4$).}
+    \label{fig:p02_rk4_step}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/p02-code-rk4-solve-function.png}
+    \caption{RK4 solver: Main iteration loop.}
+    \label{fig:p02_rk4_solve}
+\end{minipage}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{figures/p02-code-rk4-solve-function.png}
-\caption{RK4 Solve Function: Complete solver that iterates through all time steps, maintaining arrays of solution values.}
-\label{fig:p02_rk4_solve}
-\end{figure}
+\vspace{0.5cm}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{figures/p02-code-rk4-solve-call.png}
-\caption{RK4 Solution Call: Main execution showing the ODE definition $f(t,x) = x(1-e^t)/(e^t+1)$, exact solution, and solver invocation with parameters.}
-\label{fig:p02_rk4_call}
+\begin{minipage}{\textwidth}
+    \centering
+    \includegraphics[width=0.48\textwidth]{figures/p02-code-rk4-solve-call.png}
+    \caption{RK4 execution: ODE definition and solver call.}
+    \label{fig:p02_rk4_call}
+\end{minipage}
 \end{figure}
 
 The implementation includes:
@@ -125,6 +130,6 @@ The implementation includes:
 \begin{itemize}
     \item \texttt{adams\_bashforth\_step}: 4th-order explicit predictor using previous 4 function values
     \item \texttt{adams\_moulton\_step}: 3rd-order implicit corrector 
-    \item \texttt{abm\_solve}: Main solver with RK4 initialization and predictor-corrector iterations
+    \item \texttt{abm\_solve}: Main solver with RK4 initialization (see \texttt{rk4\_step} in Figure \ref{fig:p02_rk4_step}, Appendix B) and predictor-corrector iterations
     \item Adaptive step sizing and error control mechanisms
 \end{itemize}
