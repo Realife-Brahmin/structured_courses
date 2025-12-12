@@ -15,7 +15,46 @@ Prove these facts, needed in the proof of Theorem 2.
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+\textbf{Upper triangular case:} Let $U_1$ and $U_2$ be upper triangular matrices. Consider entry $(i,j)$ of their product $U_1U_2$:
+$$(U_1U_2)_{ij} = \sum_{k=1}^{n} (U_1)_{ik}(U_2)_{kj}$$
+
+For $i > j$, we need to show $(U_1U_2)_{ij} = 0$. In the sum above:
+\begin{itemize}
+    \item If $k < i$: $(U_1)_{ik} = 0$ (since $U_1$ is upper triangular)
+    \item If $k > j$: $(U_2)_{kj} = 0$ (since $U_2$ is upper triangular)
+    \item If $i \leq k \leq j$: This range is empty when $i > j$
+\end{itemize}
+
+Therefore, every term in the sum is zero when $i > j$, so $(U_1U_2)_{ij} = 0$ for $i > j$, proving $U_1U_2$ is upper triangular.
+
+\textbf{Lower triangular case:} The proof is analogous. For $i < j$, either $k > i$ (making $(L_1)_{ik} = 0$) or $k < j$ (making $(L_2)_{kj} = 0$), so $(L_1L_2)_{ij} = 0$. $\square$
+
+\vspace{1em}
+
+\textbf{Example (Upper Triangular):} Let 
+$$U_1 = \begin{bmatrix} 2 & 1 & 3 \\ 0 & 1 & 2 \\ 0 & 0 & 1 \end{bmatrix}, \quad U_2 = \begin{bmatrix} 1 & 2 & 1 \\ 0 & 2 & 3 \\ 0 & 0 & 1 \end{bmatrix}$$
+
+Computing $U_1U_2$ element-by-element:
+
+$(U_1U_2)_{11} = 2(1) + 1(0) + 3(0) = 2$
+
+$(U_1U_2)_{12} = 2(2) + 1(2) + 3(0) = 6$
+
+$(U_1U_2)_{13} = 2(1) + 1(3) + 3(1) = 8$
+
+$(U_1U_2)_{21} = 0(1) + 1(0) + 2(0) = 0$ (zero below diagonal)
+
+$(U_1U_2)_{22} = 0(2) + 1(2) + 2(0) = 2$
+
+$(U_1U_2)_{23} = 0(1) + 1(3) + 2(1) = 5$
+
+$(U_1U_2)_{31} = 0(1) + 0(0) + 1(0) = 0$ (zero below diagonal)
+
+$(U_1U_2)_{32} = 0(2) + 0(2) + 1(0) = 0$ (zero below diagonal)
+
+$(U_1U_2)_{33} = 0(1) + 0(3) + 1(1) = 1$
+
+Therefore: $U_1U_2 = \begin{bmatrix} 2 & 6 & 8 \\ 0 & 2 & 5 \\ 0 & 0 & 1 \end{bmatrix}$ is upper triangular.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
