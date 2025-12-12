@@ -18,7 +18,48 @@ Prove these facts, needed in the proof of Theorem 2.
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+Let $U$ be upper triangular and invertible. To find $U^{-1}$, we solve $UX = I$ column by column. For the $j$-th column $\mathbf{x}_j$ of $U^{-1}$, we solve:
+$$U\mathbf{x}_j = \mathbf{e}_j$$
+where $\mathbf{e}_j$ is the $j$-th standard basis vector.
+
+Since $U$ is upper triangular with nonzero diagonal entries (by invertibility), this system can be solved by back substitution starting from row $n$. The key observation is:
+\begin{itemize}
+    \item Row $n$: $u_{nn}x_{jn} = \delta_{jn}$ gives $x_{jn} = 0$ for all $j < n$
+    \item Row $n-1$: $u_{n-1,n-1}x_{j,n-1} + u_{n-1,n}x_{jn} = \delta_{j,n-1}$ gives $x_{j,n-1} = 0$ for all $j < n-1$
+    \item Continuing upward, row $i$ depends only on $x_{ji}, x_{j,i+1}, \ldots, x_{jn}$
+\end{itemize}
+
+By induction, for $i > j$, we have $x_{ji} = 0$. Therefore, each column of $U^{-1}$ has zeros below the diagonal, proving $U^{-1}$ is upper triangular. $\square$
+
+\vspace{1em}
+
+\textbf{Example:} Consider $U = \begin{bmatrix} 2 & 1 & 3 \\ 0 & 1 & 2 \\ 0 & 0 & 1 \end{bmatrix}$. To find $U^{-1}$, solve $U\mathbf{x}_j = \mathbf{e}_j$ for each column:
+
+\textit{Column 1:} $U\mathbf{x}_1 = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}$
+\begin{align*}
+\text{Row 3:} \quad 1 \cdot x_{31} &= 0 \implies x_{31} = 0 \\
+\text{Row 2:} \quad 1 \cdot x_{21} + 2(0) &= 0 \implies x_{21} = 0 \\
+\text{Row 1:} \quad 2 \cdot x_{11} + 1(0) + 3(0) &= 1 \implies x_{11} = 1/2
+\end{align*}
+Thus $\mathbf{x}_1 = [1/2, 0, 0]^T$ (zeros below diagonal).
+
+\textit{Column 2:} $U\mathbf{x}_2 = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}$
+\begin{align*}
+\text{Row 3:} \quad x_{32} &= 0 \\
+\text{Row 2:} \quad x_{22} + 2(0) &= 1 \implies x_{22} = 1 \\
+\text{Row 1:} \quad 2x_{12} + 1(1) + 3(0) &= 0 \implies x_{12} = -1/2
+\end{align*}
+Thus $\mathbf{x}_2 = [-1/2, 1, 0]^T$ (zero in position $(3,2)$).
+
+\textit{Column 3:} $U\mathbf{x}_3 = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}$
+\begin{align*}
+\text{Row 3:} \quad x_{33} &= 1 \\
+\text{Row 2:} \quad x_{23} + 2(1) &= 0 \implies x_{23} = -2 \\
+\text{Row 1:} \quad 2x_{13} + 1(-2) + 3(1) &= 0 \implies x_{13} = -1/2
+\end{align*}
+Thus $\mathbf{x}_3 = [-1/2, -2, 1]^T$ (no zeros required below diagonal).
+
+Therefore: $U^{-1} = \begin{bmatrix} 1/2 & -1/2 & -1/2 \\ 0 & 1 & -2 \\ 0 & 0 & 1 \end{bmatrix}$ is upper triangular.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
