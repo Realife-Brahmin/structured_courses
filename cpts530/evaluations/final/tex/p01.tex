@@ -3,6 +3,19 @@
 \addcontentsline{toc}{section}{Problem 1: Orthogonal Matching Pursuit}
 \markboth{Problem 1}{Problem 1}
 
+\begin{tcolorbox}[colback=white, colframe=black, title=Implementation Notes]
+\textbf{Deviations from Provided OMP Algorithm:}
+
+This implementation deviates from the originally provided pseudocode in two key aspects:
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Column Normalization:} When selecting the next best column to match the residual, the algorithm normalizes all candidate column vectors before computing their inner products with the residual. This ensures that column selection is based on directional alignment rather than magnitude. This normalization follows the standard OMP formulation which assumes $L_2$-normalized columns~\cite{Cai2011Jun}.
+    
+    \item \textbf{Fixed Iteration Count:} The number of columns to be selected is hard-constrained before execution, rather than iterating until the residual falls below a prespecified tolerance threshold. This provides deterministic behavior and clearer experimental comparison.
+\end{enumerate}
+\end{tcolorbox}
+
+\vspace{1em}
+
 \textbf{Problem Statement:} 
 
 \subsection*{Part 0: Preliminary Information and Data}
