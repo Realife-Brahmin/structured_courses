@@ -13,7 +13,38 @@ Prove that an upper or lower triangular matrix is nonsingular if and only if its
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+We prove the result for upper triangular matrices; the lower triangular case is analogous.
+
+\textbf{($\Rightarrow$) Nonsingular implies nonzero diagonal:}
+
+Suppose $U$ is upper triangular and nonsingular. For a triangular matrix, $\det(U) = \prod_{i=1}^{n} u_{ii}$ (the product of diagonal elements). Since $U$ is nonsingular, $\det(U) \neq 0$, which implies each diagonal element $u_{ii} \neq 0$. $\square$
+
+\vspace{1.5em}
+
+\textbf{($\Leftarrow$) Nonzero diagonal implies nonsingular:}
+
+Suppose $U$ is upper triangular with all diagonal elements nonzero. We show $U\mathbf{x} = \mathbf{0}$ has only the trivial solution $\mathbf{x} = \mathbf{0}$ (thus $U$ is nonsingular).
+
+Using back substitution on $U\mathbf{x} = \mathbf{0}$:
+\begin{itemize}
+    \item Row $n$: $u_{nn}x_n = 0$. Since $u_{nn} \neq 0$, we get $x_n = 0$.
+    \item Row $n-1$: $u_{n-1,n-1}x_{n-1} + u_{n-1,n}x_n = 0$. Since $x_n = 0$ and $u_{n-1,n-1} \neq 0$, we get $x_{n-1} = 0$.
+    \item Continuing upward, each row $i$ gives: $u_{ii}x_i + \sum_{j=i+1}^{n} u_{ij}x_j = 0$. Since all $x_j = 0$ for $j > i$ and $u_{ii} \neq 0$, we get $x_i = 0$.
+\end{itemize}
+
+By induction, $\mathbf{x} = \mathbf{0}$ is the only solution, so $U$ is nonsingular. $\square$
+
+\vspace{1em}
+
+\textbf{Example:} Consider the upper triangular matrix:
+$$U = \begin{bmatrix} 2 & 3 & 1 \\ 0 & -1 & 4 \\ 0 & 0 & 5 \end{bmatrix}$$
+
+All diagonal elements $(2, -1, 5)$ are nonzero, so $U$ is nonsingular with $\det(U) = 2 \cdot (-1) \cdot 5 = -10 \neq 0$.
+
+Conversely, consider:
+$$V = \begin{bmatrix} 2 & 3 & 1 \\ 0 & 0 & 4 \\ 0 & 0 & 5 \end{bmatrix}$$
+
+The diagonal has a zero at position $(2,2)$, so $\det(V) = 2 \cdot 0 \cdot 5 = 0$ and $V$ is singular. Indeed, $V\mathbf{x} = \mathbf{0}$ has nontrivial solutions such as $\mathbf{x} = [3, -2, 0]^T$.
 
 \vspace{2em}
 \noindent\rule{\textwidth}{0.4pt}
