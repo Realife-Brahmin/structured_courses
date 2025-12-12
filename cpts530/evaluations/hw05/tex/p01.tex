@@ -25,4 +25,39 @@ On a vector space $V$, a \textbf{norm} is a function $\|\cdot\|$ from $V$ to the
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+We verify postulates (1), (2), and (3) for $\|x\|_\infty = \max_i |x_i|$, $\|x\|_2 = \sqrt{\sum_i x_i^2}$, and $\|x\|_1 = \sum_i |x_i|$.
+
+\subsection*{(a) $\infty$-norm: $\|x\|_\infty = \max_{1 \leq i \leq n} |x_i|$}
+
+\textbf{(1)} If $x \neq 0$, then $\exists i$ with $x_i \neq 0$, so $|x_i| > 0$. Thus $\|x\|_\infty = \max_i |x_i| > 0$.
+
+\textbf{(2)} $\|\lambda x\|_\infty = \max_i |\lambda x_i| = \max_i |\lambda| |x_i| = |\lambda| \max_i |x_i| = |\lambda| \|x\|_\infty$.
+
+\textbf{(3)} $\|x + y\|_\infty = \max_i |x_i + y_i| \leq \max_i (|x_i| + |y_i|) \leq \max_i |x_i| + \max_i |y_i| = \|x\|_\infty + \|y\|_\infty$.
+
+\subsection*{(b) 2-norm (Euclidean): $\|x\|_2 = \sqrt{\sum_{i=1}^n x_i^2}$}
+
+\textbf{(1)} If $x \neq 0$, then $\exists i$ with $x_i \neq 0$, so $\sum_i x_i^2 > 0$. Thus $\|x\|_2 = \sqrt{\sum_i x_i^2} > 0$.
+
+\textbf{(2)} $\|\lambda x\|_2 = \sqrt{\sum_i (\lambda x_i)^2} = \sqrt{\lambda^2 \sum_i x_i^2} = |\lambda| \sqrt{\sum_i x_i^2} = |\lambda| \|x\|_2$.
+
+\textbf{(3)} Expanding $\|x + y\|_2^2$:
+\begin{align*}
+\|x + y\|_2^2 &= \sum_i (x_i + y_i)^2 = \sum_i x_i^2 + 2\sum_i x_i y_i + \sum_i y_i^2 \\
+&= \|x\|_2^2 + 2\sum_i x_i y_i + \|y\|_2^2
+\end{align*}
+Since $\sum_i x_i y_i \leq \|x\|_2 \|y\|_2$ (dot product bounded by product of norms):
+$$\|x + y\|_2^2 \leq \|x\|_2^2 + 2\|x\|_2 \|y\|_2 + \|y\|_2^2 = (\|x\|_2 + \|y\|_2)^2$$
+Taking square roots: $\|x + y\|_2 \leq \|x\|_2 + \|y\|_2$.
+
+\subsection*{(c) 1-norm: $\|x\|_1 = \sum_{i=1}^n |x_i|$}
+
+\textbf{(1)} If $x \neq 0$, then $\exists i$ with $x_i \neq 0$, so $|x_i| > 0$. Thus $\|x\|_1 = \sum_i |x_i| > 0$.
+
+\textbf{(2)} $\|\lambda x\|_1 = \sum_i |\lambda x_i| = \sum_i |\lambda| |x_i| = |\lambda| \sum_i |x_i| = |\lambda| \|x\|_1$.
+
+\textbf{(3)} For each term, the triangle inequality for absolute values gives $|x_i + y_i| \leq |x_i| + |y_i|$. Summing over all $i$:
+$$\|x + y\|_1 = \sum_i |x_i + y_i| \leq \sum_i (|x_i| + |y_i|) = \sum_i |x_i| + \sum_i |y_i| = \|x\|_1 + \|y\|_1$$
+
+\vspace{1em}
+\noindent $\boxed{\text{All three norms satisfy postulates (1), (2), and (3).}}$
