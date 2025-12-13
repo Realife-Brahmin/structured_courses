@@ -17,4 +17,93 @@ $$\|A\|_F = \left(\sum_{i=1}^{n} \sum_{j=1}^{n} a_{ij}^2\right)^{1/2}$$
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+We prove both are valid norms, then check if they are subordinate.
+
+\subsection*{Part 1: Frobenius Norm is a Valid Norm}
+
+We show $\|A\|_F = \sqrt{\sum_{i,j} a_{ij}^2}$ satisfies the three norm axioms.
+
+\textbf{Axiom 1: $\|A\|_F = 0$ iff $A = 0$}
+
+Since $\|A\|_F$ is a square root of squared terms, it's always $\geq 0$. If $\|A\|_F = 0$, then $\sum_{i,j} a_{ij}^2 = 0$. Since each term is squared (non-negative), all terms must be zero, so $a_{ij} = 0$ for all $i,j$.
+
+\textbf{Axiom 2: $\|\alpha A\|_F = |\alpha| \|A\|_F$}
+
+When we multiply by scalar $\alpha$, every entry becomes $\alpha a_{ij}$:
+$$\|\alpha A\|_F = \sqrt{\sum_{i,j} (\alpha a_{ij})^2} = \sqrt{\alpha^2 \sum_{i,j} a_{ij}^2} = |\alpha| \sqrt{\sum_{i,j} a_{ij}^2} = |\alpha| \|A\|_F$$
+
+\textbf{Axiom 3: $\|A + B\|_F \leq \|A\|_F + \|B\|_F$}
+
+Think of the Frobenius norm as measuring the "length" of all entries. If we list all $n^2$ entries of $A$ as a single long vector, then $\|A\|_F$ is just the Euclidean length of that vector. Since the Euclidean norm satisfies the triangle inequality, so does $\|\cdot\|_F$.
+
+Therefore, the Frobenius norm is a valid norm. 
+
+\subsection*{Part 2: Max-Entry Norm is a Valid Norm}
+
+We show $\|A\|_{\max} = \max_{i,j} |a_{ij}|$ satisfies the three norm axioms.
+
+\textbf{Axiom 1: $\|A\|_{\max} = 0$ iff $A = 0$}
+
+The maximum absolute value is zero only if all entries have absolute value zero, meaning $a_{ij} = 0$ for all $i,j$.
+
+\textbf{Axiom 2: $\|\alpha A\|_{\max} = |\alpha| \|A\|_{\max}$}
+
+The largest entry in $\alpha A$ is $|\alpha|$ times the largest entry in $A$:
+$$\|\alpha A\|_{\max} = \max_{i,j} |\alpha a_{ij}| = |\alpha| \max_{i,j} |a_{ij}| = |\alpha| \|A\|_{\max}$$
+
+\textbf{Axiom 3: $\|A + B\|_{\max} \leq \|A\|_{\max} + \|B\|_{\max}$}
+
+For each entry: $|a_{ij} + b_{ij}| \leq |a_{ij}| + |b_{ij}|$ (triangle inequality for numbers).
+
+The largest entry in $A+B$ is bounded:
+$$|a_{ij} + b_{ij}| \leq |a_{ij}| + |b_{ij}| \leq \max |a_{kl}| + \max |b_{mn}| = \|A\|_{\max} + \|B\|_{\max}$$
+
+Therefore, the max-entry norm is a valid norm. 
+
+\subsection*{Part 3: Is Frobenius Norm Subordinate?}
+
+\textbf{Answer: NO}
+
+A subordinate norm must satisfy $\|I\| = 1$ for the identity matrix (since $I\mathbf{x} = \mathbf{x}$, the matrix doesn't stretch any vector).
+
+However, the identity matrix in Frobenius norm is:
+$$\|I_n\|_F = \sqrt{1^2 + 1^2 + \cdots + 1^2} = \sqrt{n}$$
+(There are $n$ ones on the diagonal.)
+
+For $n \geq 2$, we have $\sqrt{n} > 1$, so the Frobenius norm is \textbf{not subordinate}. 
+
+\subsection*{Part 4: Is Max-Entry Norm Subordinate?}
+
+\textbf{Answer: NO}
+
+Consider the $n \times n$ matrix with all entries equal to 1:
+$$A = \begin{bmatrix} 1 & 1 & \cdots & 1 \\ 1 & 1 & \cdots & 1 \\ \vdots & \vdots & \ddots & \vdots \\ 1 & 1 & \cdots & 1 \end{bmatrix}$$
+
+The max-entry norm is:
+$$\|A\|_{\max} = 1$$
+
+But if we multiply by vector $\mathbf{x} = [1, 0, \ldots, 0]^T$, we get:
+$$A\mathbf{x} = [1, 1, \ldots, 1]^T$$
+
+If the max-entry norm were subordinate, we'd need:
+$$\|A\|_{\max} \geq \frac{\|A\mathbf{x}\|}{\|\mathbf{x}\|}$$
+
+But $A\mathbf{x}$ has $n$ entries all equal to 1, so in any reasonable vector norm, $\|A\mathbf{x}\|$ grows with $n$. Meanwhile $\|\mathbf{x}\| = 1$, so the ratio $\frac{\|A\mathbf{x}\|}{\|\mathbf{x}\|}$ can be arbitrarily large as $n$ increases. This contradicts $\|A\|_{\max} = 1$.
+
+Therefore, the max-entry norm is \textbf{not subordinate}. 
+
+\subsection*{Summary}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Property} & \textbf{Frobenius Norm} & \textbf{Max-Entry Norm} \\
+\midrule
+Valid norm? & Yes & Yes \\
+Subordinate? & No ($\|I\|_F = \sqrt{n} \neq 1$) & No \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}
