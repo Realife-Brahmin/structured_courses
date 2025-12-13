@@ -122,7 +122,12 @@ starting_points = [
     ([0.0, 0.0, 0.0], "zeros"),
     ([1.0, 1.0, 1.0], "ones"),
     ([5.0, -1.0, 3.0], "b vector"),
-    ([10.0, 10.0, 10.0], "far from solution")
+    ([10.0, 10.0, 10.0], "far from solution"),
+    ([0.9, 0.9, 0.9], "close: (0.9, 0.9, 0.9)"),
+    ([1.1, 1.1, 1.1], "close: (1.1, 1.1, 1.1)"),
+    ([0.99, 0.99, 0.99], "very close: (0.99, 0.99, 0.99)"),
+    ([1.01, 1.01, 1.01], "very close: (1.01, 1.01, 1.01)"),
+    ([0.999, 0.999, 0.999], "extremely close: (0.999, 0.999, 0.999)")
 ]
 
 println("\n\nTrying Gauss-Seidel with different starting points:")

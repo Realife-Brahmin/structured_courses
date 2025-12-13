@@ -47,13 +47,14 @@ $\boxed{\text{Matrix is NOT strictly diagonally dominant}}$
 
 \textbf{Convergence Results} (see \texttt{hw05\_p07.jl}):
 \begin{itemize}
-\item Starting from $(0, 0, 0)$: \textbf{Diverges} (NaN after 1000 iterations)
 \item Starting from $(1, 1, 1)$: \textbf{Converges in 1 iteration} (already at solution!)
-\item Starting from $(5, -1, 3)$: \textbf{Diverges} (NaN)
-\item Starting from $(10, 10, 10)$: \textbf{Diverges} (NaN)
+\item Starting from $(0.999, 0.999, 0.999)$: \textbf{Diverges} (NaN)
+\item Starting from $(1.01, 1.01, 1.01)$: \textbf{Diverges} (NaN)
+\item Starting from $(0.9, 0.9, 0.9)$ or $(1.1, 1.1, 1.1)$: \textbf{Diverges} (NaN)
+\item Starting from $(0, 0, 0)$, $(5, -1, 3)$, or $(10, 10, 10)$: \textbf{Diverges} (NaN)
 \end{itemize}
 
-\textbf{Conclusion:} Gauss-Seidel method \textbf{does not reliably converge} for this system because the matrix lacks strict diagonal dominance.
+\textbf{Key Observation:} The method only "converges" when starting exactly at the solution. Even tiny perturbations (0.001 away) cause catastrophic divergence to NaN. This demonstrates \textbf{complete instability}.
 
 \subsection*{Part 2: Gaussian Elimination without Pivoting}
 
