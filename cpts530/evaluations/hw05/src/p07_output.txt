@@ -1,0 +1,27 @@
+CPTS530 HW05 - Problem 7: Gauss-Seidel Method
+================================================================================
+
+System:
+  3x + y + z = 5
+  3x + y - 5z = -1
+  x + 3y - z = 3
+
+
+True Solution (Direct Method):
+  x = 1.0000000000
+  y = 1.0000000000
+  z = 1.0000000000
+
+
+Gauss-Seidel Method:
+  Matrix is NOT strictly diagonally dominant
+  Convergence is NOT guaranteed
+
+
+Gaussian Elimination without Pivoting:
+  Status: FAILED (zero pivot)
+
+
+Matrix Properties:
+  Condition number: 2.85e+00
+  Determinant: 48.000000
