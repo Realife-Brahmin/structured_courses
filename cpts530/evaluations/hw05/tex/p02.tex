@@ -13,4 +13,38 @@ Show that $\|\mathbf{x}\|_\infty \leq \|\mathbf{x}\|_2 \leq \|\mathbf{x}\|_1$ fo
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+\textbf{Part 1: Prove $\|x\|_\infty \leq \|x\|_2$}
+
+Let $\|x\|_\infty = \max_i |x_i| = |x_k|$ for some index $k$. Then:
+$$\|x\|_2^2 = \sum_{i=1}^n x_i^2 \geq x_k^2 = \|x\|_\infty^2$$
+Taking square roots: $\boxed{\|x\|_\infty \leq \|x\|_2}$.
+
+\textbf{Equality case:} Equality holds when $x$ has only one nonzero component. For example, $x = (5, 0, 0)^T$ gives $\|x\|_\infty = 5$ and $\|x\|_2 = 5$.
+
+\vspace{0.5em}
+
+\textbf{Part 2: Prove $\|x\|_2 \leq \|x\|_1$}
+
+First, observe that each component satisfies $|x_i| \leq \|x\|_1$ (since $\|x\|_1 = \sum_{j=1}^n |x_j|$ includes all terms).
+
+For each $i$, we can write:
+$$|x_i|^2 = |x_i| \cdot |x_i| \leq |x_i| \cdot \|x\|_1$$
+where the inequality holds because $|x_i| \leq \|x\|_1$.
+
+Now sum this inequality over all indices:
+\begin{align*}
+\|x\|_2^2 = \sum_{i=1}^n |x_i|^2 &\leq \sum_{i=1}^n |x_i| \cdot \|x\|_1 \\
+&= \|x\|_1 \sum_{i=1}^n |x_i| \quad \text{(factor out $\|x\|_1$)}\\
+&= \|x\|_1 \cdot \|x\|_1 = \|x\|_1^2
+\end{align*}
+
+Taking square roots of both sides: $\boxed{\|x\|_2 \leq \|x\|_1}$.
+
+\textbf{Equality case:} Equality holds when $x$ has only one nonzero component. For example, $x = (0, 3, 0)^T$ gives $\|x\|_2 = 3$ and $\|x\|_1 = 3$.
+
+\vspace{0.5em}
+
+\textbf{Conclusion:} The inequality $\boxed{\|x\|_\infty \leq \|x\|_2 \leq \|x\|_1}$ holds for all $x \in \mathbb{R}^n$, with equality possible for nonzero vectors.
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}
