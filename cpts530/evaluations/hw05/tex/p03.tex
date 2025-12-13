@@ -13,4 +13,29 @@
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+\textbf{Part 1: Prove $\|x\|_1 \leq n\|x\|_\infty$}
+
+Since $\|x\|_\infty = \max_i |x_i|$, we have $|x_i| \leq \|x\|_\infty$ for each $i = 1, 2, \ldots, n$.
+
+Summing over all components:
+$$\|x\|_1 = \sum_{i=1}^n |x_i| \leq \sum_{i=1}^n \|x\|_\infty = n\|x\|_\infty$$
+
+Therefore: $\boxed{\|x\|_1 \leq n\|x\|_\infty}$.
+
+\textbf{Equality case:} Equality holds when all components have the same absolute value. For example, $x = (1, 1, 1)^T$ gives $\|x\|_1 = 3 = 3 \cdot 1 = 3\|x\|_\infty$.
+
+\vspace{0.5em}
+
+\textbf{Part 2: Prove $\|x\|_2 \leq \sqrt{n}\|x\|_\infty$}
+
+Since $|x_i| \leq \|x\|_\infty$ for each $i$, squaring gives $|x_i|^2 \leq \|x\|_\infty^2$.
+
+Summing over all components:
+$$\|x\|_2^2 = \sum_{i=1}^n |x_i|^2 \leq \sum_{i=1}^n \|x\|_\infty^2 = n\|x\|_\infty^2$$
+
+Taking square roots: $\boxed{\|x\|_2 \leq \sqrt{n}\|x\|_\infty}$.
+
+\textbf{Equality case:} Equality holds when all components have the same absolute value. For example, $x = (2, 2, 2)^T$ gives $\|x\|_2 = \sqrt{12} = 2\sqrt{3} = \sqrt{3} \cdot 2 = \sqrt{3}\|x\|_\infty$.
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}
