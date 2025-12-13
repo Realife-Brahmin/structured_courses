@@ -18,4 +18,52 @@ $$\|\mathbf{x}\|_1 = \sum_{i=1}^{n} |x_i| \quad \text{(Equation 5)}$$
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+We need to show that the subordinate matrix norm induced by $\|\mathbf{x}\|_1$ is the maximum absolute column sum.
+
+Recall that the subordinate matrix norm is defined as:
+$$\|A\|_1 = \max_{\mathbf{x} \neq \mathbf{0}} \frac{\|A\mathbf{x}\|_1}{\|\mathbf{x}\|_1}$$
+
+Equivalently, we can write:
+$$\|A\|_1 = \max_{\|\mathbf{x}\|_1 = 1} \|A\mathbf{x}\|_1$$
+
+\subsection*{Part 1: Upper Bound ($\|A\|_1 \leq \max_j \sum_i |a_{ij}|$)}
+
+For any vector $\mathbf{x}$ with $\|\mathbf{x}\|_1 = 1$, we compute:
+\begin{align*}
+\|A\mathbf{x}\|_1 &= \sum_{i=1}^{n} \left| \sum_{j=1}^{n} a_{ij} x_j \right| \\
+&\leq \sum_{i=1}^{n} \sum_{j=1}^{n} |a_{ij}| |x_j| \quad \text{(triangle inequality)} \\
+&= \sum_{j=1}^{n} |x_j| \sum_{i=1}^{n} |a_{ij}| \quad \text{(interchange sums)} \\
+&\leq \sum_{j=1}^{n} |x_j| \cdot \max_{1 \leq k \leq n} \sum_{i=1}^{n} |a_{ik}| \\
+&= \left(\sum_{j=1}^{n} |x_j|\right) \cdot \max_{1 \leq k \leq n} \sum_{i=1}^{n} |a_{ik}| \\
+&= \|\mathbf{x}\|_1 \cdot \max_{1 \leq k \leq n} \sum_{i=1}^{n} |a_{ik}| \\
+&= \max_{j} \sum_{i=1}^{n} |a_{ij}|
+\end{align*}
+
+This holds for all $\mathbf{x}$ with $\|\mathbf{x}\|_1 = 1$, so:
+$$\|A\|_1 \leq \max_{j} \sum_{i=1}^{n} |a_{ij}|$$
+
+\subsection*{Part 2: Lower Bound (Equality is Achieved)}
+
+Let $j^*$ be the column index that achieves the maximum:
+$$j^* = \arg\max_{1 \leq j \leq n} \sum_{i=1}^{n} |a_{ij}|$$
+
+Now choose the test vector $\mathbf{x}^* = \mathbf{e}_{j^*}$ (the $j^*$-th standard basis vector), which has $\|\mathbf{x}^*\|_1 = 1$.
+
+Then:
+$$A\mathbf{x}^* = A\mathbf{e}_{j^*} = \begin{bmatrix} a_{1,j^*} \\ a_{2,j^*} \\ \vdots \\ a_{n,j^*} \end{bmatrix}$$
+
+Thus:
+$$\|A\mathbf{x}^*\|_1 = \sum_{i=1}^{n} |a_{i,j^*}| = \max_{j} \sum_{i=1}^{n} |a_{ij}|$$
+
+This shows that the upper bound is achieved, so:
+$$\|A\|_1 \geq \max_{j} \sum_{i=1}^{n} |a_{ij}|$$
+
+\subsection*{Conclusion}
+
+Combining Parts 1 and 2:
+$$\boxed{\|A\|_1 = \max_{1 \leq j \leq n} \sum_{i=1}^{n} |a_{ij}|}$$
+
+The subordinate matrix norm induced by the 1-norm is the \textbf{maximum absolute column sum}.
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}
