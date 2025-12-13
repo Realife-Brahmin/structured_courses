@@ -13,4 +13,75 @@ Discuss the problem of determining a polynomial of degree at most 2 for which $p
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+We seek a polynomial $p(x) = a_0 + a_1 x + a_2 x^2$ (degree at most 2) such that:
+$$p(0) = y_0, \quad p(1) = y_1, \quad p(\xi) = y_\xi$$
+where $y_0, y_1, y_\xi$ are prescribed values and $\xi$ is a given point.
+
+\subsection*{Case 1: $\xi \neq 0$ and $\xi \neq 1$ (Three Distinct Points)}
+
+We have three distinct interpolation points: $\{0, 1, \xi\}$.
+
+The Vandermonde system is:
+$$\begin{bmatrix} 
+1 & 0 & 0 \\
+1 & 1 & 1 \\
+1 & \xi & \xi^2
+\end{bmatrix}
+\begin{bmatrix} a_0 \\ a_1 \\ a_2 \end{bmatrix}
+=
+\begin{bmatrix} y_0 \\ y_1 \\ y_\xi \end{bmatrix}$$
+
+The determinant is:
+$$\det(V) = \begin{vmatrix} 
+1 & 0 & 0 \\
+1 & 1 & 1 \\
+1 & \xi & \xi^2
+\end{vmatrix} = 1 \cdot \begin{vmatrix} 1 & 1 \\ \xi & \xi^2 \end{vmatrix} = \xi^2 - \xi = \xi(\xi - 1)$$
+
+\textbf{Conclusion for Case 1:}
+$$\boxed{\text{If } \xi \neq 0 \text{ and } \xi \neq 1, \text{ then } \det(V) = \xi(\xi - 1) \neq 0}$$
+
+The system has a \textbf{unique solution}, and there exists a \textbf{unique polynomial of degree at most 2} satisfying the three conditions.
+
+\subsection*{Case 2: $\xi = 0$ (Two Distinct Points: $\{0, 1\}$)}
+
+The conditions become:
+$$p(0) = y_0, \quad p(1) = y_1, \quad p(0) = y_\xi$$
+
+For consistency, we need $y_0 = y_\xi$. The problem reduces to finding $p(x)$ with only two distinct constraints: $p(0) = y_0$ and $p(1) = y_1$.
+
+\textbf{Conclusion for Case 2:}
+$$\boxed{\text{If } \xi = 0: \text{ Unique linear polynomial if } y_0 = y_\xi; \text{ no solution otherwise}}$$
+
+The solution is $p(x) = y_0 + (y_1 - y_0)x$ (degree 1), which is the line through $(0, y_0)$ and $(1, y_1)$.
+
+\subsection*{Case 3: $\xi = 1$ (Two Distinct Points: $\{0, 1\}$)}
+
+Similarly, the conditions become:
+$$p(0) = y_0, \quad p(1) = y_1, \quad p(1) = y_\xi$$
+
+For consistency, we need $y_1 = y_\xi$. Again, only two distinct constraints.
+
+\textbf{Conclusion for Case 3:}
+$$\boxed{\text{If } \xi = 1: \text{ Unique linear polynomial if } y_1 = y_\xi; \text{ no solution otherwise}}$$
+
+The solution is $p(x) = y_0 + (y_1 - y_0)x$ (degree 1).
+
+\subsection*{Summary}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Condition} & \textbf{Existence} & \textbf{Degree} \\
+\midrule
+$\xi \notin \{0, 1\}$ & Always exists uniquely & At most 2 \\
+$\xi = 0$ & Exists iff $y_0 = y_\xi$ & At most 1 \\
+$\xi = 1$ & Exists iff $y_1 = y_\xi$ & At most 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Key Insight:} The problem is well-posed (unique degree-2 polynomial exists) if and only if the three interpolation points are distinct. When points coincide, the problem degenerates to lower-degree interpolation or becomes inconsistent.
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}
