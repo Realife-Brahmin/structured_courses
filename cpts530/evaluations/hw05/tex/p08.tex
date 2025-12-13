@@ -20,4 +20,56 @@ $y$ & 12 & 146 & 2
 
 \textbf{Solution:}
 
-% TODO: Add solution here
+We find the polynomial of least degree interpolating the data points $(3, 12)$, $(7, 146)$, and $(12, 2)$.
+
+Since we have 3 data points, the interpolating polynomial has degree at most $n-1 = 2$ (quadratic).
+
+\textbf{Method: Vandermonde Matrix}
+
+We seek a polynomial $P(x) = a_0 + a_1 x + a_2 x^2$ such that $P(x_i) = y_i$ for $i = 1, 2, 3$.
+
+This gives the linear system:
+$$\begin{bmatrix} 
+1 & x_1 & x_1^2 \\
+1 & x_2 & x_2^2 \\
+1 & x_3 & x_3^2
+\end{bmatrix}
+\begin{bmatrix} a_0 \\ a_1 \\ a_2 \end{bmatrix}
+=
+\begin{bmatrix} y_1 \\ y_2 \\ y_3 \end{bmatrix}$$
+
+Substituting our data:
+$$\begin{bmatrix} 
+1 & 3 & 9 \\
+1 & 7 & 49 \\
+1 & 12 & 144
+\end{bmatrix}
+\begin{bmatrix} a_0 \\ a_1 \\ a_2 \end{bmatrix}
+=
+\begin{bmatrix} 12 \\ 146 \\ 2 \end{bmatrix}$$
+
+Solving this system (using Julia code in \texttt{hw05\_p08.jl}), we obtain:
+\begin{align*}
+a_0 &= -\frac{4211}{18} \approx -233.8667 \\
+a_1 &= \frac{1849}{18} \approx 102.7222 \\
+a_2 &= -\frac{125}{18} \approx -6.9222
+\end{align*}
+
+\textbf{Final Answer:}
+
+$$\boxed{P(x) = -\frac{125}{18}x^2 + \frac{1849}{18}x - \frac{4211}{18}}$$
+
+Or in decimal form:
+$$\boxed{P(x) = -6.9222x^2 + 102.7222x - 233.8667}$$
+
+\textbf{Verification:}
+\begin{itemize}
+    \item $P(3) = 12.000$
+    \item $P(7) = 146.000$
+    \item $P(12) = 2.000$
+\end{itemize}
+
+Maximum interpolation error: $5.68 \times 10^{-14}$ (numerical precision).
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}
