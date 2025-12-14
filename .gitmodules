@@ -1,0 +1,3 @@
+[submodule "ee582_private"]
+	path = ee582_private
+	url = https://github.com/Realife-Brahmin/ee582-private.git
