@@ -1,4 +1,6 @@
 {
     "ltex.enabled": false,
-    "ltex.checkFrequency": "save"
+    "ltex.checkFrequency": "save",
+    "sundial.autoStatus": true,
+    "sundial.statusBarItemVisible": true
 }
